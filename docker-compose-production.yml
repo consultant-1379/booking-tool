@@ -1,0 +1,54 @@
+version: '2'
+services:
+  nginx:
+    image: armdocker.seli.gic.ericsson.se/proj_openstack_tooling/ebt_reverse_proxy:${UPGRADE_VERSION}
+    restart: always
+    ports:
+      - "443:443"
+      - "80:80"
+    depends_on:
+      - nodejs
+      - swagger
+      - helpdocs
+    volumes:
+      - ./config/sslcerts:/etc/nginx/certs
+  nodejs:
+    image: armdocker.seli.gic.ericsson.se/proj_openstack_tooling/ericsson_booking_tool:${UPGRADE_VERSION}
+    restart: always
+    environment:
+     - DB_1_PORT_27017_TCP_ADDR=mongodb
+     - LDAP_URL=${LDAP_URL}
+     - SEARCH_FILTER=${SEARCH_FILTER}
+     - BASE_DN_LIST=${BASE_DN_LIST}
+     - JIRA_URL=${JIRA_URL}
+     - JIRA_URL_ETEAMS=${JIRA_URL_ETEAMS}
+     - JIRA_PREFIX_ETEAMS=${JIRA_PREFIX_ETEAMS}
+     - DTT_USERNAME=${DTT_USERNAME}
+     - DTT_PASSWORD=${DTT_PASSWORD}
+     - DTT_EMAIL_ADDRESS=${DTT_EMAIL_ADDRESS}
+     - DTT_EMAIL_PASSWORD=${DTT_EMAIL_PASSWORD}
+     - TEAM_EMAIL=${TEAM_EMAIL}
+     - DTT_URL=${DTT_URL}
+     - CI_PORTAL_URL=${CI_PORTAL_URL}
+     - TEAM_INVENTORY_TOOL_URL=${TEAM_INVENTORY_TOOL_URL}
+     - UPGRADE_TOOL_URL=${UPGRADE_TOOL_URL}
+    depends_on:
+     - mongodb
+  mongodb:
+    image: armdocker.seli.gic.ericsson.se/dockerhub-ericsson-remote/mongo:4.0.14
+    restart: always
+    volumes:
+     - mongodb_data:/data/db
+     - mongodb_logs:/var/log/mongodb
+  swagger:
+    image: armdocker.seli.gic.ericsson.se/proj_openstack_tooling/ebt_api_docs:${UPGRADE_VERSION}
+    restart: always
+    environment:
+     - API_URL=/apidocs/swagger.json
+  helpdocs:
+    image: armdocker.seli.gic.ericsson.se/proj_openstack_tooling/ebt_help_docs:${UPGRADE_VERSION}
+    restart: always
+
+volumes:
+  mongodb_data:
+  mongodb_logs:

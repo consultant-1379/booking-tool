@@ -1,0 +1,8 @@
+{
+  "tags": [
+    {
+      "name": "Artifact-Search",
+      "description": "Everything you need to know about the REST API for searching for Artifacts by specific key-values."
+    }
+  ]
+}

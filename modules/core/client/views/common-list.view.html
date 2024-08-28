@@ -1,0 +1,139 @@
+<section>
+  <div class="page-header">
+    <div class="pull-right" style="display:flex; align-items: center" ng-if="vm.artifactTypeLower !== 'deployments' && vm.artifactTypeLower !== 'products'">
+      <div class="btn-toolbar input-group" style="width:200px;">
+        <input type="text" class="form-control" id="filter-field" placeholder="Search any field...">
+        <span class="input-group-addon glyphicon glyphicon-search"></span>
+      </div>
+    </div>
+    <div class="pull-right" style="display:flex; align-items: center"
+      ng-if="vm.artifactTypeLower === 'deployments'" ng-include="'deployment-header'" ng-repeat="pass in [{}]">
+    </div>
+    <div class="pull-right" style="display:flex; align-items: center"
+      ng-if="vm.artifactTypeLower === 'products'" ng-include="'product-header'" ng-repeat="pass in [{}]">
+    </div>
+    <h1>{{ vm.artifactType }}s</h1>
+    <h4 ng-if="vm.smokeTestOnly && !vm.isSmokeTestUser" style="color:red; border-bottom: none;">
+      All {{ vm.artifactType }} information is retrieved automatically from the
+      <a style="font-size: inherit" href="https://pdu-oss-tools1.seli.wh.rnd.internal.ericsson.com/team-inventory/#maintrackanalysis">Team Inventory Tool</a>
+    </h4>
+
+    <!-- VARIOUS ARTIFACTS FILTERS  -->
+    <div id="filters-panel" class="row row-relative filters-row" ng-if="vm.artifactTypeLower === 'deployments' || vm.artifactTypeLower === 'products'">
+      <div class="col-md-3" ng-repeat="filterOption in vm.filterOptions">
+        <label>{{ filterOption.heading }}:</label>
+        <select class="form-control" id="{{ filterOption.name }}Select"
+          ng-model="vm[filterOption.name]"
+          ng-options="((filterOption.name === 'yearFilter') ? option : option._id) as ((filterOption.name === 'yearFilter') ? option : option.name) for option in filterOption.options"
+          ng-change="vm.updateViewForFilter(filterOption.name, vm[filterOption.name])"
+          required>
+          <option value="" selected>All</option>
+        </select>
+      </div>
+      <div class="col-md-3" ng-if="vm.artifactTypeLower === 'deployments'">
+        <label></label>
+        <div class="btn-group fill-space" uib-dropdown>
+          <button class="btn btn-sm btn-info fill-space" uib-dropdown-toggle>
+            Save Filters <span class="caret"></span>
+          </button>
+          <ul uib-dropdown-menu style="cursor: pointer">
+            <li><a id="save-filters-profile-btn" ng-click="vm.saveFiltersToProfile()">To Profile</a></li>
+            <li><a id="save-filters-bkmark-btn" ng-click="vm.saveFiltersAsBookmark()">As Bookmark</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="vm.artifactType === 'Deployment' && vm.showNumResultsFound" class="filter-number">
+      <h4><b>Results Found: {{ vm.numArtifactsFound }} </b></h4>
+    </div>
+  </div>
+
+  <!-- CREATE ARTIFACT BUTTON AND MODALS -->
+  <div ng-if="vm.artifactTypeLower === 'products'" ng-include="'create-product-template'" ng-repeat="pass in [{}]"></div>
+
+  <div ng-if="vm.artifactTypeLower !== 'products' && vm.artifactType !== 'User' && vm.authentication.isAllowed(vm.resourcePath, 'post', true)" title="{{ vm.createButtonMessage }}">
+    <a ui-sref="{{ vm.artifactTypeLower }}.create" class="btn btn-sm btn-success" ng-disabled="vm.smokeTestOnly && !vm.isSmokeTestUser">
+      Create new {{ vm.artifactType }}
+    </a>
+  </div>
+
+  <!-- ARTIFACTS TABLE LOADING ANIMATION -->
+  <div ng-if="vm.tableLoading" class="table-loading">
+    <div class="ebLoader">
+        <div class="ebLoader-Holder">
+            <span class="ebLoader-Dots ebLoader-Dots_color_darkPurple ebLoader-Dots_size_big"></span>
+        </div>
+    </div>
+  </div>
+  <!-- ARTIFACTS TABLE -->
+  <div ng-style="vm.tableLoading && { 'visibility': 'hidden' }">
+    <table id="{{ vm.artifactTypeLower }}-table" class="table table-striped table-condensed non-clickable-row">
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script id="deployment-header" type="text/ng-template">
+  <span style="width:5px"></span>
+  <button class="btn btn-sm btn-primary" id="export-data-button" ng-click="vm.exportData()">Export Data</button>
+  <span style="width:5px"></span>
+  <button class="btn btn-sm btn-warning" id="filter-toggle-button" ng-click="vm.toggleFilterVisibility()">Show Filters</button>
+  <span style="width:10px"></span>
+  <div class="btn-toolbar input-group" style="width:240px;">
+    <select class="form-control" id="customFilterSelect" ng-model="vm.customFilterId"
+      ng-options="customFilter._id as customFilter.name for customFilter in vm.customFilters"
+      ng-change="vm.customFilterChange()" required>
+      <option value="" disabled selected>Choose Custom Filter</option>
+    </select>
+    <span ng-if="vm.customFilterId" class="input-group-addon glyphicon glyphicon-remove-circle" ng-click="vm.customFilterClear()"></span>
+    <span ng-if="vm.customFilterId" class="input-group-addon glyphicon glyphicon-trash" ng-click="vm.customFilterDelete()"></span>
+  </div>
+  <span style="width:10px"></span>
+  <div class="btn-toolbar input-group" style="width:200px;">
+    <input type="text" class="form-control" id="filter-field" ng-model="vm.deploymentFilter"
+      ng-change="vm.updateViewForFilter(deploymentFilter, vm.deploymentFilter, true)" placeholder="Search name field...">
+    <span class="input-group-addon glyphicon glyphicon-search"></span>
+  </div>
+</script>
+
+<script id="product-header" type="text/ng-template">
+  <button class="btn btn-sm btn-warning" ng-click="vm.toggleFilterVisibility()" id="filter-toggle-button">Show Filters</button>
+  <span style="width:10px"></span>
+  <div class="btn-toolbar input-group" style="width:200px;">
+    <input type="text" class="form-control" id="filter-field" ng-model="vm.searchFieldFilter" placeholder="Search any field...">
+    <span class="input-group-addon glyphicon glyphicon-search"></span>
+  </div>
+</script>
+
+<script id="create-product-template" type="text/ng-template">
+  <button ng-if="vm.authentication.isAllowed(vm.resourcePath, 'post', true)" class="btn btn-sm btn-success" id="open-product-modal-btn" ng-click="vm.openProductModal()">Create New Product</button>
+  <!-- The Modal -->
+  <div id="create-product-modal" class="modal custom-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="pull-right" style="display:flex; align-items: center">
+          <button class="btn btn-sm form-button" ng-click="vm.closeProductModal()">Close</button>
+        </div>
+        <h2 style="border-bottom: none">Creating New Product</h2>
+      </div>
+      <div class="modal-body">
+        <form name="createProductForm" ng-submit="vm.submitProductCreateForm()">
+          <fieldset>
+            <div class="form-group">
+              <label>Deployment to add Product to:</label>
+              <select class="form-control" id="product-deployment-select" ng-model="vm.deploymentForNewProduct"
+                ng-options="deployment._id as deployment.name for deployment in vm.allDeployments">
+                <option value="" disabled selected>--Select Deployment--</option>
+              </select>
+            </div>
+            <div class="align-center" title="{{!vm.deploymentForNewProduct ? 'Must Select Deployment First' : '' }}">
+              <button id="submit-product-create" class="btn btn-primary" type="submit" ng-disabled="!vm.deploymentForNewProduct">Create</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</script>

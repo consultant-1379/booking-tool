@@ -1,0 +1,43 @@
+{
+    "definitions": {
+      "Hardware": {
+        "type": "object",
+        "required": [
+          "name",
+          "program_id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "myHardware",
+            "note": "name must be unique, Minimum of 2 characters, Maximum of 50 characters.",
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "hw_deployment_id": {
+            "type": "string",
+            "example": "hwdeploymentid123",
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "url": {
+            "type": "string",
+            "example": "example.url.c",
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "program_id": {
+            "type": "string",
+            "example": "592d1fa182ee3e002055763b",
+            "minLength": 24,
+            "maxLength": 24
+          },
+          "freeStartDate": {
+            "type": "string",
+            "format": "date",
+            "note": "used to show how long a hardware has been free. Not required for normal use by user as it is set and removed with server side functionality."
+          }
+        }
+      }
+    }
+  }

@@ -1,0 +1,91 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} Requirement Area '{{ vm.area.name }}'</h1>
+    <h4 ng-if="vm.pageTitle === 'Editing'" style="color:red; border-bottom: none;">
+      Disabled fields are retrieved from Team Inventory Tool and cannot be modified.
+    </h4>
+  </div>
+  <form name="form" ng-submit="vm.submitForm()">
+    <fieldset>
+      <div class="row row-relative">
+        <!-- AREA DETAILS -->
+        <div>
+          <div title="Provided by Team Inventory Tool" class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+            <label for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.area.name" ng-minlength="2" ng-maxlength="50"
+             ng-disabled="!vm.isSmokeTestUser" required autofocus>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+            <span class="help-block" ng-if="vm.area.name.startsWith('A_Health_')">
+              <p><b>Warning:</b> Requirement Areas with names beginning in 'A_Health_' are reserved for Health-Check Testing: They have no logs stored and are automatically removed during DTT upgrades.</p>
+            </span>
+            <span class="help-block" ng-messages="form.name.$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="minlength">This must be at least of length 2</p>
+              <p ng-message="maxlength">This must be at most of length 50</p>
+            </span>
+          </div>
+
+          <!-- Program -->
+          <div title="Provided by Team Inventory Tool" class="form-group has-feedback"
+            ng-class="{ 'has-error': form.program.$invalid, 'has-success': form.program.$valid }">
+            <label>Program</label>
+            <select class="form-control" name="program" ng-model="vm.area.program_id"
+              ng-options="program._id as program.name for program in vm.programs" ng-disabled="!vm.isSmokeTestUser" required>
+              <option value="" disabled selected>--Select Program--</option>
+            </select>
+            <span class="glyphicon form-control-feedback"
+              ng-class="{ 'glyphicon-remove': form.program.$invalid, 'glyphicon-ok': form.program.$valid }"></span>
+            <span class="help-block" ng-messages="form.program.$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+
+          <legend>
+            Booking Related Details
+            <i class="ebIcon ebIcon_info" title="The fields below will have an impact on future Bookings that are made and associated with this Area."></i>
+          </legend>
+
+          <!-- Assignee User -->
+          <div class="form-group">
+            <label>
+              Booking Assignee User&nbsp;
+              <button class="btn btn-xs btn-danger" ng-if="vm.area.bookingAssigneeUser_id" ng-click="vm.clearBookingAssignee()">Clear</button>
+            </label>
+            <select class="form-control" name="bookingAssigneeUser-select" id="bookingAssigneeUser-select" ng-model="vm.area.bookingAssigneeUser_id"
+              ng-options="user._id as (user.displayName + ' (' + user.username + ')') for user in vm.users">
+              <option value="" disabled selected>--Select User--</option>
+            </select>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.maxBookingDurationDays.$invalid, 'has-success': form.maxBookingDurationDays.$valid }">
+            <label for="maxBookingDurationDays">
+              Maximum Booking Duration (Days)
+              <i class="ebIcon ebIcon_info" title="The maximum number of days a Deployment can be individually booked for. Leave field empty for no limit."></i>
+            </label>
+            <input class="form-control" type="number" min="1" id="maxBookingDurationDays" name="maxBookingDurationDays" ng-model="vm.area.maxBookingDurationDays">
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.maxBookingDurationDays.$invalid, 'glyphicon-ok': form.maxBookingDurationDays.$valid }"></span>
+            <span class="help-block" ng-messages="form.maxBookingDurationDays.$error">
+              <p ng-message="min">This must be a minimum of 1</p>
+            </span>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.maxBookingAdvanceWeeks.$invalid, 'has-success': form.maxBookingAdvanceWeeks.$valid }">
+            <label for="maxBookingAdvanceWeeks">
+              Maximum Booking Advance (Weeks)
+              <i class="ebIcon ebIcon_info" title="How far in advance can a Deployment booking finish, specified in weeks. Leave field empty for no limit."></i>
+            </label>
+            <input class="form-control" type="number" min="1" id="maxBookingAdvanceWeeks" name="maxBookingAdvanceWeeks" ng-model="vm.area.maxBookingAdvanceWeeks">
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.maxBookingAdvanceWeeks.$invalid, 'glyphicon-ok': form.maxBookingAdvanceWeeks.$valid }"></span>
+            <span class="help-block" ng-messages="form.maxBookingAdvanceWeeks.$error">
+              <p ng-message="min">This must be a minimum of 1</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="btn-group pull-left" title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+  </form>
+</section>

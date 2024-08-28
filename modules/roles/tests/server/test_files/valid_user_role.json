@@ -1,0 +1,45 @@
+{
+    "name": "user",
+    "pathsPermissions": [
+      {
+        "resources": "/bookings",
+        "allResourceMethods": "view-page post",
+        "userCreatedResourceMethods": "delete put"
+      },
+      {
+        "resources": "/deployments",
+        "allResourceMethods": "view-page post",
+        "userCreatedResourceMethods": "put delete"
+      },
+      {
+        "resources": "/productTypes",
+        "allResourceMethods": "view-page post",
+        "userCreatedResourceMethods": "delete put"
+      },
+      {
+        "resources": "/hardware",
+        "allResourceMethods": "view-page post",
+        "userCreatedResourceMethods": "put delete"
+      },
+      {
+        "resources": "/users/filters/",
+        "allResourceMethods": "view-page post",
+        "userCreatedResourceMethods": "delete put"
+      },
+      {
+        "resources": "/labels",
+        "allResourceMethods": "view-page post",
+        "userCreatedResourceMethods": "put delete"
+      },
+      {
+        "resources": "/statistics",
+        "allResourceMethods": "view-page post",
+        "userCreatedResourceMethods": "delete put"
+      },
+      {
+        "resources": "/users",
+        "allResourceMethods": "",
+        "userCreatedResourceMethods": "put"
+      }
+    ]
+  }

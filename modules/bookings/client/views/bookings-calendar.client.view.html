@@ -1,0 +1,715 @@
+<section>
+  <div class="page-header">
+    <div class="pull-right" style="display:flex; align-items: center">
+      <div class="btn-group" uib-dropdown>
+        <button ng-if="vm.hasCreatePermission" class="btn btn-sm btn-success" id="create-booking-button" uib-dropdown-toggle>
+          Create Booking <span class="caret"></span>
+        </button>
+        <ul uib-dropdown-menu style="cursor:pointer">
+          <li><a id="create-booking-by-deployment-button" ng-click="vm.initializeBookingModal('creation')">Create by Deployment</a></li>
+          <li><a id="find-booking-time-button" ng-click="vm.initializefindDeploymentModal()">Find Available Deployments</a></li>
+        </ul>
+      </div>
+
+      <span style="width:5px"></span>
+
+      <button class="btn btn-sm btn-info" ui-sref="statistics.bookings">
+        Statistics
+      </button>
+
+      <span style="width:10px"></span>
+
+      <div class="btn-toolbar input-group" style="width:240px;">
+        <select class="form-control" id="customFilterSelect" ng-model="vm.customFilterId"
+          ng-options="customFilter._id as customFilter.name for customFilter in vm.customFilters"
+          ng-change="vm.customFilterChange()" required>
+          <option value="" disabled selected>Choose Custom Filter</option>
+        </select>
+        <span ng-if="vm.customFilterId" class="input-group-addon glyphicon glyphicon-remove-circle" ng-click="vm.customFilterClear()"></span>
+        <span ng-if="vm.customFilterId" class="input-group-addon glyphicon glyphicon-trash" ng-click="vm.customFilterDelete()"></span>
+      </div>
+    </div>
+    <h1>Deployment Bookings</h1>
+    <!-- VARIOUS FILTERS FOR BOOKINGS -->
+    <div id="filters" class="row row-relative">
+      <form name="form">
+        <div class="col-md-3" ng-class="{ 'has-error': form.areaFilter.$invalid && form.{{ filterOption.name }}.$invalid }" ng-repeat="filterOption in vm.mainFilterOptions">
+          <label>{{ filterOption.heading }}</label>
+          <select class="form-control" id="{{ filterOption.name }}Select" name="{{ filterOption.name }}"
+            ng-model="vm[filterOption.name]" ng-options="option._id as option.name for option in filterOption.options"
+            ng-change="vm.updateViewForFilter(filterOption.name, vm[filterOption.name])" required>
+            <option value="" ng-if="!vm.areaFilter" disabled selected>--Please Select--</option>
+          </select>
+        </div>
+        <div class="col-md-3" ng-repeat="filterOption in vm.additionalFilterOptions">
+          <label>{{ filterOption.heading }}</label>
+          <select class="form-control" id="{{ filterOption.name }}Select"
+            ng-model="vm[filterOption.name]" ng-options="option._id as option.name for option in filterOption.options"
+            ng-change="vm.updateViewForFilter(filterOption.name, vm[filterOption.name])" ng-disabled="!vm.areaFilter" required>
+            <option value="" selected>All</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label>Started After:</label>
+          <div class="input-group date" id="startTimePickerFilter">
+            <span class="input-group-addon" name="startTimeSpan">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            <input class="form-control" id="startTimeAfterFilter" name="startTime" type="text" placeholder="All" ng-model="vm.startTimeAfterFilter"
+              style="cursor:pointer; background-color:white;" readonly />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label>Ended Before:</label>
+          <div class="input-group date" id="endTimePickerFilter">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            <input class="form-control" id="endTimeBeforeFilter" name="endTime" type="text" placeholder="All" ng-model="vm.endTimeBeforeFilter"
+              style="cursor:pointer; background-color:white;" readonly />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label></label>
+          <div class="btn-group fill-space" uib-dropdown>
+            <button class="btn btn-sm btn-info fill-space" uib-dropdown-toggle>
+              Save Filters <span class="caret"></span>
+            </button>
+            <ul uib-dropdown-menu style="cursor: pointer">
+              <li><a id="save-filters-profile-btn" ng-click="vm.saveFiltersToProfile()">To Profile</a></li>
+              <li><a id="save-filters-bkmark-btn" ng-click="vm.saveFiltersAsBookmark()">As Bookmark</a></li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Individual Booking Create/Edit/View Modal -->
+  <div id="booking-crud-modal" class="modal custom-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="pull-right" style="display:flex; align-items: center">
+          <div title="{{ !vm.bookingIsDeletable ? vm.bookingTitleMessage : '' }}">
+            <button class="btn btn-sm btn-danger" ng-click="vm.deleteBooking()"
+              ng-show="vm.crudType === 'update'" ng-disabled="!vm.bookingIsDeletable">
+              Delete
+            </button>
+          </div>
+          <span style="width:5px"></span>
+          <a class="btn btn-sm btn-warning" id="log-button" ui-sref="logs.view({ objType: 'bookings', objId: vm.booking._id })" ng-show="vm.crudType === 'update'">View Log</a>
+          <span style="width:5px"></span>
+          <button class="btn btn-sm form-button" ng-click="vm.closeModals()">Close</button>
+        </div>
+        <h2 style="border-bottom: none">
+          {{ vm.crudType === 'update' ? 'Viewing' : 'New'}}
+          {{ vm.booking.bookingType === 'Sharing' ? 'Shared Booking with' : 'Booking' }}
+          <a href="{{vm.jiraIssueDisplay.viewUrl}}" style="font-size:inherit">
+            {{ vm.jiraIssueDisplay.issue }}
+          </a>
+          <i class="ebIcon ebIcon_info" ng-if="vm.crudType === 'update' && !vm.jiraIssueDisplay.viewUrl"
+            title="JIRA Issue not found. Update this Booking to generate a new JIRA Issue.">
+          </i>
+        </h2>
+        <span class="help-block">
+          <p ng-if="vm.bookingTitleMessage">{{ vm.bookingTitleMessage }}</p>
+        </span>
+      </div>
+      <div class="modal-body">
+        <form name="crudForm" ng-submit="vm.submitBookingForm()">
+          <fieldset>
+            <div class="legends-with-top-margin">
+              <!-- Creation / Update Info -->
+              <div ng-show="vm.crudType === 'update'">
+                <div class="row row-relative">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Created By: </label> {{ vm.booking.createdBy.displayName }} ({{ vm.booking.createdBy.username }})
+                    </div>
+                    <div class="form-group">
+                      <label>Created At: </label> {{ vm.booking.createdAt }}
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-border" ng-if="vm.booking.updatedAt">
+                    <div class="col-border-padding">
+                      <div class="form-group">
+                        <label>Updated By: </label> {{ vm.booking.updatedBy.displayName }} ({{ vm.booking.updatedBy.username }})
+                      </div>
+                      <div class="form-group">
+                        <label>Updated At: </label> {{ vm.booking.updatedAt }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Associated Program and RA -->
+              <div class="form-group">
+                <div id="booking-filters-panel" class="row row-relative filters-row">
+                  <div class="col-md-6">
+                    <label>Program:</label>
+                    <select class="form-control" name="Program" ng-model="vm.modalDeploymentByProgramFilter" ng-change="vm.filterBookingDeploymentOptions('program_id')"
+                      ng-options="program._id as program.name for program in vm.allPrograms"
+                      ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable">
+                      <option value="" disabled selected>--Select Program to filter by--</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label>RA:</label>
+                    <select class="form-control" name="RA" ng-model="vm.modalDeploymentByRAFilter" ng-change="vm.filterBookingDeploymentOptions('area_id')"
+                      ng-options="RA._id as RA.name for RA in vm.filteredAreas"
+                      ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable">
+                      <option value="" disabled selected>--Select RA to filter by--</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Associated Deployment -->
+              <div class="form-group has-feedback"
+                ng-class="{ 'has-error': crudForm['deployment-select'].$invalid, 'has-success':crudForm['deployment-select'].$valid }">
+                <label name="deployment-label">Deployment</label>
+                <select class="form-control" name="deployment-select" id="deployment-select" ng-model="vm.booking.deployment_id"
+                  ng-options="deployment._id as deployment.name for deployment in vm.filteredModalDeployments"
+                  ng-disabled="vm.crudType === 'update' && vm.booking.bookingType !== 'Single' || !vm.bookingIsModifiable" *ng-if="!vm.bookingDeplStatusIsValid" required>
+                  <option value="" disabled selected>--Select Deployment--</option>
+                </select>
+                <span class="glyphicon form-control-feedback"
+                  ng-class="{ 'glyphicon-remove':crudForm['deployment-select'].$invalid, 'glyphicon-ok':crudForm['deployment-select'].$valid }"></span>
+                <span class="help-block" ng-messages="crudForm['deployment-select'].$error" name="deploymentMessages">
+                  <p ng-message="required">This field is required</p>
+                  <p ng-if="vm.crudType === 'update' && vm.booking.bookingType !== 'Single'">Deployment can not be modified for a '{{ vm.booking.bookingType}}' Booking.</p>
+                  <p ng-message="badDeplStatus" ng-if="!vm.bookingDeplStatusIsValid">{{ vm.invalidDeplStatusMessage }} </p>
+                </span>
+              </div>
+
+              <!-- Associated Product -->
+              <div class="form-group has-feedback" ng-if="vm.showProductOptions"
+                ng-class="{ 'has-error':crudForm['bookingProduct-select'].$invalid, 'has-success':crudForm['bookingProduct-select'].$valid }">
+                <label>Deployment-Product</label>
+                <select class="form-control" name="bookingProduct-select" id="bookingProduct-select" ng-model="vm.booking.product_id"
+                  ng-options="product._id as (product.product_type_name + ' (' + product.flavour_name + ', ' + product.infrastructure + ')') for product in vm.bookingProductOptions"
+                  ng-disabled="vm.crudType === 'update' && vm.booking.bookingType !== 'Single' || !vm.bookingIsModifiable" required>
+                  <option value="" disabled selected>--Select Deployment-Product--</option>
+                </select>
+                <span class="glyphicon form-control-feedback"
+                  ng-class="{ 'glyphicon-remove':crudForm['bookingProduct-select'].$invalid, 'glyphicon-ok':crudForm['bookingProduct-select'].$valid }"></span>
+                <span class="help-block" ng-messages="crudForm['bookingProduct-select'].$error">
+                  <p ng-message="required">This field is required</p>
+                </span>
+              </div>
+
+              <!-- Team -->
+              <div ng-include="'team-form'" ng-repeat="pass in [{formName: 'deploymentForm', form: deploymentForm}]"></div>
+
+              <!-- Sharing Status -->
+              <div ng-include="'sharing-status-field'" ng-repeat="pass in [{formName: 'crudForm', form: crudForm}]"></div>
+
+              <!-- Start & End Date Pickers -->
+              <div ng-include="'start-end-time-pickers'" ng-repeat="pass in [{formName: 'crudForm', form: crudForm, altText: ''}]"></div>
+
+              <!-- Configuration Settings -->
+              <div ng-include="'custom-config-form'" ng-repeat="pass in [{formName: 'crudForm', form: crudForm}]"></div>
+
+              <!-- Jenkins Settings -->
+              <div ng-if="vm.bookingIsENM" ng-include="'jenkins-form'" ng-repeat="pass in [{formName: 'crudForm', form: crudForm}]"></div>
+
+              <!-- Additional Settings -->
+              <div ng-include="'additional-form'" ng-repeat="pass in [{formName: 'crudForm', form: crudForm}]"></div>
+
+              <!-- JIRA Templates -->
+              <div ng-if="vm.booking.useCustomJiraTemplate" ng-include="'jira-template-form'" ng-repeat="pass in [{formName: 'deploymentForm', form: deploymentForm}]"></div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="align-center" title="{{!vm.bookingIsModifiable ? 'This Booking is Non-Modifiable' : (crudForm.$invalid || vm.formSubmitting) ? 'Ensure all values are valid and required fields are filled in.' : '' }}">
+              <button class="btn btn-primary" id="save-booking-button" type="submit" ng-disabled="crudForm.$invalid || !vm.endDateModifiable || vm.formSubmitting">
+                {{ vm.crudType === 'update' ? 'Update' : 'Save'}}
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals for Booking Creation Based on Dates and Team -->
+  <div>
+    <div id="booking-find-deployment-modal" class="modal custom-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="pull-right" style="display:flex; align-items: center">
+            <button class="btn btn-sm form-button" ng-click="vm.closeModals()">Close</button>
+          </div>
+          <h2 style="border-bottom: none">
+            New Booking: Choose Inputs
+          </h2>
+          <span class="help-block">
+            <p ng-if="vm.bookingTitleMessage">{{ vm.bookingTitleMessage }}</p>
+          </span>
+        </div>
+        <div class="modal-body">
+          <form name="findDeploymentForm" ng-submit="vm.submitFindDeploymentForm()">
+            <fieldset>
+              <div>
+                <div class="form-group" ng-show="vm.userIsAdmin">
+                  <label>Team From List/Custom <i class="ebIcon ebIcon_info" title="Set whether to use Team from dropdown or input manually. NOTE: For 'Custom' only Deployments with 'Cross RA Sharing Enabled' will be displayed."></i></label>
+                  <br>
+                  <toggle name="customTeamToggleAlt" id="customTeamToggleAlt" width="130px" ng-model="vm.customTeam" ng-change="vm.setToggleIsCustomTeam()"
+                    on="<i class='fa fa-users'></i> Custom" off="<i class='fa fa-user'></i> From List"
+                    ng-hidden="!vm.userIsAdmin">
+                  </toggle>
+                </div>
+
+                <div class="form-group has-feedback"
+                ng-class="{ 'has-error':findDeploymentForm.customTeam.$invalid, 'has-success':findDeploymentForm.customTeam.$valid }" ng-show="vm.customTeam">
+              <label> Team Name </label>
+              <input class="form-control" name="customTeam" type="text" id="customTeam"
+              placeholder="Enter Team Name" ng-model="vm.booking.customTeamName" ng-required="vm.customTeam" ng-change="vm.enteringTeamName()">
+              <span class="help-block" ng-messages="findDeploymentForm.customTeam.$error">
+                  <p ng-message="required">This field is required</p>
+                </span>
+             </div>
+
+                <!-- Associated Team -->
+                <div class="form-group has-feeback"
+                ng-class="{ 'has-error':findDeploymentForm.findTeamSelect.$invalid, 'has-success':findDeploymentForm.findTeamSelect.$valid }" ng-show="!vm.customTeam">
+                  <label>Team</label>
+                  <select id="findTeamSelect" class="form-control" name="findTeamSelect" ng-model="vm.booking.team_id"
+                    ng-options="team._id as team.name for team in vm.bookingTeamOptions" ng-required="!vm.customTeam">
+                    <option value="" disabled selected>--Select Team--</option>
+                  </select>
+                  <span class="help-block" ng-messages="findDeploymentForm.findTeamSelect.$error">
+                    <p ng-message="required">This field is required</p>
+                  </span>
+                </div>
+
+                 <!-- Product Type -->
+                 <div class="form-group">
+                  <label>Product Type</label>
+                  <select id="findProductTypeSelect" class="form-control" name="productType" ng-model="vm.selectedProductType"
+                    ng-options="productType._id as productType.name for productType in vm.allProductTypes">
+                    <option value="" disabled selected>--Select Product Type--</option>
+                  </select>
+                </div>
+
+                <!-- Associated Label -->
+                <div class="form-group">
+                  <label>Label</label>
+                  <select id="findLabelSelect" class="form-control" name="label" ng-model="vm.selectedLabel"
+                    ng-options="label._id as label.name for label in vm.allLabels">
+                    <option value="" disabled selected>--Select Label--</option>
+                  </select>
+                </div>
+
+             <!-- All Deployments Toggle -->
+              <div class="form-group">
+                <label>Deployments List<i class="ebIcon ebIcon_info" title="Set whether to display 'All' or 'Filtered' Deployments in the list in next step."></i></label>
+                <br>
+                <toggle name="filteredDeplAlt" id="filteredDeplAlt" width="130px" ng-model="vm.filteredDeploymentsToggle"
+                  on="<i class='fa fa-users'></i> Filtered" off="<i class='fa fa-user'></i> All"
+                  ng-show="vm.userIsAdmin" ng-disabled="vm.customTeam">
+                </toggle>
+              </div>
+
+                <!-- Start & End Date Pickers -->
+                <div ng-include="'start-end-time-pickers'" ng-repeat="pass in [{formName: 'findDeploymentForm', form: findDeploymentForm, altText: 'Alt'}]"></div>
+
+              </div>
+              <div class="align-center" title="Ensure all values are valid and required fields are filled in.">
+                <button class="btn btn-primary" type="submit" id="find-bookings-by-time" ng-disabled="!vm.teamSelected || !vm.booking.startTime || !vm.booking.endTime">
+                  Find Available Deployments
+                </button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="booking-deployment-modal" class="modal custom-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="pull-right" style="display:flex; align-items: center">
+            <button id="change-search-input" class="btn btn-sm btn-warning" ng-click="vm.returnTofindDeploymentModal()">Change Search Input</button>
+            <span style="width:5px"></span>
+            <button class="btn btn-sm form-button" ng-click="vm.closeModals()">Close</button>
+          </div>
+          <h2 style="border-bottom: none">
+              New Booking: Choose Deployment for Dates Specified
+          </h2>
+          <span class="help-block">
+            <p ng-if="vm.bookingTitleMessage">{{ vm.bookingTitleMessage }}</p>
+          </span>
+        </div>
+        <div class="modal-body">
+          <form name="deploymentForm" ng-submit="vm.submitBookingForm()">
+            <fieldset>
+              <div>
+                <!-- Associated Deployment -->
+                <div class="form-group has-feedback"
+                  ng-class="{ 'has-error':deploymentForm['deploymentAlt-select'].$invalid, 'has-success':deploymentForm['deploymentAlt-select'].$valid }">
+                  <label>Deployment</label>
+                  <p>
+                    Options are limited to Deployments fully available within the Timespan: <b>{{ vm.booking.startTime }}</b> - <b>{{ vm.booking.endTime }}</b>
+                  </p>
+                  <select class="form-control" id="deploymentAlt-select" name="deploymentAlt-select" ng-model="vm.booking.deployment_id"
+                    ng-options="deployment._id as (deployment.name + (deployment.isShareable ?  ' (SHAREABLE BOOKING)' : '') + deployment.suffix) for deployment in vm.bookingDeploymentDropdownOptions" required>
+                    <option value="" disabled selected>--Select Deployment--</option>
+                  </select>
+                  <span class="help-block" ng-messages="deploymentForm['deploymentAlt-select'].$error">
+                    <p ng-message="required">This field is required</p>
+                    <p ng-message="badDeplStatusAlt">Cannot book a Deployment with cross RA Sharing disabled. Please contact Deployment owners.</p>
+                  </span>
+                </div>
+
+                <!-- Associated Product -->
+                <div class="form-group has-feedback" ng-if="vm.showProductOptions"
+                  ng-class="{ 'has-error':deploymentForm['bookingProductAlt-select'].$invalid, 'has-success':deploymentForm['bookingProductAlt-select'].$valid }">
+                  <label>Deployment-Product</label>
+                  <select class="form-control" id="bookingProductAlt-select" name="bookingProductAlt-select" ng-model="vm.booking.product_id"
+                    ng-options="product._id as (product.product_type_name + ' (' + product.flavour_name + ', ' + product.infrastructure + ')') for product in vm.bookingProductOptions"
+                    ng-disabled="vm.crudType === 'update' && vm.booking.bookingType !== 'Single'" required>
+                    <option value="" disabled selected>--Select Deployment-Product--</option>
+                  </select>
+                  <span class="glyphicon form-control-feedback"
+                    ng-class="{ 'glyphicon-remove':deploymentForm['bookingProductAlt-select'].$invalid, 'glyphicon-ok':deploymentForm['bookingProductAlt-select'].$valid }"></span>
+                  <span class="help-block" ng-messages="deploymentForm['bookingProductAlt-select'].$error">
+                    <p ng-message="required">This field is required</p>
+                  </span>
+                </div>
+
+                <!-- Sharing Status -->
+                <div ng-include="'sharing-status-field'" ng-repeat="pass in [{formName: 'deploymentForm', form: deploymentForm, altText: 'Alt'}]"></div>
+
+                <!-- Configuration Settings -->
+                <div ng-include="'custom-config-form'" ng-repeat="pass in [{formName: 'deploymentForm', form: deploymentForm, altText: 'Alt'}]"></div>
+
+                <!-- Jenkins Settings -->
+                <div ng-if="vm.bookingIsENM" ng-include="'jenkins-form'" ng-repeat="pass in [{formName: 'deploymentForm', form: deploymentForm, altText: 'Alt'}]"></div>
+
+                <!-- Additional Settings -->
+                <div ng-include="'additional-form'" ng-repeat="pass in [{formName: 'deploymentForm', form: deploymentForm, altText: 'Alt'}]"></div>
+
+                <!-- JIRA Templates -->
+                <div ng-if="vm.booking.useCustomJiraTemplate" ng-include="'jira-template-form'" ng-repeat="pass in [{formName: 'deploymentForm', form: deploymentForm, altText: 'Alt'}]"></div>
+              </div>
+
+              <!-- Save Button -->
+              <div class="align-center" title="Ensure all values are valid and required fields are filled in.">
+                <button class="btn btn-primary" name="save-booking-button-alt" id="save-booking-button-alt" type="submit" ng-disabled="deploymentForm.$invalid || vm.formSubmitting">Save</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKING CALENDARS/TABLE LOADING -->
+  <div ng-if="vm.calendarLoading" class="table-loading">
+    <div class="ebLoader">
+      <div class="ebLoader-Holder">
+        <span class="ebLoader-Dots ebLoader-Dots_color_darkPurple ebLoader-Dots_size_big"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKING CALENDARS/TABLE -->
+  <div ng-style="vm.calendarLoading && { 'visibility': 'hidden' }" ng-show="vm.areaFilter">
+    <!-- BOOKINGS MONTHLY CALENDAR -->
+    <div id='monthly-calendar'></div>
+
+    <!-- BOOKINGS WEEKLY CALENDAR -->
+    <div id='weekly-calendar' class="fc fc-unthemed fc-ltr">
+      <div class="table" style="overflow-y: auto; height: 610px;">
+        <table id="booking-table" class="table table-bordered text-center">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BOOKINGS TABLE LIST -->
+    <div id="bookings-table-container">
+      <table id="bookings-table" class="table table-striped table-condensed non-clickable-row">
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script id="team-form" type="text/ng-template">
+  <label>Team From List/Custom Team <i class="ebIcon ebIcon_info" title="Set whether to use Team from dropdown or input manually. NOTE: Once set cannot be changed."></i></label>
+  <br>
+  <toggle name="customTeamToggle" width="130px" ng-model="vm.customTeam" ng-change="vm.setToggleIsCustomTeam()"
+    on="<i class='fa fa-users'></i> Custom" off="<i class='fa fa-user'></i> From List"
+    ng-disabled="!vm.userIsAdmin || !vm.bookingIsModifiable || vm.customTeamDisabled">
+  </toggle>
+
+  <div class="form-group has-feedback"
+    ng-class="{ 'has-error':crudForm.customTeam.$invalid, 'has-success':crudForm.customTeam.$valid }" ng-show="vm.customTeam" >
+  <label> Team Name </label>
+  <input class="form-control" name="customTeam" type="text" ng-disabled="(vm.booking.bookingType === 'Sharing' || !vm.userIsAdmin || !vm.bookingIsModifiable)"
+  placeholder="Enter Team Name" ng-model="vm.booking.customTeamName" ng-required="vm.customTeam">
+  <span class="help-block" ng-messages="crudForm.customTeam.$error">
+      <p ng-message="required">This field is required</p>
+    </span>
+ </div>
+
+  <!-- Associated Team -->
+  <div class="form-group has-feedback"
+    ng-class="{ 'has-error':crudForm['team-select'].$invalid, 'has-success':crudForm['team-select'].$valid }" ng-show="!vm.customTeam">
+    <label>Team <i class="ebIcon ebIcon_info" title="Team options are limited to those associated with the same Area as the selected Deployment"></i></label>
+    <select class="form-control" name="team-select" id="team-select" ng-model="vm.booking.team_id"
+      ng-options="team._id as team.name for team in vm.bookingTeamOptions" ng-disabled="!vm.bookingIsModifiable" ng-required="!vm.customTeam">
+      <option value="" disabled selected>--Select Team--</option>
+    </select>
+    <span class="glyphicon form-control-feedback"
+      ng-class="{ 'glyphicon-remove':crudForm['team-select'].$invalid, 'glyphicon-ok':crudForm['team-select'].$valid }"></span>
+    <span class="help-block" ng-messages="crudForm['team-select'].$error">
+      <p ng-message="required">This field is required</p>
+    </span>
+  </div>
+</script>
+
+<script id="sharing-status-field" type="text/ng-template">
+  <!-- Shared or Not -->
+  <div class="form-group has-feedback has-success">
+    <label>Sharing-Type <i class="ebIcon ebIcon_info" title="Set whether booking is shareable with other teams. Cannot be modified once set."></i></label>
+    <br>
+    <toggle name="sharingType" width="130px" ng-model="vm.shareableToggle" ng-change="vm.setToggleIsShareable()"
+      on="<i class='fa fa-users'></i> Shareable" off="<i class='fa fa-user'></i> Single"
+      ng-disabled="!vm.shareableToggleIsEnabled || !vm.bookingIsModifiable">
+    </toggle>
+    <span class="help-block" ng-messages="pass.form.sharingType.$error">
+      <p ng-if="vm.crudType === 'creation' && vm.shareableToggle">If this is a Child 'Sharing' Booking, all Configuration, JIRA and Jenkins related fields will be inherited from the Parent 'Shareable' Booking and set upon creation.</p>
+      <p ng-if="vm.crudType === 'update' && vm.booking.bookingType === 'Shareable'">As a Parent 'Shareable' Booking, all Configuration, Jenkins and JIRA related fields are inherited by Child 'Sharing' Bookings.</p>
+      <p ng-if="vm.crudType === 'update' && vm.booking.bookingType === 'Sharing'">As a Child 'Sharing' Booking, all Configuration, Jenkins and JIRA related fields are inherited from the Parent 'Shareable' Booking and can not be modified.</p>
+    </span>
+  </div>
+</script>
+
+<script id="start-end-time-pickers" type="text/ng-template">
+  <!-- Start Date -->
+  <div class="form-group has-feedback" ng-class="{ 'has-error':{{ pass.formName }}.startTime.$invalid, 'has-success':{{ pass.formName }}.startTime.$valid }">
+    <label>Start Date</label>
+    <div class="input-group date" id="startTimePicker{{ pass.altText }}">
+      <span class="input-group-addon" name="startTimeSpan">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+      <input class="form-control" id="startTime{{ pass.altText }}" name="startTime" type="text" ng-model="vm.booking.startTime" style="cursor:pointer" ng-disabled="!vm.bookingIsModifiable" readonly required/>
+    </div>
+    <span class="glyphicon form-control-feedback"
+      ng-class="{ 'glyphicon-remove':{{ pass.formName }}.startTime.$invalid, 'glyphicon-ok':{{ pass.formName }}.startTime.$valid }"></span>
+    <span class="help-block" ng-messages="pass.form.startTime.$error">
+      <p ng-message="required">This field is required</p>
+    </span>
+  </div>
+
+  <!-- End Date -->
+  <div class="form-group has-feedback" ng-class="{ 'has-error':{{ pass.formName }}.endTime.$invalid, 'has-success':{{ pass.formName }}.endTime.$valid }">
+    <label>End Date</label>
+    <div class="input-group date" id="endTimePicker{{ pass.altText }}">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+      <input class="form-control" id="endTime{{ pass.altText }}" type="text" name="endTime" ng-model="vm.booking.endTime" style="cursor:pointer" ng-disabled="!vm.endDateModifiable" readonly required />
+    </div>
+    <span class="glyphicon form-control-feedback"
+      ng-class="{ 'glyphicon-remove':{{ pass.formName }}.endTime.$invalid, 'glyphicon-ok':{{ pass.formName }}.endTime.$valid }"></span>
+    <span class="help-block" ng-messages="pass.form.endTime.$error">
+      <p ng-message="required">This field is required</p>
+    </span>
+  </div>
+</script>
+
+<script id="custom-config-form" type="text/ng-template">
+  <legend>Configuration Settings</legend>
+  <div>
+    <label ng-if="!vm.booking.configuration">No Configuration Parameters Found</label>
+    <!-- Enable Custom Configuration -->
+    <div ng-if="vm.booking.configuration" class="form-group" >
+      <label>Custom Configuration<i class="ebIcon ebIcon_info" title="Configuration values are inherited from the Deployment but can be set to custom values"></i></label>
+      <br>
+      <toggle width="130px" ng-model="vm.customConfiguration" ng-change="vm.setToggleCustomConfiguration()" ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable"
+        on="<i class='fa fa-users'></i> Custom" off="<i class='fa fa-user'></i> Inherited">
+      </toggle>
+    </div>
+
+    <!-- Configuration Options -->
+    <div ng-if="vm.booking.configuration" ng-repeat="configOption in vm.booking.configuration track by $index"
+      class="form-group has-feedback" ng-class="{ 'has-error':{{ pass.formName }}['configuration[{{$index}}].key_value'].$invalid, 'has-success':{{ pass.formName }}['configuration[{{$index}}].key_value'].$valid }">
+      <label>{{ configOption.key_name }}</label>
+      <!-- Product Configuration Value -->
+      <input class="form-control" name="configuration[{{$index}}].key_value" type="text" ng-disabled="!vm.customConfiguration || (vm.booking.bookingType === 'Sharing')"
+      placeholder="Enter Value" ng-model="vm.booking.configuration[$index].key_value" required>
+      <span class="glyphicon form-control-feedback"
+        ng-class="{ 'glyphicon-remove': {{ pass.formName }}['configuration[{{$index}}].key_value'].$invalid, 'glyphicon-ok': {{ pass.formName }}['configuration[{{$index}}].key_value'].$valid }"></span>
+      <span class="help-block" ng-messages="pass.form['configuration[' + $index + '].key_value'].$error">
+        <p ng-message="required">This field is required</p>
+      </span>
+    </div>
+  </div>
+</script>
+
+<script id="jenkins-form" type="text/ng-template">
+  <legend>Jenkins Settings<span style="font-size: 15px !important;" ng-if="!vm.jenkinsJobEnabled"> - ({{ vm.disabledJenkinsJobSettingsMsg }})</span></legend>
+  <div>
+    <!-- Trigger Jenkins Job -->
+    <div name="jenkins-trigger-div" class="form-group" ng-show="vm.showAutomaticTriggerOption" title="{{vm.jenkinsJobEnabled ? '' : vm.disabledJenkinsJobSettingsMsg}}">
+      <label>
+        Trigger Jenkins Job
+        <i class="ebIcon ebIcon_info" title="Sets whether Jenkins Job is triggered: Automatically or Manually"></i></label>
+      <br>
+      <toggle name="jenkinsJobTrigger" width="130px" ng-model="vm.booking.automaticJenkinsIITrigger"
+        on="<i class='fa fa-cogs'></i> Automatic" off="<i class='fa fa-wrench'></i> Manual" ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable || !vm.jenkinsJobEnabled || !vm.automaticJenkinsIITriggerDisabled">
+      </toggle>
+    </div>
+    <!-- Jenkins Job Type -->
+    <div name="jenkins-job-type-div" class="form-group" ng-show="vm.showAutomaticTriggerOption" title="{{vm.jenkinsJobEnabled ? '' : vm.disabledJenkinsJobSettingsMsg}}">
+      <label>
+        Jenkins Job Type
+        <i class="ebIcon ebIcon_info" title="Sets which job/install type is triggered: II or UG"></i></label>
+      <br>
+      <label class="radio-inline">
+        <input type="radio" ng-model="vm.booking.jenkinsJobType" name="jobTypeII" value="II" ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable || !vm.jenkinsJobEnabled">
+        <b>II</b>
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="vm.booking.jenkinsJobType" name="jobTypeUG" value="UG" ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable || !vm.jenkinsJobEnabled">
+        <b>UG</b>
+      </label>
+    </div>
+    <!-- Jenkins Users  -->
+    <div name="jenkins-users-div" class="form-group has-feedback" title="{{vm.jenkinsJobEnabled ? '' : vm.disabledJenkinsJobSettingsMsg}}"
+      ng-class="{ 'has-error':{{ pass.formName }}.additionalJenkinsUsers.$invalid, 'has-success':{{ pass.formName }}.additionalJenkinsUsers.$valid }">
+      <label>
+        Additional Jenkins Users
+        <i class="ebIcon ebIcon_info" title="To give users jenkins jobs access rights, include comma-separated list of Users Signum IDs."></i>
+      </label>
+      <input class="form-control" id='additionalJenkinsUsers{{ pass.altText }}' name="additionalJenkinsUsers" type="text"
+        ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable || !vm.jenkinsJobEnabled"
+        placeholder="Enter Users Signums: ejondoe,ejandoe,eabcdef" ng-model="vm.booking.additionalJenkinsUsers" ng-pattern="/^[a-zA-Z]{0,10}(?:,[a-zA-Z]{0,10})*$/">
+      <span class="glyphicon form-control-feedback"
+        ng-class="{ 'glyphicon-remove':{{ pass.formName }}.additionalJenkinsUsers.$invalid, 'glyphicon-ok':{{ pass.formName }}.additionalJenkinsUsers.$valid }">
+      </span>
+      <span class="help-block" ng-messages="pass.form.additionalJenkinsUsers.$error">
+        <p ng-message="pattern">This field must be a comma-separated list of Users Signum IDs</p>
+      </span>
+    </div>
+
+    <!-- ENM Product Drop -->
+    <div name="enm-ps-div" class="form-group has-feedback" title="{{vm.jenkinsJobEnabled ? '' : vm.disabledJenkinsJobSettingsMsg}}"
+      ng-class="{ 'has-error':{{ pass.formName }}['enmDropVersion-select'].$invalid, 'has-success':{{ pass.formName }}['enmDropVersion-select'].$valid }">
+      <label>ENM Product Drop</label>
+      <select class="form-control" id="enmProductSetDrop{{ pass.altText }}-select" ng-options="version as version for version in vm.allENMProductDrops.Drops" name="enmDropVersion-select"
+      ng-model="vm.booking.enmProductSetDrop" ng-change="vm.enmDropsVersionSelected()" ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable || !vm.jenkinsJobEnabled" required>
+        <option value="" disabled selected>--Select ENM Product Drop--</option>
+      </select>
+      <span class="glyphicon form-control-feedback"
+        ng-class="{ 'glyphicon-remove':{{ pass.formName }}['enmDropVersion-select'].$invalid, 'glyphicon-ok':{{ pass.formName }}['enmDropVersion-select'].$valid }">
+      </span>
+      <span class="help-block" ng-messages="pass.form['enmDropVersion-select'].$error">
+        <p ng-message="required">This field is required</p>
+      </span>
+    </div>
+
+    <!-- ENM Product Set Version -->
+    <div name="enm-psv-div" class="form-group has-feedback" ng-if="vm.showENMProductSets" title="{{vm.jenkinsJobEnabled ? '' : vm.disabledJenkinsJobSettingsMsg}}">
+      <label>ENM Product Set Version</label>
+      <select class="form-control" id="enmProductSetVersion{{ pass.altText }}-select" ng-options="version.version as version.version for version in vm.allENMProductSets"
+        name="enmProductSet-select"  ng-model="vm.booking.enmProductSetVersion"
+        ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable || !vm.jenkinsJobEnabled" required>
+        <option value="" disabled selected>--Select ENM Product Set Version--</option>
+      </select>
+      <span class="glyphicon form-control-feedback"
+        ng-class="{ 'glyphicon-remove':{{ pass.formName }}.enmProductSet.$invalid, 'glyphicon-ok':{{ pass.formName }}.enmProductSet.$valid }"></span>
+      <span class="help-block" ng-messages="pass.form.enmProductSet.$error">
+        <p ng-message="required">This field is required</p>
+      </span>
+    </div>
+
+    <!-- NSS Version -->
+    <div name="nss-version-div" class="form-group" title="{{vm.jenkinsJobEnabled ? '' : vm.disabledJenkinsJobSettingsMsg}}">
+      <label>NSS Version</label>
+      <select class="form-control" id="nssVersion{{ pass.altText }}-select" ng-options="version as version for version in vm.allNSSVersions.Drops"
+        name="nssVersion-select" ng-model="vm.booking.nssVersion"
+        ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable || !vm.jenkinsJobEnabled">
+        <option value="" disabled selected>--Select NSS Version--</option>
+      </select>
+    </div>
+  </div>
+</script>
+
+<script id="additional-form" type="text/ng-template">
+  <legend>Additional Settings</legend>
+  <div>
+    <!-- JIRA Main Requirement / Bug -->
+    <div class="form-group has-feedback" ng-if="vm.bookingIsENM"
+      ng-class="{ 'has-error': {{ pass.formName }}.jiraMRBugReferenceIssue.$invalid, 'has-success': {{ pass.formName }}.jiraMRBugReferenceIssue.$valid }">
+      <label>JIRA MR/Bug Link</label>
+      <input class="form-control" id="jiraMRBugReferenceIssue{{ pass.altText }}" name="jiraMRBugReferenceIssue" type="text"
+        ng-model="vm.booking.jiraMRBugReferenceIssue" ng-minlength="3" ng-maxlength="60" ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable"
+        ng-pattern="/^[a-zA-Z0-9\-_.\s]*$/" ng-change="vm.jiraIssueValidator({{ pass.formName }}.jiraMRBugReferenceIssue)" ng-model-options="{updateOn: 'blur'}"
+        placeholder="Please include link to US/MR/TR/BUG which will be tested on deployment">
+      <span class="glyphicon form-control-feedback"
+        ng-class="{ 'glyphicon-remove': {{ pass.formName }}.jiraMRBugReferenceIssue.$invalid, 'glyphicon-ok': {{ pass.formName }}.jiraMRBugReferenceIssue.$valid }"></span>
+      <span class="help-block" ng-messages="pass.form.jiraMRBugReferenceIssue.$error">
+        <p ng-message="minlength">This must be at least of length 3</p>
+        <p ng-message="maxlength">This must be at most of length 60</p>
+        <p ng-message="pattern">This must only contain letters, numbers, dots, dashes, underscores and spaces</p>
+        <p ng-message="jiraValidation">Provide a valid JIRA Issue</p>
+      </span>
+    </div>
+
+    <!-- Testing Type -->
+    <div class="form-group has-feedback" ng-class="{ 'has-error': {{ pass.formName }}['testingType-select'].$invalid, 'has-success': {{ pass.formName }}['testingType-select'].$valid }">
+      <label>Testing Type</label>
+      <select class="form-control" id="testingType{{ pass.altText }}-select" name="testingType-select" ng-model="vm.booking.testingType"
+        ng-options="testingType as testingType for testingType in vm.allTestingTypes" ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable" required>
+        <option value="" disabled selected>--Select TestingType--</option>
+      </select>
+      <span class="glyphicon form-control-feedback"
+        ng-class="{ 'glyphicon-remove':{{ pass.formName }}['testingType-select'].$invalid, 'glyphicon-ok':{{ pass.formName }}['testingType-select'].$valid }"></span>
+      <span class="help-block" ng-messages="pass.form['testingType-select'].$error">
+        <p ng-message="required">This field is required</p>
+      </span>
+    </div>
+
+    <!-- Description / Additional Requirements -->
+    <div class="form-group">
+      <label>Additional Requirements</label>
+      <textarea class="form-control" id="bookingDescription{{ pass.altText }}" name="booking-description" type="text"
+        placeholder="Provide information on the booking" ng-model="vm.booking.description" ng-disabled="!vm.bookingIsModifiable">>
+      </textarea>
+    </div>
+  </div>
+</script>
+
+<script id="jira-template-form" type="text/ng-template">
+  <legend>JIRA Template</legend>
+  <div>
+    <!-- Template -->
+    <div class="form-group has-feedback" ng-class="{ 'has-error': {{ pass.formName }}['template-select'].$invalid, 'has-success': {{ pass.formName }}['template-select'].$valid }">
+      <label>Template</label>
+      <select class="form-control" name="template-select" id="template{{ pass.altText }}-select" ng-model="vm.selectedTemplate"
+        ng-options="allTemplate as  ('JIRA Board: ' + allTemplate.jiraBoard + ' | ' + 'Project: ' + allTemplate.project +' | Issue Type: ' + allTemplate.issueType + ' {{(true) ? allTemplate.issueType : allTemplate.project}}' ) for allTemplate in vm.allTemplates" ng-disabled="vm.booking.bookingType === 'Sharing' || !vm.bookingIsModifiable" required>
+        <option value="" disabled selected>--Select Template--</option>
+      </select>
+      <span class="glyphicon form-control-feedback"
+        ng-class="{ 'glyphicon-remove':{{ pass.formName }}['template-select'].$invalid, 'glyphicon-ok':{{ pass.formName }}['template-select'].$valid }"></span>
+      <span class="help-block" ng-messages="pass.form.jiraBoard.$error">
+        <p ng-message="required">This field is required</p>
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label>Full Template Info:</label>
+      <p class="form-control-static purpose-field">
+        <span class="multi-line-field" name="full-template-info">{{ vm.currentTemplateInfo }}</span>
+      </p>
+    </div>
+  </div>
+</script>

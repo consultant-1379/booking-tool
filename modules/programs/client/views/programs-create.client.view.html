@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} Program '{{ vm.program.name }}'</h1>
+  </div>
+  <form name="form" ng-submit="vm.submitForm()">
+    <fieldset>
+      <div class="row row-relative">
+        <!-- PROGRAM DETAILS -->
+        <div>
+          <!-- NAME -->
+          <div class="form-group has-feedback"
+            ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+            <label for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.program.name"
+              ng-minlength="2" ng-maxlength="50" ng-pattern="/^[a-zA-Z0-9\-_. ]*$/" required autofocus>
+            <span class="glyphicon form-control-feedback"
+              ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+            <span class="help-block" ng-if="vm.program.name.startsWith('A_Health_')">
+              <p><b>Warning:</b> Programs with names beginning in 'A_Health_' are reserved for Health-Check Testing:
+                They have no logs stored and are automatically removed during DTT upgrades.</p>
+            </span>
+            <span class="help-block" ng-messages="form.name.$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="minlength">This must be at least of length 2</p>
+              <p ng-message="maxlength">This must be at most of length 50</p>
+              <p ng-message="pattern">This must only contain letters, numbers, dots, spaces, dashes and underscores</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div class="btn-group pull-left" title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+  </form>
+</section>

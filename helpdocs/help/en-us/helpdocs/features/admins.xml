@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Admins">
+  <title>Admins and User-Roles</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="#overview">Overview</xref></li>
+      <li><xref type="concept" href="#purpose">Purpose of this Feature</xref></li>
+      <li><xref type="concept" href="#adminCreation">Creating an Admin</xref></li>
+      <li><xref type="concept" href="#addSpocs">Add a SPOC</xref></li>
+      <li><xref type="concept" href="#addTeamMember">Add a Team Member</xref></li>
+    </ul>
+
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page provides information on the all user-roles within the PDU OSS Deployment Tracking Tool.
+      </lines>
+    </section>
+
+    <section>
+      <title id="purpose">Purpose of this Feature</title>
+      <lines>
+        Here are the user-role types:
+      </lines>
+      <ol>
+        <li>
+          <b>User:</b> The default user-role. Only CRUD operations allowed on Booking, Deployment
+          and Product-Type artifacts.<br/>
+          <b>Sub User-roles (NOTE: Once the user is added to these areas, the permissions they provide applies to other main user-roles as well): </b>
+          <ul>
+            <li>
+              <b>SPOC:</b> Is Deployment based permission user-role. The user only needs to have the 'User' user-role to appear in the SPOC multi select on a given Deployment.
+              This allows the user to have the permissions to edit Bookings created for that Deployment and user will get emails about any Bookings for Deployments, that they are SPOC of.
+            </li>
+            <li>
+              <b>Team Member:</b> Is Booking based permission for the user. The user only needs to have the 'User' user-role to be allowed to be a Team Member of a Team.
+              This allows the user to have the permissions to edit Bookings assigned to the Team, that they are member of.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <b>Admin:</b> In addition to 'User' privileges, Admins can perform CRUD operations
+          on Hardware, Product-Flavour, Team, RA, Program artifacts, Users and Roles.<br/>
+          Also Admins has the permissions to do the following:
+          <ul>
+            <li>
+              Enable 'Cross RA Sharing' on Deployments.
+            </li>
+            <li>
+              Edit 'Admins Only' Product Configuration in Deployments.
+            </li>
+            <li>
+              Use 'Custom Team' assignment when creating a Booking.
+            </li>
+            <li>
+              Edit Special Permissions of, and assign Roles to Non-Admin and Non-Super-Admin users.
+            </li>
+            <li>
+              Create and Edit Non-Admin and Non-Super-Admin Roles.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <b>Super-Admin:</b> In addition to 'Admin' privileges, Super-Admins can perform CRUD
+          operations on Admins users. This role-type has no restrictions.
+        </li>
+      </ol>
+      <lines>
+        <b>NOTE:</b> When editing a started Booking, there are fields that cannot be edited regardless of the user-role.
+      </lines>
+    </section>
+
+    <section>
+      <title id="adminCreation">Creating an Admin</title>
+        <ol>
+          <li>
+            When logged in as a Super-Admin, the user must click on their username in the
+            navigation bar.
+          </li>
+          <li>From the revealed dropdown menu, click on 'Users'.</li>
+          <li>In the 'Users' page, find the person the user wishes to make an Admin and click 'Edit' button.</li>
+          <li>Below the 'Roles' heading click on the dropdown and select 'admin'.</li>
+          <li>Click 'Save' button. This user is now an Admin.</li>
+        </ol>
+        <lines>
+          <b>NOTE:</b> Only users who have logged into DTT at least once can be made Admins.
+        </lines>
+    </section>
+    <section>
+      <title id="assigningSpecialPermission">Assigning Special Permissions</title>
+      <lines>
+        Special Permissions for a resource are granted to a specific user on individual basis.
+      </lines>
+        <ol>
+          <li>
+            When logged in as an Admin or Super-Admin, the user must click on their username in the
+            navigation bar.
+          </li>
+          <li>From the revealed dropdown menu, click on 'Users'.</li>
+          <li>In the 'Roles' page, click 'Create new Role'.</li>
+          <li>In the 'Name' field enter the name of the Role.</li>
+          <li>Below the 'Permissions' heading click 'Add Permission'</li>
+          <li>In the 'Path' field enter the path of the resource.</li>
+          <li>Tick the boxes which specify the CRUD permission to be granted for the resource.</li>
+          <li>Click 'Save' button. This Role will now be created.</li>
+        </ol>
+        <lines>
+          <b>NOTE:</b> Only users who have logged into DTT at least once can be made assigned Special Permissions.
+          <b>NOTE:</b> Certain features/functions require 'admin' or 'superAdmin' role. Simply granting CRUD permissions on a resource of not enough. Examples include: User/Role related operations, Cross RA Sharing for Deployment, Custom Team for Booking.
+        </lines>
+    </section>
+    <section>
+      <title id="roleCreation">Creating a Role</title>
+        <ol>
+          <li>
+            When logged in as an Admin or Super-Admin, the user must click on their username in the
+            navigation bar.
+          </li>
+          <li>From the revealed dropdown menu, click on 'Roles'.</li>
+          <li>In the 'Roles' page, find the person the user wishes to assign special permissions to and click 'Edit' button.</li>
+          <li>Below the 'Permissions' heading click 'Add Permission'</li>
+          <li>In the 'Path' field enter the path of the resource.</li>
+          <li>Tick the boxes which specify the CRUD permission to be granted for the resource.</li>
+          <li>Click 'Save' button. This user will now have Special Permissions assigned.</li>
+        </ol>
+        <lines>
+          <b>NOTE:</b> Certain features/functions require 'admin' or 'superAdmin' role. Simply granting a User a Role with CRUD permissions for a resource of not enough. Examples include: User/Role related operations, Cross RA Sharing for Deployment, Custom Team for Booking.
+        </lines>
+    </section>
+    <section>
+      <title id="addSpoc">Add a SPOC</title>
+        <ol>
+          <li>
+            When logged in, the user must click on 'Deployments' in the
+            navigation bar.
+          </li>
+          <li>From there update each Deployment to add the new SPOC.</li>
+          <li>In the selected Deployment edit page, click the 'SPOC(s)' multi select.</li>
+          <li>Enter the name into search field and then select the name from list provided.</li>
+          <li>Click 'Save' Button. This user is now a SPOC of that Deployment.</li>
+        </ol>
+        <lines>
+          <b>NOTE:</b> Only users who have logged into DTT at least once can be made a SPOC.
+        </lines>
+    </section>
+    <section>
+      <title id="addTeamMember">Add a Team Member</title>
+        <ol>
+          <li>
+            When logged in as a Admin and the Admin of the Team being updated, the user must click on 'Organisation' in the
+            navigation bar.
+          </li>
+          <li>From the revealed dropdown menu, click on 'Teams'.</li>
+          <li>In the selected 'Team' Edit page, Add User by using User's signum (username).</li>
+          <li>Enter signum into the field and click the plus button.</li>
+          <li>Click 'Save' button. This user is now a Team Member of that Team.</li>
+        </ol>
+        <lines>
+          <b>NOTE:</b> Only users who have logged into DTT at least once can be made a Team Member.
+        </lines>
+    </section>
+  </conbody>
+</concept>

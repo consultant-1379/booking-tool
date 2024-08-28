@@ -1,0 +1,365 @@
+{
+  "definitions": {
+    "BookingStatistics": {
+      "type": "object",
+      "properties": {
+        "totalBookings": {
+          "type": "int",
+          "example": "10",
+          "note": "The total number of global Bookings made."
+        },
+        "totalDuration": {
+          "type": "int",
+          "example": "30",
+          "note": "The total duration (in days) that global Bookings have run for."
+        },
+        "averageDuration": {
+          "type": "int",
+          "example": "3",
+          "note": "The average duration (in days) that global Bookings have run for."
+        },
+        "dailyActivity": {
+          "type": "array",
+          "note": "List of days and their activity level globally - analyzes date-ranges for each Booking and calculates daily activity levels.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dayName": {
+                "type": "string",
+                "example": "Thursday",
+                "note": "A day of the week, from Monday to Sunday."
+              },
+              "activity": {
+                "type": "int",
+                "example": 40,
+                "note": "The total sum of times that global Bookings have occured on the day name."
+              }
+            }
+          }
+        },
+        "datesUtilization": {
+          "type": "object",
+          "properties": {
+            "firstDate": {
+              "type": "string",
+              "format": "date",
+              "example": "2019-01-01",
+              "note": "The date that the first global Booking started on."
+            },
+            "lastDate": {
+              "type": "string",
+              "format": "date",
+              "example": "2021-01-01",
+              "note": "The date that the final global Booking finished on."
+            },
+            "totalDateRange": {
+              "type": "int",
+              "example": "730",
+              "note": "The total number of dates between firstDate and lastDate"
+            },
+            "totalBookedRange": {
+              "type": "int",
+              "example": "500",
+              "note": "The total number of dates between firstDate and lastDate that a Booking occurs on."
+            }
+          }
+        },
+        "deployments": {
+          "type": "array",
+          "note": "List of Deployments that make up the Global Statistics.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "deployment": {
+                "type": "object",
+                "note": "The Deployment that the Bookings are associated with.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "myDeployment"
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "592d1fa182ee3e002055763b",
+                    "note": "The id of the Deployment."
+                  }
+                }
+              },
+              "team": {
+                "type": "object",
+                "note": "The Team that is associated with the Deployment.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Vasista"
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "592d1fa182ee3e002055763b"
+                  }
+                }
+              },
+              "area": {
+                "type": "object",
+                "note": "The RA that is associated with the Deployment.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "ECSON",
+                    "note": "The name of the Deployment."
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "592d1fa182ee3e002055763b",
+                    "note": "The id of the Deployment."
+                  }
+                }
+              },
+              "program": {
+                "type": "object",
+                "note": "The Program that is associated with the Deployment.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "SON",
+                    "note": "The name of the Deployment."
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "592d1fa182ee3e002055763b",
+                    "note": "The id of the Deployment."
+                  }
+                }
+              },
+              "products": {
+                "type": "string",
+                "example": "ENM,SON",
+                "note": "The comma-deliminated list of Product-Types that are associated with the Deployment."
+              },
+              "totalBookings": {
+                "type": "int",
+                "example": "5",
+                "note": "The total number of Bookings made on the Deployment."
+              },
+              "totalDuration": {
+                "type": "int",
+                "example": "10",
+                "note": "The total duration (in days) that the Deployment is booked for."
+              },
+              "averageDuration": {
+                "type": "int",
+                "example": "2",
+                "note": "The average amount of days the Deployment is booked for."
+              },
+              "dailyActivity": {
+                "type": "array",
+                "note": "List of days and their activity level per deployment - analyzes date-ranges for each Booking and calculates daily activity levels.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "dayName": {
+                      "type": "string",
+                      "example": "Thursday",
+                      "note": "A day of the week, from Monday to Sunday."
+                    },
+                    "activity": {
+                      "type": "int",
+                      "example": 4,
+                      "note": "The total sum of times that Deployment-Bookings have occured on the day name."
+                    }
+                  }
+                }
+              },
+              "datesUtilization": {
+                "type": "object",
+                "properties": {
+                  "firstDate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2020-01-01",
+                    "note": "The date that the first Deployment Booking started on."
+                  },
+                  "lastDate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2021-01-01",
+                    "note": "The date that the final Deployment Booking finished on."
+                  },
+                  "totalDateRange": {
+                    "type": "int",
+                    "example": "365",
+                    "note": "The total number of days between firstDate and lastDate"
+                  },
+                  "totalBookedRange": {
+                    "type": "int",
+                    "example": "200",
+                    "note": "The total number of days between firstDate and lastDate that a Booking occurs on."
+                  }
+                }
+              },
+              "teams": {
+                "type": "array",
+                "note": "List of Teams and their statistics for Bookings on this Deployment.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "team": {
+                      "type": "object",
+                      "note": "The Team that is associated with the Booking.",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Vasista"
+                        },
+                        "_id": {
+                          "type": "string",
+                          "example": "592d1fa182ee3e002055763b"
+                        }
+                      }
+                    },
+                    "totalBookings": {
+                      "type": "int",
+                      "example": "2",
+                      "note": "The total number of Bookings made by the Team for the specified Deployment."
+                    },
+                    "totalDuration": {
+                      "type": "int",
+                      "example": "2",
+                      "note": "The total duration (in days) that the the Team has the Deployment booked for."
+                    },
+                    "averageDuration": {
+                      "type": "int",
+                      "example": "1",
+                      "note": "The average amount of days the Team has the Deployment booked for."
+                    },
+                    "dailyActivity": {
+                      "type": "array",
+                      "note": "List of days and their activity level per team - analyzes date-ranges for each Booking and calculates daily activity levels.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "dayName": {
+                            "type": "string",
+                            "example": "Thursday",
+                            "note": "A day of the week, from Monday to Sunday."
+                          },
+                          "activity": {
+                            "type": "int",
+                            "example": 2,
+                            "note": "The total sum of times that Team-Bookings have occured on the day name."
+                          }
+                        }
+                      }
+                    },
+                    "datesUtilization": {
+                      "type": "object",
+                      "properties": {
+                        "firstDate": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2021-01-01",
+                          "note": "The date that the first Deployment Booking started on."
+                        },
+                        "lastDate": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2021-01-31",
+                          "note": "The date that the final Deployment Booking finished on."
+                        },
+                        "totalDateRange": {
+                          "type": "int",
+                          "example": "30",
+                          "note": "The total number of days between firstDate and lastDate"
+                        },
+                        "totalBookedRange": {
+                          "type": "int",
+                          "example": "20",
+                          "note": "The total number of days between firstDate and lastDate that a Booking occurs on."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "BookingStatisticsExport": {
+      "type": "object",
+      "properties": {
+        "Program": {
+          "type": "string",
+          "example": "ENM",
+          "note": "Program name."
+        },
+        "RA": {
+          "type": "string",
+          "example": "CN",
+          "note": "Area name."
+        },
+        "Deployment": {
+          "type": "string",
+          "example": "327",
+          "note": "Deployment name."
+        },
+        "Team": {
+          "type": "string",
+          "example": "CI Infra Team",
+          "note": "Team name."
+        },
+        "TotalBookings": {
+          "type": "int",
+          "example": "12",
+          "note": "Number of Bookings made."
+        },
+        "TotalDuration": {
+          "type": "int",
+          "example": "14",
+          "note": "Total number of days used by Bookings."
+        },
+        "TotalAverageDuration": {
+          "type": "int",
+          "example": "2",
+          "note": "Total average Booking duration in days."
+        },
+        "UtilisationStartDate": {
+          "type": "date",
+          "example": "01/01/2022",
+          "note": "First day of the first Booking."
+        },
+        "UtilisationEndDate": {
+          "type": "date",
+          "example": "01/01/2022",
+          "note": "Last day of the last Booking."
+        },
+        "UtilisationTotalBookedRange": {
+          "type": "int",
+          "example": "47",
+          "note": "Number of days used by Bookings from 'Utilisation Start Date' to 'Utilisation End Date'."
+        },
+        "UtilisationTotalDateRange": {
+          "type": "int",
+          "example": "47",
+          "note": "Number of days from 'Utilisation Start Date' to 'Utilisation End Date'."
+        },
+        "UtilisationPercentage": {
+          "type": "int",
+          "example": "47",
+          "note": "Percentage of days booked from total range."
+        },
+        "BookingStartDate": {
+          "type": "date",
+          "example": "01/01/2022",
+          "note": "Date when Booking commenced."
+        },
+        "BookingEndDate": {
+          "type": "date",
+          "example": "01/01/2022",
+          "note": "Date when Booking ended."
+        }
+      }
+    }
+  }
+}

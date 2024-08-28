@@ -1,0 +1,7 @@
+{
+  "name": "validArea",
+  "program_id": "000000000000000000000000",
+  "maxBookingDurationDays": 1,
+  "maxBookingAdvanceWeeks": 1,
+  "updateReason": "example reason"
+}

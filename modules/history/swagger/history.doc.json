@@ -1,0 +1,103 @@
+{
+  "paths": {
+    "/logs/{ObjectType}": {
+      "get": {
+        "tags": [
+          "Historical Logs"
+        ],
+        "summary": "Returns a list of all Historical Logs for a specified object-type.",
+        "description": "Returns a list of all Historical Logs for a specified object-type. Returns all values for all logs of the specified object-type when no filter parameters are provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchAndFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [{
+          "name": "ObjectType",
+          "in": "path",
+          "required": true,
+          "description": "The object-type to retrieve logs for. Object-type is written in lowercase, plural format. E.g. deployments, products.",
+          "type": "string",
+          "example": "deployments"
+        },
+        {
+          "name":"q",
+          "in":"query",
+          "description":"Specifies what objects should be retrieved based on provided key-values. \nMultiple key-values can be specified with the ampersand-delimited format. \nEg. To list all objects created by 'UNKNOWN USER': 'q=createdBy=UNKNOWN USER'. \nEg. To list all objects created by 'UNKNOWN USER' and created on 1st January, 1970: 'q=createdBy=UNKNOWN USER&createdAt=1970-01-01'",
+          "required":false,
+          "allowReserved": true,
+          "type":"string",
+          "example": "createdBy=UNKNOWN USER&createdAt=1970-01-01"
+        },
+        {
+          "name":"fields",
+          "in":"query",
+          "description":"Specifies what key-values associated with the retrieved objects that you want to receive. \nMultiple key-values can be retrieved through filtering keys with the comma-delimited format. \nEg. For the created by value alone: 'fields=createdBy'. \nEg. For the created by and created at values: 'fields=createdBy,createdAt'",
+          "required":false,
+          "allowReserved": true,
+          "type":"string",
+          "example": "createdBy,createdAt"
+        }],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HistoricalLog"
+              }
+            }
+          },
+          "422": {
+            "description": "Possible Messages:\n* Logs are not available for object-type: {ObjectType}. Try one of: deployments, products.\n* Error while attempting to retrieve {ObjectType} Logs.\n* Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/logs/{ObjectType}/{Id}": {
+      "get": {
+        "tags": [
+          "Historical Logs"
+        ],
+        "summary": "Returns the Log Document for a specified object-types ID.",
+        "description": "Returns a Historical Log for the object-type with the specified ID value (if it exists).",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [{
+          "name": "ObjectType",
+          "in": "path",
+          "required": true,
+          "description": "The object-type to retrieve logs for. Object-type is written in lowercase, plural format. E.g. deployments, products.",
+          "type": "string",
+          "example": "deployments"
+        },
+        {
+          "name": "Id",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the object-type to retrieve the log for.",
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "{ObjectType} log successfully retrieved.",
+            "schema": {
+              "$ref": "#/definitions/HistoricalLog"
+            }
+          },
+          "404": {
+            "description": "A Log for a {ObjectType} with that ID does not exist."
+          },
+          "422": {
+            "description": "Error while attempting to retrieve Log for specified {ObjectType} ID."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    }
+  }
+}

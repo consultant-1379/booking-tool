@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log" ui-sref="logs.view({ objType: 'productFlavours', objId: vm.productFlavour._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing Product-Flavour '{{ vm.productFlavour.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <!-- AREA DETAILS -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.productFlavour.name }}</p>
+          </div>
+        </div>
+
+        <!-- ASSOCIATION DETAILS -->
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Dependent Product-Types</label>
+              <p ng-if="!vm.dependentProductTypes.length">None</p>
+              <p ng-repeat="dependentProductType in vm.dependentProductTypes">
+                <a ui-sref="productTypes.view({productTypeId: dependentProductType._id})">{{ dependentProductType.name }}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

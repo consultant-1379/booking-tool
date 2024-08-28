@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="teams">
+  <title>Teams</title>
+  <taskbody>
+    <context>
+      <p>
+        A Team consists of Team-Admins and users. Teams in PDU OSS Deployment Tracking Tool (DTT) are
+        used to associate Deployment with specific users.
+      </p>
+      <p>
+        <b>NOTE:</b> No User is permitted to create a Team within DTT. Users with permission are permitted to fill in only the available fields.
+        The Team data is sourced from Team Inventory Tool. If anything is incorrect from the following: Name, State, Requirement Area or Team Email, you must go to the Team Inventory Tool to fix it.
+        Then DTT will be updated during next Team Inventory Tool check which happens once a day automatically.
+      </p>
+      <p><b>Objective</b></p>
+      <p>Update an existing Team within the PDU OSS Deployment Tracking Tool.</p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openTeam">Open the Teams List-View</xref></li>
+          <li><xref href="#updateTeam">Update an existing Team</xref></li>
+          <li><xref href="#enterDetails">Enter the Team Details</xref></li>
+          <li><xref href="#saveTeam">Save the Team</xref></li>
+        </ol>
+      </p>
+    </context>
+    <prereq>
+      <p>To update an existing Team the user must have the following:</p>
+      <ul>
+        <li>A pre-existing Requirement Area.</li>
+        <li>Be granted edit permissions via Role or Special Permission, User must have logged into DTT at least once before.</li>
+      </ul>
+    </prereq>
+    <steps>
+      <step id="openTeam">
+        <cmd>Open the Teams List-View</cmd>
+        <info>
+          <p>Click the Teams link in the navigation bar.</p>
+        </info>
+      </step>
+      <step id="updateTeam">
+        <cmd>Update an existing Team</cmd>
+        <info>
+          <p>Click the <b>Edit</b> button beside any Team in the list.</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter Team Details</cmd>
+        <info>
+          <p>Enter the details as shown below:</p>
+          <p><b>NOTE:</b> Any restrictions on the fields are outlined.</p>
+          <ul>
+            <li>
+              <b>Name:</b> Name of the Team.<br/>
+              <b>NOTE:</b> Value is sourced from Team Inventory Tool and cannot be changed.
+            </li>
+            <li>
+              <b>State:</b> Select the state for the Team, active or inactive.<br/>
+              <b>NOTE:</b> Value is sourced from Team Inventory Tool and cannot be changed.
+            </li>
+            <li>
+              <b>Team Email:</b> Enter a valid email address for the Team.<br/>
+              <b>NOTE:</b> Value is sourced from Team Inventory Tool and cannot be changed.
+            </li>
+            <li>
+              <b>Requirement Area:</b> Select an Requirement Area (RA). For associating an RA with the Team.<br/>
+              <b>NOTE:</b> Value is sourced from Team Inventory Tool and cannot be changed.
+            </li>
+            <li>
+              <b>Primary Team-Admin:</b> Select a primary Team-Admin.<br/>
+              <b>NOTE:</b> User must have Admin permissions in DTT.
+            </li>
+            <li>
+              <b>Secondary Team-Admin:</b> Optional - Select a secondary Team-Admin.<br/>
+              <b>NOTE:</b> User must have Admin permissions in DTT. To remove Secondary Team-Admin, you can click '<b>x</b>' on the select field.
+            </li>
+            <li>
+              <b>Users (Members):</b> Optional - Add users that are in the Team.<br/>
+              <b>NOTE:</b> Only Users that have logged into DTT at least once, can be added as Users (Members) of the Team.<br/>
+              Add User by using User's signum (username):
+              <ol>
+                <li> Enter signum into the field.</li>
+                <li> Click the plus button.</li>
+              </ol>
+            </li>
+          </ul>
+        </info>
+      </step>
+      <step id="saveTeam">
+        <cmd>Save the Team</cmd>
+        <info>
+          <p>
+            Click the <b>Save</b> button, the Team will be updated, and the user will be
+            redirected back to the view page for the modified Team.
+          </p>
+          <p>
+            <b>NOTE:</b> Team will not save if any fields are invalid (invalid fields
+            are highlighted in red).
+          </p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A Team is updated in the PDU OSS Deployment Tracking Tool.</p>
+    </result>
+  </taskbody>
+</task>

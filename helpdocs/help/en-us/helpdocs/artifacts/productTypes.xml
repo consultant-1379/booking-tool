@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="productTypes">
+  <title>Product-Types</title>
+  <taskbody>
+    <context>
+      <p>
+        A Product is an independently deployable artifact, characterised by a specific Product-Type
+        and Product-Flavour. A Deployment consists of one or more of these Products. A Product-Type
+        is a named artifact consisting of a range of different Product-Flavour variations.
+      </p>
+      <p>
+        When adding a new Product to a Deployment, the Product-Flavour name chosen must be
+        one of the names specified within the chosen Product-Type.
+      </p>
+      <p><b>Objective</b></p>
+      <p>Create a new Product-Type within the PDU OSS Deployment Tracking Tool.</p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openProductType">Open the Product-Types List-View</xref></li>
+          <li><xref href="#createProductType">Create New Product-Type</xref></li>
+          <li><xref href="#enterDetails">Enter the Product-Type Details</xref></li>
+          <li><xref href="#saveProductType">Save Product-Type</xref></li>
+        </ol>
+      </p>
+    </context>
+    <prereq>
+      <p>To create a new Product-Type the user must have the following:</p>
+      <ul>
+        <li>A pre-existing Product-Flavour.</li>
+      </ul>
+    </prereq>
+    <steps>
+      <step id="openProductType">
+        <cmd>Open the Product-Types List-View</cmd>
+        <info>
+          <p>Click the Product-Types link in the navigation bar.</p>
+        </info>
+      </step>
+      <step id="createProductType">
+        <cmd>Create New Product-Type</cmd>
+        <info>
+          <p>Click the <b>Create new Product-Type</b> button.</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the Product-Type Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Any restrictions on the fields are outlined.</p>
+          <ul>
+            <li>
+              <b>Strict Configuration:</b>
+              With Strict Configuration 'On', user will not be able to add additional product configuration fields when creating/editing a Deployments Product of this type.
+            </li>
+            <li><b>Name:</b> Name of the Product-Type.</li>
+            <li>
+              <b>Product-Flavours:</b>
+              A list of Product-Flavour names, relevant to the Product-Type.
+            </li>
+            <li>
+              <b>Configuration Fields:</b>
+                Add any mandatory fields which need to be populated when creating/editing a Deployments Product of this type.
+            </li>
+          </ul>
+        </info>
+      </step>
+      <step id="saveProductType">
+        <cmd>Save Product-Type</cmd>
+        <info>
+          <p>
+            Click the <b>Save</b> button, the Product-Type will be created, and the user will be
+            redirected back to the view page for the newly created Product-Type.
+          </p>
+          <p>
+            <b>NOTE:</b> Product-Type will not save if any fields are invalid (invalid fields
+            are highlighted in red).
+          </p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A New Product-Type is created in the PDU OSS Deployment Tracking Tool.</p>
+    </result>
+  </taskbody>
+</task>

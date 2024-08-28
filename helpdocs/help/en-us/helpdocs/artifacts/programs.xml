@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="programs">
+  <title>Programs</title>
+  <taskbody>
+    <context>
+      <p>
+        A Program represents a collection of PDG Areas. Each Deployment artifact must have an
+        associated Program.
+      </p>
+      <p>
+        <b>NOTE:</b> This is only available to users with permission.
+      </p>
+      <p><b>Objective</b></p>
+      <p>Create a new Program within the PDU OSS Deployment Tracking Tool.</p>
+      <p><b>NOTE:</b> <xref href="../features/jiraTemplates.xml">JIRA Templates</xref>
+      can be added to a Program after creation.
+      </p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openProgram">Open the Programs List-View</xref></li>
+          <li><xref href="#createProgram">Create New Program</xref></li>
+          <li><xref href="#enterDetails">Enter the Program Details</xref></li>
+          <li><xref href="#saveProgram">Save Program</xref></li>
+        </ol>
+      </p>
+    </context>
+    <steps>
+      <step id="openProgram">
+        <cmd>Open the Programs List-View</cmd>
+        <info>
+          <p>Click the Programs link in the navigation bar.</p>
+        </info>
+      </step>
+      <step id="createProgram">
+        <cmd>Create New Program</cmd>
+        <info>
+          <p>Click the <b>Create new Program</b> button.</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the Program Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Any restrictions on the fields are outlined.</p>
+          <ul>
+            <li><b>Name:</b> Name of the Program.
+            <b>NOTE:</b> If Program exists in Team Inventory Tool, dependent RAs and Teams will be automatically added.<br/></li>
+          </ul>
+        </info>
+      </step>
+      <step id="saveProgram">
+        <cmd>Save Program</cmd>
+        <info>
+          <p>
+            Click the <b>Save</b> button, the Program will be created, and the user will be
+            redirected back to the view page for the newly created Program.
+          </p>
+          <p>
+            <b>NOTE:</b> Program will not save if any fields are invalid (invalid fields
+            are highlighted in red).
+          </p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A New Program is created in the PDU OSS Deployment Tracking Tool.</p>
+    </result>
+  </taskbody>
+</task>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="globalSearch">
+  <title>Global Search</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="#overview">Overview</xref></li>
+      <li><xref type="concept" href="#purpose">Purpose of this Feature</xref></li>
+      <li><xref type="concept" href="#usage">Usage</xref></li>
+    </ul>
+
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page provides information on the Global Search functionality of the PDU OSS Deployment Tracking Tool.
+      </lines>
+    </section>
+
+    <section>
+      <title id="purpose">Purpose of this Feature</title>
+      <lines>
+        The purpose of this feature is to allow a user to search for and find Artifacts by any key-value within the tool.
+      </lines>
+    </section>
+
+    <section>
+      <title id="usage">Usage</title>
+      <p><b>Accessing the Global-Search Functionality:</b></p>
+      <lines>
+        When logged-in, the user must go to the home-page to access the global-search functionality.
+        The home-page can be accessed by clicking the 'Ericsson DTT' icon in the nav-bar.
+        There are 2 types of searches that can then be performed: Simple and Complex.
+        The usage for both search-types are detailed below.
+      </lines>
+
+      <p><b>Simple Search:</b></p>
+      <ol>
+        <li>
+          Enter a search-value in the search-bars input-field.
+        </li>
+        <li>
+          Click the search-button to find Artifacts of any type which contain any key-value(s) that
+          partially-match the provided search-value.
+        </li>
+        <li>
+          Search-results are displayed in a table below the search-field.
+        </li>
+      </ol>
+
+      <p><b>Complex Search:</b></p>
+      <ol>
+        <li>
+          Enter a search-value in the search-bars input-field.
+        </li>
+        <li>
+          <b>Artifact-Type Parameter:</b> Optional - Select an Artifact-Type from the
+          dropdown to only return results that match the provided Artifact-Type,
+        </li>
+        <li>
+          <b>Match-Value Parameter:</b> Optional - Select a match-value parameter from the dropdown
+          to only return results where the provided search-value either partially/full matches,
+          is either the start/end of an Artifacts key-value. Alternatively, select the 'by
+          labels' option to only return Deployments which contain all label names specified.
+        </li>
+        <li>
+          <b>Case-Sensitive Parameter:</b> Optional - Toggle the case-sensitive checkbox to only
+          return results where the search-value case-matches an Artifacts key-value.
+        </li>
+        <li>
+          Click the search-button to find Artifacts which match the provided search-value and
+          filtering-parameters.
+        </li>
+        <li>
+          Search-results are displayed in a table below the search-field.
+        </li>
+      </ol>
+
+      <p><b>Viewing the Results:</b></p>
+      <lines>
+        A table outputs all search-results from the search-operation performed.
+        The table can be sorted by any column in ascending/descending order by clicking on the individual headers.
+        The table contains link to view/edit each of the Artifacts found.
+      </lines>
+    </section>
+  </conbody>
+</concept>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="areas">
+  <title>Bookings</title>
+  <taskbody>
+    <context>
+      <p>
+        A Booking represents an allocation of time for a specified team to work on a Deployment.
+      </p>
+      <p>
+        <xref href="../features/bookingFeatures.xml">Follow this link</xref>
+        to the 'Booking Features' page for information on available features related to Bookings.
+      </p>
+      <p>
+        <xref href="../features/customFilters.xml#bookingFilters">Follow this link</xref>
+        to the 'Custom Filters' page for information on custom Booking filters.
+      </p>
+      <p>
+        <xref href="../features/statistics.xml#bookingStatistics">Follow this link</xref>
+        to the 'Statistics' page for information on Booking statistics.
+      </p>
+    </context>
+  </taskbody>
+</task>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="areas">
+  <title>Requirement Areas (RAs)</title>
+  <taskbody>
+    <context>
+      <p>
+        A Requirement Area (RA) represents a whole unit or a subsection of a Product Development
+        Group (PDG). Each Deployment artifact must have an associated RA.
+      </p>
+      <p><b>Objective</b></p>
+      <p>Update an RA within the PDU OSS Deployment Tracking Tool.</p>
+      <p>
+        <b>NOTE:</b> No User is permitted to create an RA within DTT. Users with permissions are permitted to fill in only the available fields.
+        The RA data is sourced from Team Inventory Tool. If anything is incorrect from the following: Name or Program, you must go to the Team Inventory Tool to fix it.
+        Then DTT will be updated during next Team Inventory Tool check which happens once a day automatically.
+      </p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openArea">Open the Requirement Areas List-View</xref></li>
+          <li><xref href="#updateArea">Update existing Requirement Area</xref></li>
+          <li><xref href="#enterDetails">Enter the Requirement Area Details</xref></li>
+          <li><xref href="#saveArea">Save Requirement Area</xref></li>
+        </ol>
+      </p>
+    </context>
+    <prereq>
+      <p>To create a new Requirement Area the user must have the following:</p>
+      <ul>
+        <li>A pre-existing Program.</li>
+      </ul>
+    </prereq>
+    <steps>
+      <step id="openArea">
+        <cmd>Open the RAs List-View</cmd>
+        <info>
+          <p>Click the 'RAs' link in the navigation bar.</p>
+        </info>
+      </step>
+      <step id="updateArea">
+        <cmd>Update existing Requirement Area</cmd>
+        <info>
+          <p>Click the <b>Edit</b> button beside any RA in the list.</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the Requirement Area Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Any restrictions on the fields are outlined.</p>
+          <ul>
+            <li>
+              <b>Name:</b>
+              Name of the Requirement Area.
+              Value is sourced from Team Inventory Tool and cannot be changed.
+            </li>
+            <li>
+              <b>Program:</b>
+              Must be an existing Program.
+              Value is sourced from Team Inventory Tool and cannot be changed.
+            </li>
+            <li>
+              <b>Booking Assignee User:</b>
+              This field relates to the creation of JIRA Issue for Bookings.
+              Select the User to be set as assignee to all JIRA Issues created for Bookings associated with this Requirement Area.
+            </li>
+            <li>
+              <b>Maximum Booking Duration (Days):</b>
+              Optional - The maximum number of days a Deployment can be booked for. Leave field empty for no limit.
+            </li>
+            <li>
+              <b>Maximum Booking Advance (Weeks):</b>
+              Optional - The furthest point in time a Deployment booking can finish, specified in weeks. Leave field empty for no limit.
+            </li>
+            <ul>
+              <li>
+                <b>User:</b>
+                Select a User from a list.
+                <b>NOTE</b> User must be signed in at least once to DTT for it to be visible in the list.
+              </li>
+              <li>
+                <b>Permission Type:</b>
+                Type of permission the User will have.
+              </li>
+            </ul>
+          </ul>
+        </info>
+      </step>
+      <step id="saveArea">
+        <cmd>Save Requirement Area</cmd>
+        <info>
+          <p>
+            Click the <b>Save</b> button, the RA will be updated, and the user will be
+            redirected back to the view page for the modified RA.
+          </p>
+          <p>
+            <b>NOTE:</b> RA will not save if any fields are invalid (invalid fields
+            are highlighted in red).
+          </p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>An RA is updated in the PDU OSS Deployment Tracking Tool.</p>
+    </result>
+  </taskbody>
+</task>

@@ -1,0 +1,213 @@
+{
+  "paths": {
+    "/productTypes": {
+      "get": {
+        "tags": [
+          "Product-Types"
+        ],
+        "summary": "Returns a list of Product-Types that match the provided query parameters.",
+        "description": "Returns a list of all Product-Types and their key-values when no filter parameters are provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchAndFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name":"q",
+            "in":"query",
+            "description":"Specifies what Product-Types should be retrieved based on provided key-values. \nMultiple key-values can be specified with the ampersand-delimited format. \nEg. To list all Product-Types with the name 'myType': 'q=name=myType'. \nEg. To list all Product-Types with the name 'myType' and the flavour 'HA': 'q=name=myType&flavour=HA'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name=myType"
+          },
+          {
+            "name":"fields",
+            "in":"query",
+            "description":"Specifies what key-values associated with the retrieved Product-Types that you want to receive. \nMultiple key-values can be retrieved through filtering keys with the comma-delimited format. \nEg. For the name value alone: 'fields=name'. \nEg. For the name and flavours values: 'fields=name,flavours'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductType"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post":{
+        "tags": [
+          "Product-Types"
+        ],
+        "summary": "Creates a new Product-Type.",
+        "description": "Creates and returns a new Product-Type.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product-Type object that represents your Product-Type",
+            "required": true,
+            "schema":{
+              "$ref": "#/definitions/ProductType"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Product-Type successfully."
+          },
+          "400": {
+            "description": "Possible messages:\n* Path 'name' is required\n* Error, provided name is not unique.\n* name is not valid; {PATH} can only contain letters, numbers, dots, dashes and underscores.\n* Path 'name' {PATH} is shorter than the minimum allowed length (2).\n* Path 'name' {PATH} is longer than the maximum allowed length (50).\n* Field `rogueKey` is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again"
+          },
+          "422": {
+            "description": "Possible messages:\n* Error, There are duplicate flavours assigned to this Product-Type.\n* Error, Flavour {PATH} does not exist!"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/types/{productTypeId}":{
+      "get":{
+        "tags": [
+          "Product-Types"
+        ],
+        "summary": "Returns a Product-Type.",
+        "description": "Returns a Product-Type. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchAndFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"productTypeId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Product-Type to retrieve",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Product-Type",
+            "schema": {
+              "$ref": "#/definitions/ProductType"
+            }
+          },
+          "404":{
+            "description":"A Product-Type with that id does not exist"
+          },
+          "422": {
+            "description": "Error while attempting to retrieve Product-Type with specified id."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Product-Types"
+        ],
+        "summary": "Updates a Product-Type.",
+        "description": "Updates a Product-Type.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"productTypeId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Product-Type to update",
+              "type":"string"
+           },
+           {
+             "in": "body",
+             "name": "body",
+             "description": "Product-Type object that represents your OpenStack Product-Type<br>Partial update possible, not all fields in body required",
+             "required": true,
+             "schema":{
+               "$ref": "#/definitions/ProductType"
+              }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated Product-Type",
+            "schema": {
+              "$ref": "#/definitions/ProductType"
+            }
+          },
+          "400": {
+             "description": "Possible messages:\n* Path 'name' is required\n* Error, provided name is not unique.\n* name is not valid; {PATH} can only contain letters, numbers, dots, dashes and underscores.\n* Path 'name' {PATH} is shorter than the minimum allowed length (2).\n* Path 'name' {PATH} is longer than the maximum allowed length (50).\n* Field `rogueKey` is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again"
+          },
+          "404":{
+            "description":"A Product-Type with that id does not exist"
+          },
+          "422": {
+             "description": "Possible messages:\n* Error, There are duplicate flavours assigned to this Product-Type.\n* Error, Flavour {PATH} does not exist!"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete":{
+        "tags": [
+          "Product-Types"
+        ],
+        "summary": "Deletes a Product-Type.",
+        "description": "Deletes a Product-Type.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"productTypeId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Product-Type to delete",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted Product-Type"
+          },
+          "404":{
+            "description": "A Product-Type with that id does not exist"
+          },
+          "422":{
+            "description": "Can't delete Product-Type, it has N dependent Deployment(s)."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "paths": {
+    "/search": {
+      "get": {
+        "tags": [
+          "Artifact-Search"
+        ],
+        "summary": "Returns a list of search-results that match the provided query parameters.",
+        "description": "Returns a list of search-results and their key-values based on filter parameters provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchAndFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name":"searchParam",
+            "in":"query",
+            "description":"Specifies the search value to be searched for in any depth of an Artifacts key-values. \n Eg. To list all search-results with a value containing 'ORCH': 'searchParam=ORCH'.",
+            "required":true,
+            "allowReserved": true,
+            "type":"string",
+            "example": "ORCH"
+          },
+          {
+            "name":"artifactParam",
+            "in":"query",
+            "description":"Specifies a specific Artifact-Type that the user wants to limit their search-results to. \nEg. To only list Deployment artifacts: 'artifactParam=deployment'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "enum": ["deployment", "productType", "productFlavour", "program", "area", "team"]
+          },
+          {
+            "name":"valueMatchParam",
+            "in":"query",
+            "description":"Specifies a value-match configuration option on the searchParam value, allowing the user to filter results based on only results that have a partial-value, full-value starts-with-value, ends-with-value match or by multiple-labels. \nNB: This field is set to partial-value match by default.\nEg. To only list artifacts that begin with searchParam 'ORCH': 'valueMatchParam=startsWith'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "enum": ["partialValue", "fullValue", "startsWith", "endsWith", "multipleLabels"]
+          },
+          {
+            "name":"caseSensitiveParam",
+            "in":"query",
+            "description":"Specifies a case-sensitive configuration option on the searchParam value, allowing the user to filter results based on only results that match the searchParam with case-sensitivity on or off. \nNB: This field is set to false (non-case-sensitive) by default.\nEg. To only list artifacts that match searchParam 'ORCH' with case-sensitivity turned on (i.e. no results with 'orch'/'OrCh'/etc.): 'caseSensitiveParam=true'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ArtifactSearch"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Possible messages:\n* Improperly structured query: <valueMatchParam> is not a valid valueMatchParam. Use one of: <acceptedValueMatchParams>.\n* ArtifactParam value '<artifactParam>' is an invalid Artifact-Type. Accepted values: <acceptedArtifactParams>.\n* Missing mandatory parameter: searchParam.\n* Invalid parameter. Accepted parameters: <acceptedParams>.\n* Missing value(s) for parameter(s): Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

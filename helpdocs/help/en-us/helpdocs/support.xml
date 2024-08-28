@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="support">
+  <title>Support</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="#overview">Overview</xref></li>
+      <li><xref type="concept" href="#purpose">Purpose</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page provides the link to eTeams template for creating CI Infra Team support ticket/request.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose</title>
+      <lines>
+        Please click on the below link to find the template of CI Infra Team eTeams ticket.
+        Clone the ticket and fill in the required information.
+        <li><xref type="concept" href="https://eteamproject.internal.ericsson.com/browse/ETTS-12185" scope="external">CI Infra Team Support - eTeams Template</xref></li>
+      </lines>
+    </section>
+  </conbody>
+</concept>

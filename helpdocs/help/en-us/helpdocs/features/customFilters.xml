@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="customFilters">
+  <title>Custom Filters</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="#overview">Overview</xref></li>
+      <li><xref type="concept" href="#purpose">Purpose of this Feature</xref></li>
+      <li><xref type="concept" href="#supportedFilters">Supported Artifacts for Filters</xref></li>
+      <li><xref type="concept" href="#usingFilters">Using Filters</xref></li>
+      <li><xref type="concept" href="#savingFilters">Saving Custom Filters</xref></li>
+      <li><xref type="concept" href="#deletingFilters">Deleting Custom Filters</xref></li>
+      <li><xref type="concept" href="#globalFilters">Global Filters</xref></li>
+      <li><xref type="concept" href="#deploymentFilters">Deployment Filters</xref></li>
+      <li><xref type="concept" href="#productFilters">Product Filters</xref></li>
+      <li><xref type="concept" href="#bookingFilters">Booking Filters</xref></li>
+      <li><xref type="concept" href="#bookingStatisticsFilters">Booking Statistics Filters</xref></li>
+    </ul>
+
+    <section id="overview">
+      <title>Overview</title>
+      <lines>
+        This page provides information on custom filter functionality.
+      </lines>
+    </section>
+
+    <section id="purpose">
+      <title>Purpose of Custom Filters</title>
+      <lines>
+        Filters provide the ability to reduce the contents of tables and calendars down to a specified subset of data.
+        As there are many Artifact fields the user may want to reduce lists by, the tool provides filters for core fields.
+        Any combination of filters can be used together to reduce tables / calendars into even more specialised subsets of data.
+        For quick access to regularly used custom filter configurations, the user can use the custom filter save feature.
+      </lines>
+    </section>
+
+    <section id="supportedFilters">
+      <title>Supported Artifacts for Filters</title>
+      <lines>
+        The list below specifies each DTT Artifact that currently supports filtering functionalities:
+      </lines>
+      <ul>
+        <li>Deployments</li>
+        <li>Products</li>
+        <li>Bookings</li>
+      </ul>
+    </section>
+
+    <section id="usingFilters">
+      <title>Using Filters</title>
+      <lines>
+        To access and use filters, the user must:
+      </lines>
+      <ol>
+        <li>
+          Access the Artifacts list-view / calendar page and click the 'Show Filters' button.
+        </li>
+        <li>
+          From the range of filter dropdown options, select one and choose a value from it to filter by.
+        </li>
+        <li>
+          Results in the table / calendar will now be filtered by the chosen value for that field.
+        </li>
+        <li>
+          Selecting another filter will reduce the table / calendar further.
+        </li>
+        <li>
+          Entering a search-value in the text box (where available) will again filter the table / calendar further.
+        </li>
+      </ol>
+      <lines>
+        Additionally, some filters reduce the options available from other filter drop-downs.
+        These filter-reductions act the same way for each Artifact filter and are detailed below for the relevant Statistics:
+      </lines>
+      <ul>
+        <li>
+          <b>Program:</b> RA filter options reduced to ones associated with the specified Program.
+        </li>
+        <li>
+          <b>RA:</b> Team and Deployment filter options reduced to ones associated with the specified RA. When RA value is selected, it's retained as the user's preference for the current session.
+        </li>
+      </ul>
+    </section>
+
+    <section id="savingFilters">
+      <title>Saving Custom Filters</title>
+      <lines>
+        After selecting any number of filters, the user has two options for saving a custom filter:
+      </lines>
+      <ol>
+        <li>
+            <b>As a Bookmark:</b> This saves the custom filter as a URL bookmark for your browser.<br/>
+            Bookmarks are convenient for sharing with other users as they can then access the same custom filter set-up as the User who created it.
+        </li>
+        <li>
+            <b>To the Users Profile:</b> This saves the custom filter with a unique name to the Users profile.<br/>
+            Saving a filter to the profile means that the same filter can be quickly selected again from the "custom filters" dropdown on the list-view page.
+        </li>
+      </ol>
+    </section>
+
+    <section id="deletingFilters">
+      <title>Deleting Custom Filters</title>
+      <lines>
+        To delete a filter from the Users profile, the user must:
+      </lines>
+      <ol>
+        <li>
+          Select the desired filter from the "custom filters" dropdown on the list-view page.
+        </li>
+        <li>
+          Select the "trash-can" icon that appears beside the "custom filters" dropdown.
+        </li>
+        <li>
+          Accept the "delete custom filter?" alert panel that appears.
+        </li>
+      </ol>
+    </section>
+
+    <section id="globalFilters">
+      <title>Global Filters</title>
+      <lines>
+        Listed below is information on filters that appear in every page and have the same effect.
+      </lines>
+      <ul>
+        <li>
+          <b>Name Text-Box:</b> Only include Artifacts that have a name including the specified value.
+        </li>
+        <li>
+          <b>Program:</b> Only include Artifacts that are associated with the specified Program.
+        </li>
+        <li>
+          <b>RA:</b> Only include Artifacts that are associated with the specified RA.
+          Selected RA value is retained as the user's preference for the current session in the Deployments, Bookings Calendar, Products and Statistics pages.
+          It can be changed by changing the RA value from one of the mentioned pages, or cleared by clearing the RA selection using 'x' button shown near the RA.
+        </li>
+        <li>
+          <b>Team:</b> Only include Artifacts that are associated with the specified Team.
+        </li>
+        <li>
+          <b>Product-Type:</b> Only include Artifacts that are associated with the specified Product-Type.
+        </li>
+        <li>
+          <b>Created By:</b> Only include Artifacts that were created by the specified person.
+        </li>
+      </ul>
+    </section>
+
+    <section id="deploymentFilters">
+      <title>Deployment Filters</title>
+      <lines>
+        Listed below is information on each Deployment filter and how they can be used:
+      </lines>
+      <ul>
+        <li>
+          <b>Status:</b> Only include Deployments that have the specified Status.
+        </li>
+        <li>
+          <b>Label:</b> Only include Deployments that have the specified Label.
+        </li>
+      </ul>
+    </section>
+
+    <section id="productFilters">
+      <title>Product Filters</title>
+      <lines>
+        Listed below is information on each Product filter and how they can be used:
+      </lines>
+      <ul>
+        <li>
+          <b>Product-Flavour:</b> Only include Products where the Parent Deployment has the specified Product-Flavour.
+        </li>
+        <li>
+          <b>Infra-Type:</b> Only include Products where the Parent Deployment has the specified Infra-Type.
+        </li>
+      </ul>
+    </section>
+
+    <section id="bookingFilters">
+      <title>Booking Filters</title>
+      <lines>
+        Booking Filters are shown by default in the bookings page. Listed below is information on each Booking filter and how they can be used:
+      </lines>
+      <ul>
+        <li>
+          <b>Program:</b> Only include Bookings that are associated with the specified Program.
+          Note: Program value is required. If no value is selected; it will be auto-populated by the corresponding RA selected value.
+        </li>
+        <li>
+          <b>RA:</b> Only include Bookings that are associated with the specified RA. The calendar is not shown if no RA is selected.
+        </li>
+        <li>
+          <b>Deployment:</b> Only include Bookings that are associated with the specified Deployment.
+        </li>
+        <li>
+          <b>Label:</b> Only include Bookings that has Deployments that are associated the specified Label.
+        </li>
+        <li>
+          <b>Start-Time After:</b> Only include Bookings where the start-time comes after the specified value.
+        </li>
+        <li>
+          <b>End-Time Before:</b> Only include Bookings where the end-time comes before the specified value.
+        </li>
+      </ul>
+      <lines>
+        Additional to the above features, Bookings have the following extra filter-related features:
+      </lines>
+      <ul>
+        <li>
+          Booking filters can be set by selecting the 'Bookings' button of any RA, Team or
+          Deployment from their respective list or view page.
+        </li>
+        <li>
+          The tool also auto-populates the Deployment, Product and Team fields for new Bookings
+          in the 'Create Booking' modal if values for their filters are selected.
+        </li>
+      </ul>
+    </section>
+
+    <section id="bookingStatisticsFilters">
+      <title>Booking Statistics Filters</title>
+      <lines>
+        Booking Statistics are handled at 3 levels:
+      </lines>
+      <ul>
+        <li>Globally.</li>
+        <li>Per Deployment.</li>
+        <li>Per Deployment and Booking Team.</li>
+      </ul>
+      <lines>
+        Certain Booking Statistic filter may be refer to values from Artifacts that are separate but associated with a Booking.
+        This detail is provided below with any other relevant information on each Statistic filter.
+      </lines>
+      <ul>
+        <li>
+          <b>Start-Time After:</b> Only include Bookings where the start-time comes after the specified value.
+        </li>
+        <li>
+          <b>End-Time Before:</b> Only include Bookings where the end-time comes before the specified value.
+        </li>
+        <li>
+          <b>Program:</b> Only include Bookings where the Parent Deployment is associated with the specified Program.
+        </li>
+        <li>
+          <b>RA:</b> Only include Bookings where the Parent Deployment is associated with the specified RA.
+        </li>
+        <li>
+          <b>Team:</b> Only include Bookings where the Parent Deployment is associated with the specified Team.
+        </li>
+        <li>
+          <b>Deployment:</b> Only include Bookings that are associated with the specified Deployment.
+        </li>
+        <li>
+          <b>Product-Type:</b> Only include Bookings that are associated with the specified Product-Type.
+        </li>
+        <li>
+          <b>Shared Bookings:</b> Additionally, include Bookings that are children (Sharing) of other Bookings (Shareable).
+        </li>
+        <li>
+          <b>Empty Deployments:</b> Additionally, include Deployments that have no Bookings.
+        </li>
+      </ul>
+    </section>
+  </conbody>
+</concept>

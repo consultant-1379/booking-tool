@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="apiSearchAndFilter">
+  <title>API Search and Filter</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="#note">Note</xref></li>
+      <li><xref type="concept" href="#search">Search</xref></li>
+      <li><xref type="concept" href="#filter">Filter</xref></li>
+    </ul>
+    <section>
+      <title id="search">Note</title>
+      <lines>
+        All examples on this page are shown as unencoded, where "name = 'myDeployment'" is encoded as "name+%3d+%27myDeployment%27".
+        Client libraries handle this encoding automatically.
+      </lines>
+    </section>
+    <section>
+      <title id="search">Search</title>
+      <lines>
+        When using the GET method on the API the results can be searched by adding ?q=&lt;key&gt;=&lt;value&gt; to the end of your request.
+        Using this you can search the GET to only show results that meet your criteria.
+        <b>Example:</b> /api/deployments?q=name=myDeployment
+        This example will only show Deployments that have the name 'myDeployment', if no Deployment is named 'myDeployment' an empty array is returned.
+
+        Use a.b to search using field b that is nested within field a;
+        <b>Example:</b> /api/deployments?q=products.product_type_name=ENM_SED
+        This example will only show Deployments that have a Product with the Product-Type name 'ENM_SED', if no Deployment has a Product with the Product-Type name 'ENM_SED' an empty array is returned.
+      </lines>
+    </section>
+    <section>
+      <title id="search">Filter</title>
+      <lines>
+        When using the GET method on the API the results can be filtered by adding ?fields=fieldName to the end of your request.
+        Using this you can filter the GET to return a partial response.
+        <b>Example:</b> /api/deployments?fields=name
+        This example will only show the names of all the Deployments.
+
+        Use a,b to select multiple fields,authUrl
+        <b>Example:</b> /api/deployments?fields=name,purpose
+        This example will show the names and purposes of all the Deployments.
+
+        Use a/b or a(b) to select a field b that is nested within field a;
+        <b>Example:</b> /api/deployments?fields=products/product_type_name or /api/deployments?fields=products(product_type_name)
+
+        These can be used in conjunction with the search above to return a partial response of a specific search.
+        <b>Example:</b> /api/deployments?q=status=Free&amp;fields=name
+        This will return the names of all Deployments that have status set to 'Free'.
+      </lines>
+    </section>
+  </conbody>
+</concept>

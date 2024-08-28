@@ -1,0 +1,18 @@
+{
+  "name": "gulp_runner",
+  "description": "Dependencies for running gulp tasks for Swagger Implementation",
+  "version": "1.0.1",
+  "meanjs-version": "1.0.1",
+  "private": false,
+  "author": "https://github.com/meanjs/mean/graphs/contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meanjs/mean.git"
+  },
+  "devDependencies": {
+    "gulp": "4.0.2",
+    "gulp-json-modify": "1.0.2",
+    "gulp-merge-json": "1.3.1"
+  }
+}

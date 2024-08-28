@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Overview">
+  <title>Overview</title>
+  <conbody>
+    <p>
+      The purpose of the PDU OSS Deployment Tracking Tool (DTT) is to provide an inventory system
+      that catalogues each Deployment, Product, Hardware and all other associated Artifacts within
+      a single-page web application.
+    </p>
+    <p>
+      Functionalities exist for searching, filtering and exporting sets of data from the tool in
+      CSV format. Based on their selected program and RA preference, users can view subsets of artifacts and orchestrate them
+      with respect to their associated Deployments.
+    </p>
+    <p>
+      DTT also provides functionalities such as making Bookings for any Deployment within the
+      tool.
+    </p>
+  </conbody>
+</concept>

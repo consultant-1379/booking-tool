@@ -1,0 +1,42 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <a ng-if="vm.hasEditPermissions" class="btn btn-sm btn-primary" ui-sref="users.edit({userId: vm.user._id})">Edit </a>
+    </div>
+    <h1>Viewing User ' {{ vm.user.username }} '</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <!-- User DETAILS -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.user.displayName }}</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Role</label>
+            <p ng-repeat="role in vm.roles" class="form-control-static">{{ role.name }}</p>
+          </div>
+        </div>
+        <!-- Permission DETAILS -->
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <label>Special Permissions</label>
+            <div ng-switch="vm.user.permissions.length">
+              <p ng-switch-when="0">None</p>
+              <div class="form-group" ng-repeat="permission in vm.user.permissions">
+                <p class="form-control-static">
+                <strong>path:</strong> "{{ permission.resources }}"
+                <strong>all resources:</strong> "{{ permission.allResourceMethods }}"
+                <strong>user created resources: </strong> "{{ permission.userCreatedResourceMethods }}" </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

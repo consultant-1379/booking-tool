@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="exportData">
+  <title>Export Data</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="#overview">Overview</xref></li>
+      <li><xref type="concept" href="#purpose">Purpose of this Feature</xref></li>
+      <li><xref type="concept" href="#deploymentData">Export Deployment Data</xref></li>
+      <li><xref type="concept" href="#bookingsStatsData">Export Booking Statistics Data</xref></li>
+    </ul>
+
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page provides information on the Export Data feature within the PDU OSS Deployment Tracking Tool.
+      </lines>
+    </section>
+
+    <section>
+      <title id="purpose">Purpose of this Feature</title>
+      <lines>
+        This allows users to export data stored in PDU OSS Deployment Tracking Tool's database, to a CSV file.
+      </lines>
+    </section>
+    <section>
+      <title id="deploymentData">Export Deployment Data</title>
+        <ol>
+          <li>Open the Deployments List-View.</li>
+          <li>The '<b>Export Data</b>' button will be found on the top right corner of the page next to the filters.</li>
+          <li>Click the '<b>Export Data</b>' button. If you haven't altered any of the filters, the file will contain all Deployments' data.
+          Or alter the filters and then click the '<b>Export Data</b>' button, the file will contain Deployments' data that is currently displayed in the table.
+          <b>Note:</b> To export all Deployments for a selected Program, make sure to clear RA filter, if applied, by clicking the '<b>x</b>' button in the RA filter field, before clicking '<b>Export Data</b>' button.</li>
+          <li>You will be provided the data in a file named: '<b>dtt_deployments_data.csv</b>'.</li>
+        </ol>
+        <lines>
+          Exported Deployments' data will contain following:
+        </lines>
+        <simpletable>
+          <sthead>
+            <stentry>
+              Header
+            </stentry>
+            <stentry>
+              Data
+            </stentry>
+          </sthead>
+          <strow>
+            <stentry>
+              Deployment
+            </stentry>
+            <stentry>
+              Deployment's name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Purpose
+            </stentry>
+            <stentry>
+              Deployment's Purpose
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Status
+            </stentry>
+            <stentry>
+              Deployment's status
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              JIRA Issues
+            </stentry>
+            <stentry>
+              Deployment's JIRA Issues
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              SPOC
+            </stentry>
+            <stentry>
+              Deployment's SPOC User(s)
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Program
+            </stentry>
+            <stentry>
+              Program's name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Area
+            </stentry>
+            <stentry>
+              Area's name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Team
+            </stentry>
+            <stentry>
+              Team's name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Labels
+            </stentry>
+            <stentry>
+              Deployment's Labels
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Product Type
+            </stentry>
+            <stentry>
+              Deployment's Products: Product's product type name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Product Flavour
+            </stentry>
+            <stentry>
+              Deployment's Products: Product's flavour name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Product Location
+            </stentry>
+            <stentry>
+              Deployment's Products: Product's location
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Product Infrastructure
+            </stentry>
+            <stentry>
+              Deployment's Products: Product's infrastructure
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Product Data
+            </stentry>
+            <stentry>
+              Deployment's Products: Product's product data names in a comma separated list
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Hardware
+            </stentry>
+            <stentry>
+              Deployment's Products: Product's hardware names in a comma separated list
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Product Notes
+            </stentry>
+            <stentry>
+              Deployment's Products: Product's notes
+            </stentry>
+          </strow>
+        </simpletable>
+        <lines>
+          Note: Deployment Timebox information and Artifact IDs will not appear in exported data.
+        </lines>
+    </section>
+     <section>
+      <title id="bookingsStatsData">Export Bookings Statistics Data</title>
+        <ol>
+          <li>Open Bookings Statistics page.</li>
+          <li>The '<b>Export Stats Data</b>' button will be found on the top right corner of the page next to the filters.</li>
+          <li>Click the '<b>Export Stats Data</b>' button. If you haven't altered any of the filters, the file will contain all Bookings Statistics' data.
+          Or alter the filters and then click the '<b>Export Stats Data</b>' button, the file will contain Bookings Statistics' data that is currently displayed in the table.</li>
+          <li>You will be provided the data in a file named: '<b>dtt_bookings_statistics_data.csv</b>'.</li>
+        </ol>
+        <lines>
+          Exported Deployments' data will contain following:
+        </lines>
+        <simpletable>
+          <sthead>
+            <stentry>
+              Header
+            </stentry>
+            <stentry>
+              Data
+            </stentry>
+          </sthead>
+          <strow>
+            <stentry>
+              Program
+            </stentry>
+            <stentry>
+              Program name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              RA
+            </stentry>
+            <stentry>
+              Area name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Deployment
+            </stentry>
+            <stentry>
+              Deployment name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Team
+            </stentry>
+            <stentry>
+              Team name
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Total Bookings
+            </stentry>
+            <stentry>
+              Total number of Bookings made
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Total Duration (Days)
+            </stentry>
+            <stentry>
+              Total number of days used by Bookings
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Total Average Duration (Days)
+            </stentry>
+            <stentry>
+              Total Average Booking Duration in days
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Utilisation Start Date
+            </stentry>
+            <stentry>
+              First day of the first Booking
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Utilisation End Date
+            </stentry>
+            <stentry>
+              Last day of the last Booking
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Utilisation Total Booked Range
+            </stentry>
+            <stentry>
+              Number of days used by Bookings from 'Utilisation Start Date' to 'Utilisation End Date'
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Utilisation Total Date Range
+            </stentry>
+            <stentry>
+              Number of days from 'Utilisation Start Date' to 'Utilisation End Date'
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Utilisation Percentage
+            </stentry>
+            <stentry>
+              Percentage of days booked from total range
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Booking Start Date
+            </stentry>
+            <stentry>
+              Booking Start Date
+            </stentry>
+          </strow>
+          <strow>
+            <stentry>
+              Booking End Date
+            </stentry>
+            <stentry>
+              Booking End Date
+            </stentry>
+          </strow>
+        </simpletable>
+        <lines>
+          Note: Artifact IDs will not appear in exported data.
+        </lines>
+    </section>
+  </conbody>
+</concept>

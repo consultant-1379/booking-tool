@@ -1,0 +1,219 @@
+{
+  "paths": {
+    "/statistics/bookings":{
+      "get":{
+        "tags": [
+          "Statistics"
+        ],
+        "summary": "Aggregates Booking Statistics.",
+        "description": "Aggregates and returns Booking Statistics for all Deployments that have at least 1 Booking. All parameters can be combined using an ampersand-delimited format to filter the statistics down to relevant Deployments and Bookings",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "name":"programFilter",
+            "in":"query",
+            "description":"Only return Deployments which are associated with selected Program. \nEg. To list all Deployments with the Program 'ENM': '?programFilter=5de125eda76273624d748202'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5de125eda76273624d748202"
+          },
+          {
+            "name":"areaFilter",
+            "in":"query",
+            "description":"Only return Deployments which are associated with selected RA. \nEg. To list all Deployments with the RA 'CN': '?areaFilter=5e8da2de14b6b41ffe5e6801'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5e8da2de14b6b41ffe5e6801"
+          },
+          {
+            "name":"teamFilter",
+            "in":"query",
+            "description":"Only return Deployments which are associated with selected Team. \nEg. To list all Deployments with the Team Ameya: '?teamFilter=5dde89c5a762734eae7481ee'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5dde89c5a762734eae7481ee"
+          },
+          {
+            "name":"productTypeFilter",
+            "in":"query",
+            "description":"Only return Deployments that contain the selected Product-Type. \nEg. To list all Deployments with the Product-Type ENM: '?productTypeFilter=5dde89c5a762734eae7481ee'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5dde89c5a762734eae7481ee"
+          },
+          {
+            "name":"deploymentFilter",
+            "in":"query",
+            "description":"Only return the Deployment whose ID matches the ID Filter. \nEg. To list the Deployment with the Id 5ef32e579fb89824baa1390d: '?deploymentFilter=5ef32e579fb89824baa1390d'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5ef32e579fb89824baa1390d"
+          },
+          {
+            "name":"startTimeAfterFilter",
+            "in":"query",
+            "description":"To get the Total Bookings Finished for each Deployment that began after the Start Date 2021-01-01: '?startTimeAfterFilter=2021-01-01'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "2021-01-01"
+          },
+          {
+            "name":"endTimeBeforeFilter",
+            "in":"query",
+            "description":"To get the Total Bookings Finished for each Deployment that finished before the End Date '2021-01-04': '?endTimeBeforeFilter=2021-01-04'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "2021-01-31"
+          },
+          {
+            "name":"emptyDeploymentsFilter",
+            "in":"query",
+            "description":"Includes Deployments without Bookings in the results: '?emptyDeploymentsFilter=true'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "true"
+          },
+          {
+            "name":"sharedBookingsFilter",
+            "in":"query",
+            "description":"Includes Deployments' Child 'Sharing' Bookings in the  results: '?sharedBookingsFilter=true'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BookingStatistics"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/statistics/bookingsExport":{
+      "get":{
+        "tags": [
+          "Statistics"
+        ],
+        "summary": "Returns array of Booking Statistics.",
+        "description": "Returns Booking Statistics. All parameters can be combined using an ampersand-delimited format to filter the statistics down to relevant Deployments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "name":"programFilter",
+            "in":"query",
+            "description":"Only return Booking Statistics which are associated with selected Program. \nEg. To list all Booking Statistics with the Program 'ENM': '?programFilter=5de125eda76273624d748202'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5de125eda76273624d748202"
+          },
+          {
+            "name":"areaFilter",
+            "in":"query",
+            "description":"Only return Booking Statistics which are associated with selected RA. \nEg. To list all Booking Statistics with the RA 'CN': '?areaFilter=5e8da2de14b6b41ffe5e6801'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5e8da2de14b6b41ffe5e6801"
+          },
+          {
+            "name":"teamFilter",
+            "in":"query",
+            "description":"Only return Booking Statistics which are associated with selected Team. \nEg. To list all Booking Statistics with the Team Ameya: '?teamFilter=5dde89c5a762734eae7481ee'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5dde89c5a762734eae7481ee"
+          },
+          {
+            "name":"productTypeFilter",
+            "in":"query",
+            "description":"Only return Booking Statistics that contain the selected Product-Type. \nEg. To list all Booking Statistics with the Product-Type ENM: '?productTypeFilter=5dde89c5a762734eae7481ee'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5dde89c5a762734eae7481ee"
+          },
+          {
+            "name":"deploymentFilter",
+            "in":"query",
+            "description":"Only return the Booking Statistics whose ID matches the ID Filter. \nEg. To list the Booking Statistics with the Id 5ef32e579fb89824baa1390d: '?deploymentFilter=5ef32e579fb89824baa1390d'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "5ef32e579fb89824baa1390d"
+          },
+          {
+            "name":"startTimeAfterFilter",
+            "in":"query",
+            "description":"To get the Booking Statistics that began after the Start Date 2021-01-01: '?startTimeAfterFilter=2021-01-01'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "2021-01-01"
+          },
+          {
+            "name":"endTimeBeforeFilter",
+            "in":"query",
+            "description":"To get the Booking Statistics that finished before the End Date '2021-01-04': '?endTimeBeforeFilter=2021-01-04'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "2021-01-31"
+          },
+          {
+            "name":"sharedBookingsFilter",
+            "in":"query",
+            "description":"Includes Deployments' Child 'Sharing' Bookings in the  results: '?sharedBookingsFilter=true'.",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BookingStatisticsExport"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+    "definitions": {
+        "Booking": {
+            "type": "object",
+            "required": [
+                "deployment_id",
+                "startTime",
+                "endTime",
+                "bookingType",
+                "infrastructure"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "myBooking"
+                },
+                "deployment_id": {
+                    "type": "string",
+                    "example": "592d1fa182ee3e002055763b",
+                    "note": "deployment_id must be a valid Deployment ID.",
+                    "minLength": "24",
+                    "maxLength": "24"
+                },
+                "product_id": {
+                    "type": "string",
+                    "example": "592d1fa182ee3e002055763b",
+                    "note": "product_id must be a valid Product ID. This can only be viewed in the Deployment view page.",
+                    "minLength": "24",
+                    "maxLength": "24"
+                },
+                "team_id": {
+                    "type": "string",
+                    "example": "592d1fa182ee3e002055763b",
+                    "note": "team_id must be a valid Team ID.",
+                    "minLength": "24",
+                    "maxLength": "24"
+                },
+                "startTime": {
+                    "type": "Date",
+                    "example": "2021-03-30"
+                },
+                "endTime": {
+                    "type": "Date",
+                    "example": "2021-04-01"
+                },
+                "description": {
+                    "type": "String",
+                    "example": "Additional Requirements"
+                },
+                "bookingType": {
+                    "type": "String",
+                    "enum": [
+                        "Single"
+                    ],
+                    "default": "Single",
+                    "example": "Single"
+                },
+                "testingType": {
+                    "type": "String",
+                    "enum": [
+                        "Not Applicable",
+                        "Functional",
+                        "Exploratory",
+                        "Performance / Characteristics",
+                        "Rollback",
+                        "Scalability",
+                        "Stability",
+                        "High Availability / Robustness",
+                        "Upgrade",
+                        "Initial Install",
+                        "Maintenance"
+                    ],
+                    "example": "Functional"
+                },
+                "jiraMRBugReferenceIssue": {
+                    "type": "String",
+                    "maxlength": "60",
+                    "example": "TORF-391388"
+                },
+                "infrastructure": {
+                    "type": "String",
+                    "enum": [
+                        "Cloud",
+                        "Physical",
+                        "vCenter",
+                        "None"
+                    ],
+                    "example": "Physical"
+                },
+                "enmProductSetDrop": {
+                    "type": "String",
+                    "example": "LATEST GREEN",
+                    "note": "If ENM specific drop is required, should be in the form of e.g. ENM:21.07"
+                },
+                "enmProductSetVersion": {
+                    "type": "String",
+                    "example": "21.07.11",
+                    "note": "If ENM Product Set Drop field is LATEST GREEN, this should be deleted from JSON. If Product Set Drop is in the format of ENM:21.07, then include this in JSON in form 21.07.111"
+                },
+                "additionalJenkinsUsers": {
+                    "type": "String",
+                    "note": "Must be a valid Jenkins User. Do not include spaces",
+                    "example": "eabcabc,edefdef"
+                },
+                "automaticJenkinsIITrigger": {
+                    "type": "Boolean",
+                    "default": false,
+                    "example": true
+                },
+                "jenkinsJobType": {
+                    "type": "String",
+                    "enum": [
+                        "II",
+                        "UG"
+                    ],
+                    "example": "II"
+                },
+                "nssVersion": {
+                    "type": "String",
+                    "default": "undefined",
+                    "example": "undefined",
+                    "note": "If not needed, should be removed from JSON."
+                },
+                "useCustomJiraTemplate": {
+                    "type": "Boolean",
+                    "default": "false",
+                    "example": "true",
+                    "note": "Change this to true if you want to populate Jira Template with values."
+                },
+                "jiraTemplate": {
+                    "type": "object",
+                    "properties": {
+                        "jiraBoard": {
+                            "type": "string",
+                            "example": "PDU-OSS"
+                        },
+                        "issueType": {
+                            "type": "string",
+                            "example": "Task"
+                        },
+                        "project": {
+                            "type": "string",
+                            "example": "CIS"
+                        },
+                        "components": {
+                            "type": "array",
+                            "items": {
+                                "type": "String",
+                                "default": "",
+                                "example": "[TEaaS]"
+                            }
+                        },
+                        "custom_fields": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "key_name": {
+                                        "type": "string",
+                                        "default": "",
+                                        "example": "customfield_15801"
+                                    },
+                                    "key_value": {
+                                        "type": "string",
+                                        "default": "",
+                                        "example": "ENM"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": "{ 'components':[], 'custom_fields':[] }",
+                    "example": "{'jiraBoard': PDU-OSS, 'issueType': task, 'project': CIP, 'components':[], 'custom_fields':[] }",
+                    "note": "Jira Templates are created in Programs and can be selected when creating a booking."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,203 @@
+{
+  "definitions": {
+    "Deployment": {
+      "type": "object",
+      "required": [
+        "name",
+        "area_id",
+        "program_id",
+        "status"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]*$",
+          "example": "myDeployment",
+          "note": "name must be unique, Minimum of 5 characters, Maximum of 50 characters.",
+          "minLength": 5,
+          "maxLength": 50
+        },
+        "area_id": {
+          "type": "string",
+          "example": "592d1fa182ee3e002055763b",
+          "note": "area_id must be a valid Area ID.",
+          "minLength": 24,
+          "maxLength": 24
+        },
+        "program_id": {
+          "type": "string",
+          "example": "592d1fa182ee3e002055763b",
+          "note": "program_id must be a valid Program ID.",
+          "minLength": 24,
+          "maxLength": 24
+        },
+        "team_id": {
+          "type": "string",
+          "example": "592d1fa182ee3e002055763b",
+          "note": "team_id must be a valid Team ID.",
+          "minLength": 24,
+          "maxLength": 24
+        },
+        "spocUser_ids": {
+          "type": "array",
+          "example": ["592d1fa182ee3e002055763b", "5f2429211ead7dcf7c3c3128"],
+          "note": "spocUser_ids must be valid User IDs - ie. the user must have logged into the tool before.",
+          "minLength": 24,
+          "maxLength": 24
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Free", "In Review","Blocked/In Maintenance", "In Use", "Booking Disabled"],
+          "example": "Free"
+        },
+        "purpose": {
+          "type": "string",
+          "example": "Deployment Purpose: For use in Swagger Docs.",
+          "note": "A description of the Deployments purpose."
+        },
+        "jira_issues": {
+          "type": "array",
+          "example": ["CIP-29798", "CIP-30055"],
+          "note": "List of JIRA Issues that are associated with setup of a Deployment. Each Issue is validated against JIRA for authenticity.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "label_ids": {
+          "type": "array",
+          "example": ["5f22a39bc5703b33e0bd1996", "5f22a39bc5703b33e0bd1998"],
+          "note": "List of Labels that are associated with a Deployment.",
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 50
+          }
+        },
+        "newLabels": {
+          "type": "string",
+          "example": "newLabel1, newLabel2",
+          "note": "This is a temporary field which contains an uppercase, comma-separated list of Labels that can be created with a Deployment."
+        },
+        "products": {
+          "type": "array",
+          "note": "List of Products that make up a Deployment.",
+          "items": {
+            "type": "object",
+            "required": [
+              "product_type_name",
+              "flavour_name",
+              "admins_only"
+            ],
+            "properties": {
+              "product_type_name": {
+                "type": "string",
+                "example": "ENM_SED",
+                "note": "Must be a valid Product-Type name."
+              },
+              "flavour_name": {
+                "type": "string",
+                "example": "Non-HA",
+                "note": "Must be a Product-Flavour name within the specified Product-Types list of Product-Flavour names."
+              },
+              "location": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9\\-_.\\s]*$",
+                "example": "Athlone",
+                "minLength": 2,
+                "maxLength": 50
+              },
+              "infrastructure": {
+                "type": "string",
+                "enum": ["Cloud", "Physical"],
+                "example": "Cloud"
+              },
+              "purpose": {
+                "type": "string",
+                "example": "Product Notes: For use in Swagger Docs.",
+                "note": "A description of any additional information on a Product."
+              },
+              "jenkinsJob": {
+                "type": "string",
+                "pattern": "^(https?:\/\/)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*)(.*)$/",
+                "example": "https://<JENKINS_SERVER_URL>/<JOB_NAME>/",
+                "note": "The URL for the Jenkins Job (II/UG)",
+                "minLength": 2,
+                "maxLength": 50
+              },
+              "hardware_ids": {
+                "type": "array",
+                "note": "List of hardware IDs that reference pieces of hardware being used by the product.",
+                "items": {
+                  "type": "string",
+                  "example": "592d1fa182ee3e002055763b",
+                  "note": "Each hardware_id must be a valid Hardware ID.",
+                  "minLength": 24,
+                  "maxLength": 24
+                }
+              },
+              "links": {
+                "type": "array",
+                "note": "List of product data names and URL pairs that link to other tools that provide additional information on the product.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "link_name",
+                    "url"
+                  ],
+                  "properties": {
+                    "link_name": {
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9\\-_.\\s]*$",
+                      "example": "DIT Product",
+                      "note": "A user friendly name for the link",
+                      "minLength": 2,
+                      "maxLength": 50
+                    },
+                    "url": {
+                      "type": "string",
+                      "pattern": "^(https?:\/\/)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*)(.*)$/",
+                      "example": "https://atvdit.athtem.eei.ericsson.se/documents/592d1fa182ee3e002055763b",
+                      "note": "The URL for the link",
+                      "minLength": 2,
+                      "maxLength": 50
+                    }
+                  }
+                }
+              },
+              "configuration": {
+                "type": "array",
+                "note": "List of configuration key name and value pairs that are necessary for booking creation on JIRA.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key_name",
+                    "key_value"
+                  ],
+                  "properties": {
+                    "key_name": {
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9\\-_.]*$",
+                      "example": "Num_SVT",
+                      "note": "The configuration key name",
+                      "minLength": 2,
+                      "maxLength": 50
+                    },
+                    "key_value": {
+                      "type": "string",
+                      "note": "The value associated with the configuration key name",
+                      "example": "1"
+                    }
+                  }
+                }
+              },
+              "admins_only": {
+                "type": "Boolean",
+                "example": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

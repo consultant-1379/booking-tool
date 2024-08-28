@@ -1,0 +1,73 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div ng-if="vm.hasEditPermissions" class="btn-group">
+        <a class="btn btn-sm btn-primary" ui-sref="productTypes.edit({productTypeId: vm.productType._id})">Edit</a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log"
+          ui-sref="logs.view({ objType: 'productTypes', objId: vm.productType._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing Product-Type '{{ vm.productType.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <!-- PRODUCT-TYPE DETAILS -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.productType.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>Flavours</label>
+            <p ng-if="vm.flavours.length == 0">None</p>
+            <div class="flavour-fixed-width">
+              <a ng-repeat="flavour in vm.flavours" ui-sref="productFlavours.view({ productFlavourId: flavour._id })"
+                class="label label-primary" style="margin-left: 5px;">{{ flavour.name }}</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Configuration is Strict</label>
+            <p class="form-control-static">{{ vm.productType.configKeysAreStrict }}</p>
+          </div>
+          <div class="form-group">
+            <label>Mandatory Configuration Keys</label>
+            <p ng-if="vm.productType.mandatoryConfigKeys.length == 0">None</p>
+            <table ng-if="vm.productType.mandatoryConfigKeys.length != 0"
+            class="table table-striped table-condensed table-hover full-document-view">
+            <thead>
+              <tr>
+                <th><b>Key</b></th>
+                <th><b>Infrastructure</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="key in vm.productType.mandatoryConfigKeys">
+                <td>{{ key.name }}</td>
+                <td>{{ key.infrastructure }}</td>
+              </tr>
+            </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ASSOCIATION DETAILS -->
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Dependent Deployments</label>
+              <div class="dependent-items">
+                <p ng-if="!vm.dependentDeployments.length">None</p>
+                <p ng-repeat="dependentDeployment in vm.dependentDeployments">
+                  <a ui-sref="deployments.view({deploymentId: dependentDeployment._id})">{{ dependentDeployment.name }}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

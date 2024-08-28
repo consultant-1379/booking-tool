@@ -1,0 +1,23 @@
+<div class="eaLogin">
+<div class="eaLogin-inner">
+   <div class="eaLogin-ericssonLogo"></div>
+   <div class="eaLogin-body eaLogin-login" style="display: block;">
+   <div class="eaLogin-title">PDU OSS<br/>Deployment Tracking Tool</div>
+    <form name="vm.userForm" ng-submit="vm.signin()"
+      ng-class="{ 'has-error': vm.userForm.username.$invalid || vm.userForm.password.$invalid, 'has-success': vm.userForm.username.$valid && vm.userForm.password.$valid}"
+      novalidate autocomplete="off">
+      <div class="eaLogin-inputWrap">
+        <input type="text" id="username" name="username" class="ebInput eb_wMargin eaLogin-loginUsername" ng-model="vm.credentials.username" placeholder="Username" lowercase required>
+        <input type="password" id="password" name="password" class="ebInput eb_wMargin eaLogin-loginPassword" ng-model="vm.credentials.password" placeholder="password" required>
+        <button type="submit" class="ebBtn eaLogin-formButton" ng-disabled="!vm.userForm.$valid">
+           <i class="ebIcon ebIcon_rightArrow"></i>
+        </button>
+        <span class="help-block" ng-messages="vm.userForm.$dirty && vm.userForm.$error">
+          <p ng-message="required">Please enter a username and password.</p>
+        </span>
+      </div>
+    </form>
+  </div>
+  <p class="eaLogin-copy">© Ericsson Enterprise AB, 2020. All rights reserved.</p>
+ </div>
+</div>

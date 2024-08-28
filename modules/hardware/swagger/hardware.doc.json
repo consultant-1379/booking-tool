@@ -1,0 +1,207 @@
+{
+    "paths": {
+      "/hardware": {
+        "get": {
+          "tags": [
+            "Hardware"
+          ],
+          "summary": "Returns a list of Hardware that match the provided query parameters.",
+          "description": "Returns a list of all Hardware and their key-values when no filter parameters are provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchAndFilter' target='_blank'><b>here</b></a>.",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name":"q",
+              "in":"query",
+              "description":"Specifies what Hardware should be retrieved based on provided key-values. \nMultiple key-values can be specified with the ampersand-delimited format. \nEg. To list all hardware with the name 'myHardware': 'q=name=myHardware'. \nEg. To list all Hardware with the name 'myHardware' and the _id '592d1fa182ee3e002055763b': 'q=name=myHardware&_id=592d1fa182ee3e002055763b'",
+              "required":false,
+              "allowReserved": true,
+              "type":"string",
+              "example": "name=myHardware"
+            },
+            {
+              "name":"fields",
+              "in":"query",
+              "description":"Specifies what key-values associated with the retrieved Hardware that you want to receive. \nMultiple key-values can be retrieved through filtering keys with the comma-delimited format. \nEg. For the name value alone: 'fields=name'. \nEg. For the name and _id values: 'fields=name,_id'",
+              "required":false,
+              "allowReserved": true,
+              "type":"string",
+              "example": "name"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "success",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Hardware"
+                }
+              }
+            },
+            "422": {
+              "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "post":{
+          "tags": [
+            "Hardware"
+          ],
+          "summary": "Creates a new Hardware.",
+          "description": "Creates and returns a new Hardware.",
+          "produces": [
+            "application/json"
+          ],
+          "consume": [
+            "application/json"
+          ],
+          "parameters":[
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Hardware object that represents your Hardware",
+              "required": true,
+              "schema":{
+                "$ref": "#/definitions/Hardware"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created Hardware successfully."
+            },
+            "400": {
+              "description": "Possible messages:\n* Path 'name' is required\n* Error, provided name is not unique.\n* name is not valid; {PATH} can only contain letters, numbers, dots, dashes and underscores.\n* Path 'name' {PATH} is shorter than the minimum allowed length (2).\n* Path 'name' {PATH} is longer than the maximum allowed length (50).\n* Field `rogueKey` is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/hardware/{hardwareId}":{
+        "get":{
+          "tags": [
+            "Hardware"
+          ],
+          "summary": "Returns a Hardware.",
+          "description": "Returns a Hardware. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchAndFilter' target='_blank'><b>here</b></a>.",
+          "produces": [
+            "application/json"
+          ],
+          "parameters":[
+             {
+                "name":"hardwareId",
+                "in":"path",
+                "required":true,
+                "description":"The id of the Hardware to retrieve",
+                "type":"string"
+             }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully retrieved Hardware",
+              "schema": {
+                "$ref": "#/definitions/Hardware"
+              }
+            },
+            "404":{
+              "description":"A Hardware with that id does not exist"
+            },
+            "422": {
+              "description": "Error while attempting to retrieve Hardware with specified id."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "put":{
+          "tags": [
+            "Hardware"
+          ],
+          "summary": "Updates a Hardware.",
+          "description": "Updates a Hardware.",
+          "produces": [
+            "application/json"
+          ],
+          "consume": [
+            "application/json"
+          ],
+          "parameters":[
+             {
+                "name":"hardwareId",
+                "in":"path",
+                "required":true,
+                "description":"The id of the Hardware to update",
+                "type":"string"
+             },
+             {
+               "in": "body",
+               "name": "body",
+               "description": "Hardware object that represents your OpenStack Hardware<br>Partial update possible, not all fields in the body are required",
+               "required": true,
+               "schema":{
+                 "$ref": "#/definitions/Hardware"
+                }
+              }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully updated Hardware",
+              "schema": {
+                "$ref": "#/definitions/Hardware"
+              }
+            },
+            "400": {
+               "description": "Possible messages:\n* Path 'name' is required\n* Error, provided name is not unique.\n* name is not valid; {PATH} can only contain letters, numbers, dots, dashes and underscores.\n* Path 'name' {PATH} is shorter than the minimum allowed length (2).\n* Path 'name' {PATH} is longer than the maximum allowed length (50).\n* Field `rogueKey` is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again"
+            },
+            "404":{
+              "description":"A Hardware with that id does not exist"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "delete":{
+          "tags": [
+            "Hardware"
+          ],
+          "summary": "Deletes a Hardware.",
+          "description": "Deletes a Hardware.",
+          "produces": [
+            "application/json"
+          ],
+          "parameters":[
+             {
+                "name":"hardwareId",
+                "in":"path",
+                "required":true,
+                "description":"The id of the Hardware to delete",
+                "type":"string"
+             }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully deleted Hardware"
+            },
+            "404":{
+              "description": "A Hardware with that id does not exist"
+            },
+            "422":{
+              "description": "Can't delete Hardware, it has N dependent Deployment(s)."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      }
+    }
+  }

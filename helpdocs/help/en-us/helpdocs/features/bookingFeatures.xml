@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="bookingFeatures">
+  <title>Booking Features</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="#overview">Overview</xref></li>
+      <li><xref type="concept" href="#purpose">Purpose of this Feature</xref></li>
+      <li><xref type="concept" href="#bookingStructure">Structure of a Booking</xref></li>
+      <li><xref type="concept" href="#bookingCreation">Creating a Booking (Create by Deployment)</xref></li>
+      <li><xref type="concept" href="#bookingCreationFindDeployment">Creating a Booking (Find Available Deployments)</xref></li>
+      <li><xref type="concept" href="#bookingUpdating">Updating a Booking</xref></li>
+      <li><xref type="concept" href="#bookingDeletion">Deleting a Booking</xref></li>
+      <li><xref type="concept" href="#calendarUsage">How to use the Booking Calendar</xref></li>
+      <li><xref type="concept" href="#calendarFilters">How to use the Calendar Filters</xref></li>
+      <li><xref type="concept" href="#bookingStatistics">How to use the Booking Statistics</xref></li>
+      <li><xref type="concept" href="#jiraInformation">JIRA Issue Information</xref></li>
+      <li><xref type="concept" href="#jenkinsInformation">Jenkins Information</xref></li>
+      <li><xref type="concept" href="#additionalInformation">Additional Information</xref></li>
+    </ul>
+
+    <section id="overview">
+      <title>Overview</title>
+      <lines>
+        This page provides information on all Booking related features within the PDU OSS Deployment Tracking Tool.
+      </lines>
+    </section>
+
+    <section id="purpose">
+      <title>Purpose of Bookings</title>
+      <lines>
+        A Booking represents a scheduled period of time for a specified team to have exclusive usage of a Deployment.
+        A Booking is composed of an associated Deployment and Team, Start and End Date-Times, Sharing-Type as well as additional fields related to:
+      </lines>
+      <ul>
+        <li>Creating a JIRA Issue.</li>
+        <li>Running a Jenkins II/UG job.</li>
+      </ul>
+      <lines>
+        <b>NOTE:</b> Booking Expiration Emails will be sent 1, 3, and 7 days at 7am (GMT) before the Booking's expiry date.
+        These emails will be sent to the user who created the Booking, the Booking's Associated-Team and the Deployment's SPOC(s).
+      </lines>
+    </section>
+
+    <section id="bookingStructure">
+      <title>Structure of a Booking</title>
+      <lines>
+        A Booking is composed of the following fields, that are modified using the following inputs.
+        Enter the details as shown below, note that any restrictions on the fields are outlined.
+      </lines>
+      <ul>
+        <li>
+          <b>Deployment:</b> Select associated Deployment from Dropdown.<br/>
+          <b>NOTE:</b> If Deployment status is 'In Review' or 'Blocked/In Maintenance' or 'Booking Disabled',
+          no Bookings can be created for it.
+        </li>
+        <li>
+          <b>Deployment-Product:</b> Select associated Deployment Product from Dropdown.
+        </li>
+        <li>
+          <b>Team From List:</b> Select whether team will be selected from available drop down list.<br/>
+          <b>NOTE:</b> This option is only available if user has 'admin' role.
+        </li>
+        <li>
+          <b>Custom Team:</b> Select whether team will entered manually.<br/>
+          <b>NOTE:</b> This option is only available if user has 'admin' role and 'Cross RA sharing' option is enabled for the selected deployment.
+        </li>
+        <li>
+          <b>Team Name:</b> Type Team Name.<br/>
+          <b>NOTE:</b> This field will only be visible if 'Custom' is selected for 'Team From List/Custom Team'.
+        </li>
+        <li>
+          <b>Team:</b> Select associated Team from Dropdown.<br/>
+          <b>NOTES:</b><br/>
+          <ul>
+            <li>This field will only be visible if 'From List' is selected for 'Team From List/Custom Team'.</li>
+            <li>To populate the dropdown with Team(s), first select a Deployment.
+            The available teams are ones associated with the Area that the Deployment is
+            itself attached to.</li>
+            <li>If Deployment has 'Cross RA Sharing' option enabled, all Teams will be available.</li>
+          </ul>
+        </li>
+        <li>
+          <b>Start-Time:</b> Using the date-picker, select the date and time that the
+          Booking will begin at.<br/>
+          <b>NOTE:</b> Selected Date is inclusive.
+        </li>
+        <li>
+          <b>End-Time:</b> Using the date-picker, select the date and time that the
+          Booking will conclude at.<br/>
+          <b>NOTE:</b> Selected Date is inclusive.
+        </li>
+        <li>
+          <b>Sharing-Type:</b> Select whether the Booking is 'Single' or 'Shareable'.<br/>
+          If 'Shareable', additional Bookings for the same Deployment can occur within the same time-frame:
+          <ul>
+            <li>
+              If Booking is first to choose 'Shareable' for selected time-frame, Sharing-Type is set to 'Shared'
+            </li>
+            <li>
+              If Booking is set to 'Shareable' but another Booking had done so first for the same time-frame, the current Bookings:<br/>
+              -> Sharing-Type is set to 'Sharing'.<br/>
+              -> Parent Booking ID is set to the pre-existing Booking for this time-frame.
+            </li>
+          </ul>
+          <b>NOTES:</b><br/>
+          <ul>
+            <li>A Parent Booking can only be deleted if no Children Bookings exist.</li>
+            <li>All JIRA and Jenkins related fields are inherited from the Parent Booking if Sharing-Type of Booking is 'Sharing'. These inherited fields can not be modified.</li>
+          </ul>
+        </li>
+        <li>
+          <b>Custom Configuration:</b> Select whether the Booking inherits configuration field values from associated Deployment or if they can be modified.
+        </li>
+        <li>
+          <b>Various Configuration Fields:</b> These fields and values are taken from the associated Deployment and can only be modified if Custom Configuration is enabled.
+        </li>
+        <li>
+          <b>Testing Type:</b> Select the type of testing that will occur for this Booking.
+        </li>
+        <li>
+          <b>Additional Requirements:</b> Any additional requirements or information on the Booking that could not be specified in the other fields.
+        </li>
+      </ul>
+
+      <lines>
+        The following fields are also available if the Deployment-Product is 'ENM'.
+        <b>NOTE:</b> Jenkins Job Settings will be disabled if the Deployment-Product selected does not have a Jenkins Job URL, to enable you are required to add a Jenkins Job URL for the Product in the selected Deployment.
+      </lines>
+      <ul>
+        <li>
+          <b>Trigger Jenkins Job:</b> Determines whether the Jenkins Job for II/UG is triggered automatically or manually for the Booking.<br/>
+          <b>NOTE:</b> By default set to 'Automatic'. See above section's note about Jenkins Job Settings if disabled.
+        </li>
+        <li>
+          <b>Jenkins Job Type:</b> Determines whether the job/install type for the Jenkins job is II or UG, when the job is triggered for the Booking.<br/>
+          <b>NOTES:</b><br/>
+          <ul>
+            <li>By default set to 'II'.</li>
+            <li>By default when running a UG, it will not skip LITP Install and RHEL Patches Install.</li>
+            <li>See above section's note about Jenkins Job Settings if disabled.</li>
+          </ul>
+        </li>
+        <li>
+          <b>Additional Jenkins Users:</b> Optional - Give users Jenkins Job access rights.<br/>
+          <b>NOTE:</b> See above section's note about Jenkins Job Settings if disabled.
+        </li>
+        <li>
+          <b>ENM Product Drop:</b> Select the ENM Product Drop needed for this Booking.<br/>
+          <b>NOTE:</b> See above section's note about Jenkins Job Settings if disabled, if disabled 'DON'T CARE' value is automatically set.
+        </li>
+        <li>
+          <b>ENM Product Set Version:</b> Select the ENM Product Set Version needed for this Booking.<br/>
+          <b>NOTE:</b> If ENM Product Drop value is 'LATEST GREEN' or 'DON'T CARE', then this select will not appear on the form.
+        </li>
+        <li>
+          <b>NSS Version:</b> Select the NSS Version needed for this Booking.<br/>
+          <b>NOTE:</b> See above section's note about Jenkins Job Settings if disabled.
+        </li>
+        <li>
+          <b>JIRA MR/Bug Link:</b> Enter the ID for the Main Requirement / Bug JIRA Issue that this Booking is associated with.<br/>
+        </li>
+      </ul>
+
+       <lines>
+        The following field is also available if the Deployment's Program includes at least one JIRA Template with an infrastructure type which matches the Deployment-Product's infrastructure.
+      </lines>
+
+      <ul>
+        <li>
+          <b>JIRA Template:</b> Determines what information about a Booking is sent to JIRA and which JIRA Board to use..<br/>
+          <b>NOTES:</b><br/>
+          <ul>
+            <li>If there is no JIRA Template created for the related Program or the infrastructure doesn't match, default booking information is sent to JIRA</li>
+            <li>Select a JIRA Template to see all template parameters displayed below.</li>
+            <li>EE Test Services is the JIRA Board for ETeams Bookings and CI_Framework is the JIRA Board for Irish Bookings.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section id="bookingCreation">
+      <title>Creating a Booking (Create by Deployment)</title>
+      <task>
+        <taskbody>
+          <steps>
+            <step>
+              <cmd>Open the Bookings List-View</cmd>
+              <info>
+                <p>Click the Bookings link in the navigation bar.</p>
+              </info>
+            </step>
+            <step>
+              <cmd>Create Booking</cmd>
+              <info>
+                <p>
+                  Click the <b>Create Booking</b> button, then click the <b>Create by Deployment</b> button.
+                  A 'Create Booking' modal will pop-up where all Booking details are entered.
+                </p>
+              </info>
+            </step>
+            <step>
+              <cmd>Enter the Booking Details</cmd>
+              <info>
+                <lines>
+                  Enter the details as show in section <xref type="concept" href="#bookingStructure">Structure of a Booking</xref>
+                </lines>
+              </info>
+            </step>
+            <step>
+              <cmd>Save Booking</cmd>
+              <info>
+                <p>
+                  Click the <b>Save</b> button, the Booking will be created, a JIRA issue is created (if Sharing-Type is not 'Sharing'), the 'Create Booking' modal
+                  will close and the Bookings Calendar will be updated with the newly created Booking.
+                </p>
+                <p>
+                  On creation, a number of additional fields are automatically added to the Booking object. These are listed below.
+                </p>
+                <ul>
+                  <li>
+                    <b>Parent Booking ID:</b> If current Booking is 'Sharing' with a Parent Booking, this is set to the Parent Bookings ID. Otherwise, its undefined.
+                  </li>
+                  <li>
+                    <b>Infrastructure:</b> Set to 'Cloud' if associated Deployment has no ENM product, otherwise set to the infrastructure of the associated Deployments ENM product.
+                  </li>
+                  <li>
+                    <b>JIRA Issue ID:</b>
+                    This is set to the ID of the generated JIRA Issue for this Booking.
+                    <xref type="concept" href="#jiraInformation">Click Here</xref> for more information on JIRA Issue creation and handling.
+                  </li>
+                </ul>
+                <p>
+                  <b>NOTE:</b> Booking will not save if:
+                  <ul>
+                    <li>Start-Time and End-Time collides with any other Booking on the same deployment.</li>
+                    <li>Any fields are invalid - invalid fields are highlighted in red.</li>
+                    <li>Deployment status is 'In Review', 'Blocked/In Maintenance' or 'Booking Disabled'</li>
+                  </ul>
+                </p>
+              </info>
+            </step>
+          </steps>
+        </taskbody>
+      </task>
+    </section>
+
+    <section id="bookingCreationFindDeployment">
+      <title>Creating a Booking (Find Available Deployments)</title>
+      <task>
+        <taskbody>
+          <steps>
+            <step>
+              <cmd>Open the Bookings List-View</cmd>
+              <info>
+                <p>Click the Bookings link in the navigation bar.</p>
+              </info>
+            </step>
+            <step>
+              <cmd>Create Booking</cmd>
+              <info>
+                <p>
+                  Click the <b>Create Booking</b> button, then click the <b>Find Available Deployments</b> button.
+                  A 'Find Available Deployments' modal will pop-up.
+                </p>
+              </info>
+            </step>
+            <step>
+              <cmd>Enter the Search Details</cmd>
+              <info>
+                <ul>
+                  <li>
+                    <b>Team From List/Custom:</b> Sets whether Team will be selected from a dropdown or manually entered as custom team.<b> NOTE:</b> This option is only available for users with 'admin' and 'superAdmin' roles.
+                  </li>
+                  <li>
+                    <b>Team (required):</b> Choose Team from the dropdown.
+                  </li>
+                  <li>
+                    <b>Product Type (optional):</b> Choose Product Type from the dropdown.
+                  </li>
+                  <li>
+                    <b>Label (optional):</b> Choose Label from the dropdown.
+                  </li>
+                   <li>
+                    <b>Deployments List:</b> Sets whether to display All or Filtered out Deployments in the list for next step. When 'All' is selected, Deployments will contain extra information.<b> NOTE:</b> This option is only available for users with 'admin' and 'superAdmin' roles.
+                  </li>
+                  <li>
+                    <b>Start Date:</b> Choose start date.
+                  </li>
+                  <li>
+                    <b>End Date:</b> Choose end date.
+                  </li>
+                </ul>
+                <lines>
+                  When finished, click the <b>Find Available Deployments</b> to do the search.
+                </lines>
+              </info>
+            </step>
+            <step>
+              <cmd>Enter the Booking Details</cmd>
+              <info>
+                <lines>
+                  Enter the details as show in section <xref type="concept" href="#bookingStructure">Structure of a Booking</xref>
+                  <b>NOTE:</b> Team and Dates inputs was already selected on previous form, the Team and Dates fields will not appear here.
+                  To alter these search fields click the <b>Change Search Input</b> button.
+                </lines>
+              </info>
+            </step>
+            <step>
+              <cmd>Save Booking</cmd>
+              <info>
+                <p>
+                  Click the <b>Save</b> button, the Booking will be created, a JIRA issue is created (if Sharing-Type is not 'Sharing'), the 'Create Booking' modal
+                  will close and the Bookings Calendar will be updated with the newly created Booking.
+                </p>
+                <p>
+                  On creation, a number of additional fields are automatically added to the Booking object. These are listed below.
+                </p>
+                <ul>
+                  <li>
+                    <b>Parent Booking ID:</b> If current Booking is 'Sharing' with a Parent Booking, this is set to the Parent Bookings ID. Otherwise, its undefined.
+                  </li>
+                  <li>
+                    <b>Infrastructure:</b> Set to 'Cloud' if associated Deployment has no ENM product, otherwise set to the infrastructure of the associated Deployments ENM product.
+                  </li>
+                  <li>
+                    <b>JIRA Issue ID:</b>
+                    This is set to the ID of the generated JIRA Issue for this Booking.
+                    <xref type="concept" href="#jiraInformation">Click Here</xref> for more information on JIRA Issue creation and handling.
+                  </li>
+                </ul>
+                <p>
+                  <b>NOTE:</b> Booking will not save if:
+                  <ul>
+                    <li>Start-Time and End-Time collides with any other Booking on the same deployment.</li>
+                    <li>Any fields are invalid - invalid fields are highlighted in red.</li>
+                    <li>Deployment status is 'In Review', 'Blocked/In Maintenance' or 'Booking Disabled'</li>
+                  </ul>
+                </p>
+              </info>
+            </step>
+          </steps>
+        </taskbody>
+      </task>
+    </section>
+
+    <section id="bookingUpdating">
+      <title>Updating a Booking</title>
+      <task>
+        <taskbody>
+          <steps>
+            <step>
+              <cmd>Open the Bookings List-View</cmd>
+              <info>
+                <p>Click the Bookings link in the navigation bar.</p>
+              </info>
+            </step>
+            <step>
+              <cmd>Enter the Program and RA values</cmd>
+              <info>
+                <p>From the filter dropdown, select the corresponding program and RA to show the relevant bookings in the calendar.</p>
+              </info>
+            </step>
+            <step>
+              <cmd>Select a Booking</cmd>
+              <info>
+                <p>
+                  From the Booking Calendar, click on the Booking that is to be updated.
+                  An 'Edit Booking' modal will pop-up where each Booking detail is displayed
+                  and modifiable.
+                </p>
+                <p>
+                  Additionally, information such as when and who the Booking was created and
+                  last-modified by are also displayed.
+                </p>
+              </info>
+            </step>
+            <step>
+              <cmd>Update the Booking Details</cmd>
+              <info>
+                <lines>
+                  Enter the details as show in section <xref type="concept" href="#bookingStructure">Structure of a Booking</xref>
+                  <b>NOTE:</b> All JIRA and Jenkins related fields are inherited from the Parent Booking if Sharing-Type of Booking is 'sharing'. These inherited fields can not be modified.
+                  <b>NOTE:</b> Bookings can only be modified if:
+                </lines>
+                <ul>
+                  <li>The User is either (1) Super-Admin, (2) the original creator of the Booking, (3) a member of the team associated with the Booking, (4) a SPOC for the associated Deployment.</li>
+                  <li>If the Booking has not already commenced - i.e. the start-time of the Booking has not passed.</li>
+                  <li>Deployment status is 'Free' or 'In Use'.</li>
+                </ul>
+                <lines>
+                  <b>NOTE:</b> Booking End Time can be modified after the Booking has commenced if all of the below requirements are satisfied:
+                </lines>
+                  <ul>
+                    <li>Booking type is 'Single' or 'Shareable'.</li>
+                    <li>The User is either (1) Super-Admin, (2) the original creator of the Booking, (3) a member of the team associated with the Booking, (4) a SPOC for the associated Deployment.</li>
+                    <li>End Time chosen does not collide with another future Booking.</li>
+                    <li>End Time is less than Maximum Booking Duration Days/Weeks specified by RA</li>
+                  </ul>
+              </info>
+            </step>
+            <step>
+              <cmd>Save Booking</cmd>
+              <info>
+                <p>
+                  Click the <b>Save</b> button, the Booking will be updated, the 'Update Booking' modal
+                  will close and the Bookings Calendar will be updated with the updated Booking.
+                </p>
+                <p>
+                  <b>NOTE:</b> Booking will not save if:
+                  <ul>
+                    <li>Start-Time and End-Time collides with any other Booking on the same deployment.</li>
+                    <li>Any fields are invalid - invalid fields are highlighted in red.</li>
+                    <li>Deployment status is set to 'In Review', 'Blocked/In Maintenance' or 'Booking Disabled'.</li>
+                  </ul>
+                </p>
+              </info>
+            </step>
+          </steps>
+        </taskbody>
+      </task>
+    </section>
+
+    <section id="bookingDeletion">
+      <title>Deleting a Booking</title>
+      <task>
+        <taskbody>
+          <steps>
+            <step>
+              <cmd>Open the Bookings List-View</cmd>
+              <info>
+                <p>Click the Bookings link in the navigation bar.</p>
+              </info>
+            </step>
+            <step>
+              <cmd>Enter the Program and RA values</cmd>
+              <info>
+                <p>From the filter dropdown, select the corresponding program and RA to show the relevant bookings in the calendar.</p>
+              </info>
+            </step>
+            <step>
+              <cmd>Select a Booking</cmd>
+              <info>
+                <p>
+                  From the Booking Calendar, click on the Booking that is to be updated.
+                  An 'Edit Booking' modal will pop-up where each Booking detail is displayed.
+                </p>
+              </info>
+            </step>
+            <step>
+              <cmd>Delete Booking</cmd>
+              <info>
+                <p>
+                  Click the <b>Delete</b> button, the Booking will be deleted, the 'Update Booking' modal
+                  will close and the Bookings Calendar will be updated with the removal of the Booking.
+                </p>
+                <p>
+                  <b>NOTE:</b> Bookings can only be deleted if:
+                  <ul>
+                    <li>
+                      The User is either (1) Super-Admin, (2) the original creator of the Booking,
+                      (3) a member of the team associated with the Booking, (4) a SPOC for the associated Deployment.
+                    </li>
+                    <li>
+                      If the Booking has not already completed - i.e. the end-time of the Booking
+                      has not passed.
+                    </li>
+                  </ul>
+                </p>
+              </info>
+            </step>
+          </steps>
+        </taskbody>
+      </task>
+    </section>
+
+    <section id="calendarUsage">
+      <title>How to use the Booking Calendar</title>
+      <lines>
+        The Booking Calendar is used to display upcoming Bookings in multiple easy-to-digest models
+        and can be accessed by the Bookings link in the navigation bar and selecting the relevant program and RA values from the dropdown filter options.
+        The RA selected by the user is retained as their Preference for the whole session, and the view is filtered according to it. It can be changed by changing selected RA, or completely removed by clearing RA selection.
+      </lines>
+      <p>
+        Listed below is information on each function for manipulating the calendar.<br/>
+        <b>NOTE:</b> By default, in the 'Bookings' page the calendar is hidden, and is shown when RA value is selected.
+        <ul>
+          <li>
+            Use the change-view toggles on the top right of the calendar to change from 'month' to 'week'.
+          </li>
+          <li>
+            Use the left and right arrow toggles to change month or week on the calendar,
+            depending on what view is currently being used.
+          </li>
+        </ul>
+        <b>NOTE:</b> Calendar can be switched to a weekly view by clicking 'Week' button to the right of the calendar.
+        <ul>
+          <li>
+            When empty cell is clicked, a create Booking modal will open with start date set as date of the cell clicked.
+          </li>
+          <li>
+            While hovering over an empty cell, a date will be shown for that cell.
+          </li>
+          <li>
+            Clicking 'Previous Week' or 'Next Week' buttons, will change the viewing week.
+          </li>
+        </ul>
+      </p>
+      <p>
+        Regardless of current calendar view, hovering over a Booking creates a pop-up that display
+        additional information on the Booking such as Deployment, Team, Start Time, End Time, etc.
+      </p>
+      <p>
+        The associated artifacts in a pop-up are clickable-links to the view-page of said artifact.
+      </p>
+    </section>
+
+    <section id="calendarFilters">
+      <title>How to use the Calendar Filters</title>
+      <p>
+        <xref href="../features/customFilters.xml#bookingFilters">Follow this link</xref>
+        to the 'Custom Filters' page for information on custom Booking filters.
+      </p>
+    </section>
+
+    <section id="bookingStatistics">
+      <title>How to use the Booking Statistics</title>
+      <p>
+        <xref href="../features/statistics.xml#bookingStatistics">Follow this link</xref>
+        to the 'Statistics' page for information on Booking statistics.
+      </p>
+    </section>
+
+    <section id="jiraInformation">
+      <title>JIRA Issue Information</title>
+      <lines>
+        Each Booking in PDU OSS DTT has an associated JIRA Issue.
+        The associated JIRA Issue has various CRUD actions performed on it, depending on the Sharing-Type and action performed on the Booking.
+        These CRUD actions are listed below.
+
+        On Booking Creation:
+      </lines>
+      <ul>
+        <li>
+          <b>If 'Single' or 'Shared':</b> New JIRA Issue is generated with all relevant information and the JIRA Issue ID is added to the Bookings information.
+          JIRA Issue will be assigned to RA Booking Assignee, unless there is a Deployment SPOC assigned, in which case the first Deployment SPOC will be assigned to JIRA Issue.
+        </li>
+        <li>
+          <b>If 'Sharing':</b> A comment stating the Parent Booking is now being shared with the current Booking is added to the Parent Bookings JIRA Issue and its ID is added to the current Bookings information.
+        </li>
+        <li>
+          <b>NOTE:</b> If the associated Deployment contains any Labels, these will be added to Jira Issue Labels.
+        </li>
+      </ul>
+
+      <lines>
+        On Booking Update:
+      </lines>
+      <ul>
+        <li>
+          <b>If 'Single' or 'Shared':</b> All comment listing all modified information is add to the Bookings JIRA Issue.
+        </li>
+        <li>
+          <b>If 'Sharing':</b> No action is performed.
+        </li>
+      </ul>
+
+      <lines>
+        On Booking Deletion:
+      </lines>
+      <ul>
+        <li>
+          <b>If 'Single' or 'Shared':</b> The JIRA Issue is deleted. NB: Booking and JIRA Issue can not be removed if Child Booking(s) are dependant on it.
+        </li>
+        <li>
+          <b>If 'Sharing':</b> A comment stating the Parent Booking is no longer being shared with the current Booking is added to the Parent Bookings JIRA Issue.
+        </li>
+      </ul>
+      <lines>
+        <b>NOTE:</b> All JIRA and Jenkins related fields are inherited from the Parent Booking if Sharing-Type of current Booking is 'Sharing'. These inherited fields can not be modified.
+      </lines>
+    </section>
+
+    <lines>
+      Once the Booking has started, DTT will perform the following actions:
+    </lines>
+    <ul>
+      <li>
+        Trigger an update to the JIRA ticket for this Booking, setting its status to 'In Progress'.
+      </li>
+      <li>
+        Leave a comment on the JIRA ticket for this Booking that the Booking has started. Include the Deployment's details in the comment.
+        If there is more than 1 SPOC for Deployment Booked, SPOCs that are not assigned to JIRA Issue, will be tagged in the comment 'FYI'.
+      </li>
+    </ul>
+
+    <lines>
+      Once the Booking ends, DTT will perform the following actions:
+    </lines>
+    <ul>
+      <li>
+        Trigger an update to the JIRA ticket for this Booking, setting its status to 'Closed'.
+      </li>
+      <li>
+        Leave a comment on the JIRA ticket for this Booking that the Booking has ended.
+      </li>
+    </ul>
+
+    <section id="jenkinsInformation">
+      <title>Jenkins Information</title>
+      <lines>
+        DTT has built-in functionality automatically trigger Jenkins II/UG Jobs upon the commencement of Bookings.
+        Bookings start at 00:00:00am, Jenkins Job will be triggered 8 hours before that.
+        <b>NOTE:</b> Triggering of Jenkins II/UG Jobs currently is only supported for vENM and pENM Products.
+
+        The requirements to automatically trigger Jobs are:
+      </lines>
+      <ul>
+        <li>The 'Trigger Jenkins Job' field is set to 'Automatic'.</li>
+        <li>A Jenkins Job URL is provided.</li>
+        <li>A correctly configured Jenkins job with required parameters(see tables below for Parameter/Value guidance) and default values.</li>
+        <li>Permission given to allow triggering job by unauthorised user in Jenkins settings. </li>
+      </ul>
+      <lines>
+        The URL attribute is specified in the Bookings Deployments artifact. Add Jenkins Job URL in the Deployment product's <b>Jenkins Job (II/UG)</b> field and must be in form of <b>'https://&lt;JENKINS_SERVER_URL&gt;/&lt;JOB_NAME&gt;/'</b>.
+      </lines>
+      <lines>
+      How it works:
+        Using information given during creation of the Booking, DTT sends a POST API request to Jenkins in a form of 'jenkinsurl.com/job/{jobName}/buildWithParameters?productSet={productSet}?installType={installType}?deploymentId/clusterId={deploymentId/clusterId}'.
+        Jenkins jobs should have the following parameters depending on the Product type(vENM,pENM) selected when making a Booking, so DTT is able to trigger them correctly.
+        Every other parameter should have a default value set, since any parameter that will not be sent by DTT as part of API call will use default values set in the job.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            vENM
+          </stentry>
+        </sthead>
+        <sthead>
+          <stentry>
+            Parameter
+          </stentry>
+          <stentry>
+            Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            productSet
+          </stentry>
+          <stentry>
+            in the form of XX.XX.XX e.g. 24.03.55
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            installType
+          </stentry>
+          <stentry>
+            install/upgrade
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            deploymentId
+          </stentry>
+          <stentry>
+            deployment name e.g. ieatenm12c34
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+          -
+          </stentry>
+          <stentry>
+          -
+          </stentry>
+        </strow>
+         <sthead>
+          <stentry>
+            pENM
+          </stentry>
+        </sthead>
+        <sthead>
+          <stentry>
+            Parameter
+          </stentry>
+          <stentry>
+            Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            productSet
+          </stentry>
+          <stentry>
+            in the form of XX.XX::XX.XX.XX e.g. 24.03::24.03.55
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            installType
+          </stentry>
+          <stentry>
+            initial_install/upgrade_install
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            clusterId
+          </stentry>
+          <stentry>
+            deployment name e.g. 647
+          </stentry>
+        </strow>
+      </simpletable>
+
+
+
+
+    </section>
+    <section id="additionalInformation">
+      <title>Additional Information</title>
+      <lines>
+        When Booking starts, if associated Deployment status is 'Free', its status will be updated to 'In Use'.
+        When Booking ends, if associated Deployment status is 'In Use', its status will be updated to 'Free'.
+      </lines>
+    </section>
+  </conbody>
+</concept>

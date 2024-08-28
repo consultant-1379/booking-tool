@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="deployments">
+  <title>Deployments</title>
+  <taskbody>
+    <context>
+      <p>
+        A Deployment is a collection of different Products associated with a specific Program and
+        Requirement Area, with an additional option to assign to a specific Team. Each Product within a
+        Deployment consists of a combination of Product-Type, Product-Flavour, infrastructure,
+        location, Product Data, Hardware and Labels.
+      </p>
+      <p>
+        <xref href="../features/customFilters.xml#deploymentFilters">Follow this link</xref>
+        to the 'Custom Filters' page for information on custom Deployment filters.
+      </p>
+      <p><b>Objective</b></p>
+      <p>Create a new Deployment within the PDU OSS Deployment Tracking Tool.</p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openDeployment">Open the Deployments List-View</xref></li>
+          <li><xref href="#createDeployment">Create New Deployment</xref></li>
+          <li><xref href="#enterDetails">Enter the Deployment Details</xref></li>
+          <li><xref href="#saveDeployment">Save Deployment</xref></li>
+        </ol>
+      </p>
+    </context>
+    <prereq>
+      <p>To create a new Deployment the user must have the following:</p>
+      <ul>
+        <li>A pre-existing Program.</li>
+        <li>A pre-existing Requirement Area.</li>
+      </ul>
+      <p>For adding Products to the Deployment the user must have the following:</p>
+      <ul>
+        <li>A pre-existing Product-Type.</li>
+        <li>A pre-existing Product-Flavour.</li>
+      </ul>
+      <p> To add Hardware to a Product the user must have a pre-existing Hardware.</p>
+    </prereq>
+    <steps>
+      <step id="openDeployment">
+        <cmd>Open the Deployments List-View</cmd>
+        <info>
+          <p>Click the Deployments link in the navigation bar.</p>
+        </info>
+      </step>
+      <step id="createDeployment">
+        <cmd>Create New Deployment</cmd>
+        <info>
+          <p>Click the <b>Create new Deployment</b> button.</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the Deployment Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Any restrictions on the fields are outlined.</p>
+          <ul>
+            <li><b>Name:</b> Name of the Deployment.</li>
+            <li>
+              <b>Program:</b> Must be an existing Program.<br/>
+              <b>NOTE:</b> Selecting 'Unassigned' Program will make the Deployment unbookable. Users will not be allowed book the Deployment.<br/>
+              Allows Deployments to be managed more effectively between programs without historical deployment usage loss within DTT.
+            </li>
+            <li><b>Labels:</b> Must be existing Labels.</li>
+            <li><b>New Labels:</b> Additional Label artifacts can be created and added to the Deployment Labels list by entering their names in this field.</li>
+            <li>
+              <b>Requirement Area:</b> Must be an existing Requirement Area.<br/>
+              <b>NOTE:</b> Select a Program to populate the dropdown with Requirement Area(s) that are associated
+              with the selected Program.<br/>
+              When 'Unassigned' Program is selected, only RA available is 'Unassigned'.
+            </li>
+            <li>
+              <b>Status:</b> Select the Deployment status, either "Free", "In Review","Blocked/In Maintenance","In Use" or "Booking Disabled".<br/>
+              <b>NOTE:</b> Deployments will not be allowed to be booked if status is 'In Review' or 'Blocked/In Maintenance or 'Booking Disabled'.
+            </li>
+            <li>
+              <b>Cross RA Sharing:</b> Select whether other Teams that are not associated with this Deployment can be assigned when making a Booking on this Deployment.<br/>
+              <b>NOTE:</b> This setting can only be changed by users with 'admin' and 'superAdmin' roles.
+            </li>
+            <li>
+              <b>Team:</b> Must be an existing Team.<br/>
+              <b>NOTE:</b> Select a Requirement Area to populate the dropdown with Team(s) that are associated
+              with the selected Requirement Area.
+            </li>
+            <li>
+              <b>SPOC(s):</b> Select the user(s) for the main point of contact for this Deployment. These users will be tagged in Jira tickets that are created during booking by DTT.<br/>
+              <b>NOTE:</b> SPOC must have logged into DTT at least once.
+            </li>
+            <li><b>Purpose:</b> Purpose of the Deployment.</li>
+            <li>
+              <b>JIRA Issues:</b> A list of JIRA Issues.<br/>
+              <b>NOTE:</b> The Issue number will be validated once you click away from the input
+              field.
+            </li>
+            <li>
+                <b>Timebox information:</b> A timestamp used to specify remaining timebox duration.<br/>
+                <b>NOTE:</b> This field is automatically set by the tool and cannot be manually adjusted.<br/>
+                Timebox information only applies for Deployments that contain a JIRA Issue with timebox date.<br/>
+                JIRA issues are processed for Timebox information changes on each Deployment update.<br/>
+                The JIRA issue with the lowest Timebox date is used to provide the information.
+            </li>
+            <li>
+              <b>Products:</b>
+              A list of associated Products. Each containing the following parameters..
+            </li>
+            <ul>
+              <li>
+                <b>Product-Type:</b>
+                Must be an existing Product-Type.
+              </li>
+              <li>
+                <b>Flavour:</b>
+                Must be an existing Product-Flavour.
+              </li>
+              <li>
+                <b>Infrastructure-Type:</b>
+                Type of infrastructure - "Cloud", "Physical" or "vCenter".
+              </li>
+              <li>
+                <b>Location:</b>
+                Name of the location that the Product is situated in.
+              </li>
+              <li>
+                <b>Product Notes:</b>
+                Any additional Product Notes.
+              </li>
+              <li>
+                <b>Jenkins Job (II/UG):</b>
+                The URL to a Jenkins Job that will be used in triggering the II/UG of a Deployment.<br/>
+                <b>NOTE:</b> When making a Booking, this URL will be validated. If its invalid, user will get a warning that URL is invalid.<br/>
+                <b>NOTE:</b> When adding a URL, it must be in form of <b>https://&lt;JENKINS_SERVER_URL&gt;/&lt;JOB_NAME&gt;/</b>
+              </li>
+              <li>
+                <b>Product-Data:</b>
+                Provide any relevant product-data to low-level Product information (DIT, DMT etc).
+              </li>
+              <li>
+                <b>Admins Only/Everyone:</b>
+                Select whether this product configuration can be edited by everyone or just users with admin role.
+                <b>NOTE:</b> Once set, can only be modified by users with admin role.
+              </li>
+              <li>
+                <b>Configuration-Data:</b>
+                Provide any relevant configuration fields and values that are needed for the Bookings, which are associated with this Deployment and Product.<br/>
+                <b>NOTE:</b> Allows text or URL in the key value. The View-Page of a Deployment will display URLs as links using the key name as link's text. If left blank, dummy URL will be used automatically.
+              </li>
+              <li>
+                <b>Hardware:</b>
+                Provide any relevant Hardware to low-level Product information.
+              </li>
+            </ul>
+          </ul>
+        </info>
+      </step>
+      <step id="saveDeployment">
+        <cmd>Save Deployment</cmd>
+        <info>
+          <p>
+            Click the <b>Save</b> button, the Deployment will be created, and the user will be
+            redirected back to the view page for the newly created Deployment.
+          </p>
+          <p>
+            <b>NOTE:</b> Deployment will not save if any fields are invalid (invalid fields are
+            highlighted in red).
+          </p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A New Deployment is created in the PDU OSS Deployment Tracking Tool.</p>
+    </result>
+  </taskbody>
+</task>

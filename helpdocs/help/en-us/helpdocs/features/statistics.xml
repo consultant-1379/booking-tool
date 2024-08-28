@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="statistics">
+  <title>Statistics</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="#overview">Overview</xref></li>
+      <li><xref type="concept" href="#purpose">Purpose of this Feature</xref></li>
+      <li><xref type="concept" href="#supportedStatistics">Supported Artifacts for Statistics</xref></li>
+      <li><xref type="concept" href="#usingStatistics">Using Statistics</xref></li>
+      <li><xref type="concept" href="#bookingStatistics">Booking Statistics</xref></li>
+    </ul>
+
+    <section id="overview">
+      <title>Overview</title>
+      <lines>
+        This page provides information on Statistics functionality.
+      </lines>
+    </section>
+
+    <section id="purpose">
+      <title>Purpose of Statistics</title>
+      <lines>
+        Statistics are analytical findings and are used to provide the user with useful information about Artifacts within DTT.
+        These Statistics are calculated using various mathematical formulas with numerical data found across a selection of Artifacts.
+        The analytical findings are then presented to the user through the forms of tables and various sorts of charts.
+      </lines>
+    </section>
+
+    <section id="supportedStatistics">
+      <title>Supported Artifacts for Statistics</title>
+      <lines>
+        The list below specifies each DTT Artifact that currently supports Statistical functionalities:
+      </lines>
+      <ul>
+        <li>Bookings</li>
+      </ul>
+    </section>
+
+    <section id="usingStatistics">
+      <title>Using Statistics</title>
+      <lines>
+        To access and view Statistics, the user must:
+      </lines>
+      <ol>
+        <li>
+          Select 'Statistics' from the nav-bar.
+        </li>
+        <li>
+          Select which Artifact they want to view Statistics for from the nav-bar dropdown.
+        </li>
+        <li>
+          The user will be taken to the selected Artifacts Statistics page.
+        </li>
+      </ol>
+    </section>
+
+    <section id="bookingStatistics">
+      <title>Booking Statistics</title>
+      <lines>
+        These Statistics are useful for providing information about Bookings that may not be visible otherwise.
+        Statistical information on Bookings are grouped by associated Deployment and by what Team made the Booking.
+        The Booking Statistics are broken into 3 levels - Globally, by associated Deployment, and by associated Deployment and Team the Booking was made for.
+        For each level you can view the following Statistics:
+      </lines>
+      <ul>
+        <li>
+          <b>Total Bookings:</b> How many Bookings occurred.
+        </li>
+        <li>
+          <b>Total Duration:</b> The total sum, in days, of every Bookings start-date to end-date duration.
+        </li>
+        <li>
+          <b>Average Duration:</b> The average Booking duration, in days, calculated by dividing the Total Duration by Total Bookings.
+        </li>
+        <li>
+          <b>Date Utilisation:</b> How many days were booked between the oldest Bookings start-date and the newest Bookings end-date.
+        </li>
+        <li>
+          <b>Daily Activity:</b> The total sum of how many times a Booking occurred on each day of the week.
+        </li>
+      </ul>
+
+      <lines>
+        <b>Viewing the different Statistic levels</b>
+        The different Statistic levels can be viewed in the following ways:
+      </lines>
+      <ul>
+        <li>
+          <b>Global:</b> From the top of the page, click the 'View Global Stats' button.
+        </li>
+        <li>
+          <b>Deployment:</b> From the Statistics table, click the 'View Global Stats' button for any Deployment, OR;<br/>
+          From the Global Statistics view, select any Deployment segment from a Graph
+        </li>
+        <li>
+          <b>Team:</b> From the Deployment Statistics view, select any Team segment from a Graph.<br/>
+          <b>Note:</b> Team Booking Statistics are limited to those just for the prior selected Deployment.
+        </li>
+      </ul>
+
+      <lines>
+        <b>Booking Statistic Filters</b>
+        Calculated Statistics can change depending on what Bookings are returned based off of selected filters.
+        <b>NOTE:</b> Bookings statistics are only shown for past 2 months. Bookings which expired more than 2 months ago are automatically deleted by DTT, to keep performance of DTT to maximum.
+        <xref href="../features/customFilters.xml#bookingStatisticsFilters">Follow this link</xref> to the 'Custom Filters' page for information on custom Statistics filters.
+      </lines>
+    </section>
+  </conbody>
+</concept>

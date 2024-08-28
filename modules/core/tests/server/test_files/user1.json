@@ -1,0 +1,9 @@
+{
+  "username": "user_config_test",
+  "provider": "local",
+  "email": "user_config_test_@localhost.com",
+  "firstName": "User",
+  "lastName": "Local",
+  "displayName": "User Local",
+  "roles": ["user"]
+}

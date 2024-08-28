@@ -1,0 +1,39 @@
+{
+  "definitions": {
+    "ArtifactSearch": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "example": "_id",
+          "note": "The key that the search-query value belongs to."
+        },
+        "value": {
+          "type": "string",
+          "example": "592d1fa182ee3e002055763b",
+          "note": "The full-value that the search-query found."
+        },
+        "parentObject": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "deployment",
+              "note": "The Artifact-Type that the search-query key-value result belongs to."
+            },
+            "name": {
+              "type": "string",
+              "example": "myDeployment",
+              "note": "The name of the Artifact that the search-query key-value result belongs to."
+            },
+            "_id": {
+              "type": "string",
+              "example": "592d1fa182ee3e002055763b",
+              "note": "The _id of the Artifact that the search-query key-value result belongs to."
+            }
+          }
+        }
+      }
+    }
+  }
+}

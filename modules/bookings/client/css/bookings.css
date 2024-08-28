@@ -1,0 +1,16 @@
+.btn-book {
+  color: #ffffff;
+  background-color: #5e32a8;
+  border-color: #43188c;
+}
+
+.btn-book:hover,
+.btn-book:focus,
+.btn-book.focus,
+.btn-book:active,
+.btn-book.active,
+.open > .dropdown-toggle.btn-danger {
+  color: #ffffff;
+  background-color: #43188c;
+  border-color: #3e118c;
+}

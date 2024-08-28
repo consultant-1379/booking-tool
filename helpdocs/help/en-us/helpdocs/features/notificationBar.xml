@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="NotificationBar">
+  <title> Notification Bar</title>
+  <conbody>
+  <ul>
+    <li><xref type="concept" href="#overview">Overview</xref></li>
+    <li><xref type="concept" href="#purpose">Purpose of this feature</xref></li>
+    <li><xref type="concept" href="#creation">Creating a Notification</xref></li>
+  </ul>
+
+<section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page provides information on the Notification Bar within the DE Deployment Tracking Tool (DTT).
+      </lines>
+    </section>
+
+    <section>
+      <title id="purpose">Purpose of this Feature</title>
+      <lines>
+        This feature notifies the user of any ongoing issues within the tool. Such issues may include:
+      </lines>
+      <ul>
+        <li>
+          <b>Pending bug fix:</b> If a bug exists in the tool, this Notification Bar will inform the user.
+        </li>
+        <li>
+          <b>Third-party Software issues:</b> If a third-party piece of software is undergoing maintenance, has a bug or is offline,
+          the Notification Bar will inform the user.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <title id="creation">Creating a Notification</title>
+        <ol>
+          <li>Notifications are created on the Upgrade Tool.</li>
+          <li>On the Upgrade Tool, click on tools.</li>
+          <li>click 'Edit' on the DE Deployment Tracking Tool.</li>
+          <li>Enter message in <b>Notifications</b> field.</li>
+          <li>(Optional) Enter the eTeams Issue in <b>Notification eTeams Issue</b> field.</li>
+          <li>Click the <b>Notification Enabled</b> checkbox. <b>NOTE:</b> This will be automatically clicked (enabled) if the eTeams Issue is valid and not does have <b>Closed</b> status.</li>
+          <li>Click the <b>Save</b> button. The notification will now show on the Deployment Tracking Tool</li>
+        </ol>
+        <b>NOTES:</b>
+        <ul>
+          <li>Only CI Infra Team members have permissions to add and remove notifications.</li>
+          <li>Once the issue has been resolved the notification can be removed by unclicking <b>Notification Enabled</b> checkbox or the check for the closed eTeams Issue will do this, from the Upgrade Tool.</li>
+        </ul>
+    </section>
+  </conbody>
+</concept>

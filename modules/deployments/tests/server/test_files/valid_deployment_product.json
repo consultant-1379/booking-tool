@@ -1,0 +1,11 @@
+{
+  "infrastructure": "Cloud",
+  "location": "Athlone",
+  "purpose": "Product Notes",
+  "links": [{
+    "link_name": "Link to DIT",
+    "url": "https://atvdit.athtem.eei.ericsson.se"
+  }],
+  "hardware_ids": [],
+  "admins_only": false
+}

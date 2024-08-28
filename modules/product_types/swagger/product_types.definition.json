@@ -1,0 +1,25 @@
+{
+  "definitions": {
+    "ProductType": {
+      "type": "object",
+      "required": [
+        "name",
+        "flavours"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "myType",
+          "note": "name must be unique, Minimum of 2 characters, Maximum of 50 characters.",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "flavours": {
+          "type": "array",
+          "example": ["HA", "Non-HA"],
+          "note": "Each array element must be the name of a valid Product-Flavour. 1 or more is required."
+        }
+      }
+    }
+  }
+}

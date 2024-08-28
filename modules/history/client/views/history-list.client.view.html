@@ -1,0 +1,23 @@
+<section>
+  <div class="page-header">
+    <div class="pull-right">
+      <div class="btn-toolbar input-group" style="width:300px">
+        <input type="text" class="form-control" id="filter-field" placeholder="Search any field...">
+        <span class="input-group-addon glyphicon glyphicon-search"></span>
+      </div>
+    </div>
+    <h1><span ng-if="vm.objectType === 'Areas'">Requirement </span>{{ vm.objectType }} Historical Logs</h1>
+  </div>
+  <h3>Live in Database</h3>
+  <div ng-repeat="pass in [{class: 'live-table'}]" ng-include="'log-table-template'"></div>
+
+  <h3>Deleted from Database</h3>
+  <div ng-repeat="pass in [{class: 'deleted-table'}]" ng-include="'log-table-template'"></div>
+</section>
+
+<script id="log-table-template" type="text/ng-template">
+  <table class="table {{ pass.class }} table-condensed non-clickable-row history-striped" id="{{ pass.class }}">
+    <tbody>
+    </tbody>
+  </table>
+</script>

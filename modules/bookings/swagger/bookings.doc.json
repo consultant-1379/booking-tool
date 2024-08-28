@@ -1,0 +1,44 @@
+{
+    "paths": {
+        "/bookings": {
+            "post": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Creating a Deployment Booking.",
+                "description": "Creating an Booking Via API. Note: This API should only used to create Bookings for ENM Deployments only.",
+                "produces": [
+                    "application/json"
+                ],
+                "consume": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Booking Object that represents your Booking",
+                        "required": true,
+                        "schema":{
+                            "$ref": "#/definitions/Booking"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created Deployment successfully."
+                    },
+                    "400": {
+                        "description": "Possible messages:\n* Path 'deployment_id' is required.\n* Path 'startTime' is required.\n* Path 'endTime' is required.\n* Path 'bookingType' is required.\n* Path 'infrastructure' is required.\n* Error, provided name is not unique.\n* name is not valid; {PATH} can only contain letters, numbers, dots, dashes and underscores.\n* Path 'deployment_id' {PATH} is shorter than the minimum allowed length (24).\n* Path 'deployment_id' {PATH} is longer than the maximum allowed length (24).\n* Path 'product_id' {PATH} is shorter than the minimum allowed length (24).\n* Path 'product_id' {PATH} is longer than the maximum allowed length (24).\n* Path 'team_id' {PATH} is shorter than the minimum allowed length (24)*.\n* Path 'team_id' {PATH} is longer than the maximum allowed length (24)*.\n* Path 'startTime' {PATH} is invalid.\n* Path 'endTime' {PATH} is invalid.\n* Field `rogueKey` is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again.\n* Cannot create the Deployment, the area_id 'invalid_area_id' is invalid."
+                    },
+                    "422": {
+                        "description": "Possible messages:\n* A Deployment with the given id {PATH} could not be found.\n* A Team with the given id {PATH} could not be found.\n* Error, Product-Type {PATH} does not exist.\n* JIRA Issue: 'Jira issue' is invalid, please enter a valid Issue and try again.\n* You cannot add the same JIRA Issue multiple times. Please remove the duplicates: 'jira issues' and try again.\n* This Deployment is not assigned to Program/RA therefore can not be booked, please select a different Deployment or assign a valid Program/RA.\n* The specified time-range collides with the time-range ('time-range') of another Booking for this Deployment. Alter the time-range.\n* Failed to book as the time-range is greater than RA 'validRA' maxBookingDurationDays of 'number' day(s). Alter the Booking time-range and try again. \n* Failed to book as the time-range is greater than RA 'validRA' maxBookingAdvanceWeeks of 'number' week(s). Alter the Booking time-range and try again.\n* A Booking cannot be created for 'DeploymentName' as its status is 'InvalidStatus'."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    }
+}

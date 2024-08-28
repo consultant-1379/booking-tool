@@ -1,0 +1,33 @@
+FROM armdocker.seli.gic.ericsson.se/dockerhub-ericsson-remote/node:10.16.3-alpine
+
+# 80 = HTTP
+EXPOSE 80
+
+# Temporarily set development environment variable during build
+ENV NODE_ENV development
+
+# Set the working directory
+WORKDIR /opt/mean.js
+
+# Copy the production files
+COPY config /opt/mean.js/config/
+COPY modules /opt/mean.js/modules/
+COPY server.js client.js webpack-server.config.js webpack-client.config.js package.json /opt/mean.js/
+
+# Install the production packages
+RUN apk add --no-cache git \
+  && npm install \
+  && export NODE_ENV="production" \
+  && export NODE_OPTIONS="--max-old-space-size=4096" \
+  && npm run build:server \
+  && npm run build:client \
+  && npm prune \
+  && npm cache clean --force \
+  && apk del git
+
+# Set production environment variable
+ENV NODE_ENV production
+
+# Add version file
+COPY VERSION /opt/mean.js/
+CMD ["node", "dist/bundle.js"]

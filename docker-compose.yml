@@ -1,0 +1,68 @@
+version: '3.1'
+services:
+  nginx:
+    build: docker/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - nodejs
+      - swagger
+      - helpdocs
+    volumes:
+      - ./docker/nginx/development.conf:/etc/nginx/conf.d/default.conf
+  nodejs:
+    build: .
+    ports:
+     - "8888:8888"
+    environment:
+     - DB_1_PORT_27017_TCP_ADDR=mongodb
+     - ISTEST=${ISTEST}
+     - LDAP_URL=${LDAP_URL}
+     - SEARCH_FILTER=${SEARCH_FILTER}
+     - BASE_DN_LIST=${BASE_DN_LIST}
+     - JIRA_URL=${JIRA_URL}
+     - JIRA_URL_ETEAMS=${JIRA_URL_ETEAMS}
+     - JIRA_PREFIX_ETEAMS=${JIRA_PREFIX_ETEAMS}
+     - DTT_USERNAME=${DTT_USERNAME}
+     - DTT_PASSWORD=${DTT_PASSWORD}
+     - DTT_EMAIL_ADDRESS=${DTT_EMAIL_ADDRESS}
+     - DTT_EMAIL_PASSWORD=${DTT_EMAIL_PASSWORD}
+     - TEAM_EMAIL=${TEAM_EMAIL}
+     - DTT_URL=${DTT_URL}
+     - CI_PORTAL_URL=${CI_PORTAL_URL}
+     - TEAM_INVENTORY_TOOL_URL=${TEAM_INVENTORY_TOOL_URL}
+     - UPGRADE_TOOL_URL=${UPGRADE_TOOL_URL}
+    depends_on:
+     - mongodb
+     - ldap
+    volumes:
+     - ./:/opt/mean.js
+     - nodejs_node_modules:/opt/mean.js/node_modules
+     - nodejs_public:/opt/mean.js/public
+  mongodb:
+    image: armdocker.seli.gic.ericsson.se/dockerhub-ericsson-remote/mongo:4.0.14
+    ports:
+     - '27018:27017'
+    volumes:
+     - mongodb_data:/data/db
+     - mongodb_logs:/var/log/mongodb
+  swagger:
+    build:
+      context: .
+      dockerfile: docker/swagger/Dockerfile
+    environment:
+     - API_URL=/apidocs/swagger.json
+  helpdocs:
+    build:
+      context: .
+      dockerfile: docker/helpdocs/Dockerfile
+    volumes:
+     - ./helpdocs/help/en-us/helpdocs:/opt/helpdocs/help/en-us/helpdocs
+  ldap:
+    image: armdocker.seli.gic.ericsson.se/dockerhub-ericsson-remote/osixia/openldap:1.2.2
+
+volumes:
+  nodejs_node_modules:
+  nodejs_public:
+  mongodb_data:
+  mongodb_logs:

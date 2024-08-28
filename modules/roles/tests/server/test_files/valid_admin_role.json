@@ -1,0 +1,75 @@
+{
+  "name": "admin",
+  "pathsPermissions": [
+    {
+      "resources": "/users",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/roles",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/bookings",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/deployments",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/products",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/productTypes",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/hardware",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/users/filters/",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/programs",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/areas",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/teams",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/productFlavours",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/updateAreasAndTeamsData",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    },
+    {
+      "resources": "/labels",
+      "allResourceMethods": "delete post view-page put",
+      "userCreatedResourceMethods": ""
+    }
+  ]
+}

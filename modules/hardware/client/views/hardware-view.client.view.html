@@ -1,0 +1,88 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div ng-if="vm.hasEditPermissions" class="btn-group">
+        <a class="btn btn-sm btn-primary" ui-sref="hardware.edit({hardwareId: vm.hardware._id})">Edit</a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log"
+          ui-sref="logs.view({ objType: 'hardwares', objId: vm.hardware._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing Hardware '{{ vm.hardware.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <!-- HARDWARE DETAILS -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.hardware.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>Hardware Deployment Id</label>
+            <p class="form-control-static">{{ vm.hardware.hw_deployment_id }}</p>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <p class="form-control-static" id ="hardware-status" name="hardware-status">{{ vm.hardware.freeStartDate ? 'Free' : 'In Use' }}</p>
+          </div>
+          <div class="form-group">
+            <label>Time Free Information <i class="ebIcon ebIcon_info" title="Displayed in Day(s), using the date it became free"></i></label>
+            <table ng-if="vm.hardware.freeStartDate" id="free_time"
+              class="table table-striped table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Day(s)</th>
+                  <th>Free Since</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ vm.hardware.daysFree }}</td>
+                  <td>{{ vm.hardware.freeStartDate }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <p ng-if="!vm.hardware.freeStartDate"  class="form-control-static">None</p>
+          </div>
+          <div class="form-group">
+            <label>URL</label>
+            <p class="form-control-static">
+              <span ng-if="!vm.hardware.url">No Url Specified</span>
+              <a href="{{ vm.hardware.url }}">Hardware Link</a>
+            </p>
+          </div>
+          <div class="form-group">
+            <label>Program</label>
+            <p class="form-control-static">
+              <span ng-if="!vm.program">None</span>
+              <a class="form-control-static" ui-sref="programs.view({programId: vm.program._id})">{{ vm.program.name }}</a>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Dependent Deployment</label>
+              <p class="form-control-static">
+                <span ng-if="!vm.deployment">None</span>
+                <a ui-sref="deployments.view({deploymentId: vm.deployment._id})" name="dependent-deployment">
+                  {{ vm.deployment.name }}
+                </a>
+              </p>
+            </div>
+            <div class="form-group">
+              <label>Dependent Product-Type &amp; Product-Flavour</label>
+              <p class="form-control-static">
+                <span ng-if="!vm.product">None</span>
+                {{ vm.product.product_type_name }} - {{ vm.product.flavour_name }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

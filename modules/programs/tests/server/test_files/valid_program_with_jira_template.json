@@ -1,0 +1,22 @@
+{
+  "name": "validProgram2",
+  "jira_templates": [{
+    "infrastructure": "Physical",
+    "jiraBoard": "CI_Framework",
+    "issueType": "Task",
+    "project": "Continuous Integration Services",
+    "components": ["DTT_Booking"],
+    "custom_fields": [{
+      "key_name": "Custom Field Name 1",
+      "key_value": "Custom Field Value 1"
+      }]
+  },
+  {
+    "infrastructure": "Physical",
+    "jiraBoard": "DE Test Services",
+    "issueType": "Task",
+    "project": "DETS",
+    "components": [],
+    "custom_fields": []
+  }]
+}

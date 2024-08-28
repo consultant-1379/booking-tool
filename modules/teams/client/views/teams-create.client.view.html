@@ -1,0 +1,119 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} Team '{{ vm.team.name }}'</h1>
+    <h4 ng-if="vm.pageTitle === 'Editing'" style="color:red; border-bottom: none;">
+      Disabled fields are retrieved from Team Inventory Tool and cannot be modified.
+    </h4>
+  </div>
+  <form name="form" ng-submit="vm.submitForm()">
+    <fieldset>
+      <div title="Provided by Team Inventory Tool" class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+        <label for="name">Name</label>
+        <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.team.name" ng-maxlength="50" ng-disabled="!vm.isSmokeTestUser" required autofocus>
+        <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+        <span class="help-block" ng-if="vm.team.name.startsWith('A_Health_')">
+          <p><b>Warning:</b> Teams with names beginning in 'A_Health_' are reserved for Health-Check Testing: They have no logs stored and are automatically removed during DTT upgrades.</p>
+        </span>
+        <span class="help-block" ng-messages="form.name.$error">
+          <p ng-message="required">This field is required</p>
+          <p ng-message="maxlength">This must be at most of length 50</p>
+        </span>
+      </div>
+    </fieldset>
+    <fieldset>
+      <!-- State -->
+      <div title="Provided by Team Inventory Tool" class="form-group has-feedback" ng-class="{ 'has-error': form.state.$invalid, 'has-success': form.state.$valid }">
+        <label for="state">State</label>
+        <div class="input-group">
+          <select class="form-control" id="state" name="state" placeholder="State" ng-model="vm.team.state" ng-disabled="!vm.isSmokeTestUser"
+            ng-options="state as state for state in vm.states" required>
+            <option value="" disabled selected>--Select State--</option>
+          </select>
+        </div>
+        <span class="help-block" ng-messages="form.state.$error">
+          <p ng-message="required">This field is required</p>
+        </span>
+      </div>
+    </fieldset>
+    <fieldset>
+      <!-- Team Email -->
+      <div title="Provided by Team Inventory Tool" class="form-group has-feedback"
+        ng-class="{ 'has-error': form.email.$invalid, 'has-success': form.email.$valid }">
+        <label for="email">Team Email</label>
+        <input class="form-control" type="text" id="email" name="email" ng-model="vm.team.email" ng-disabled="!vm.isSmokeTestUser"
+          ng-pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/">
+        <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.email.$invalid, 'glyphicon-ok': form.email.$valid }"></span>
+        <span class="help-block" ng-messages="form.email.$error">
+          <p ng-message="pattern">This field must be a valid email address e.g. example@ericsson.com</p>
+        </span>
+      </div>
+    </fieldset>
+    <fieldset>
+      <!-- Area -->
+      <div title="Provided by Team Inventory Tool" class="form-group has-feedback"
+        ng-class="{ 'has-error': form['area-select'].$invalid, 'has-success': form['area-select'].$valid }">
+        <label>Requirement Area</label>
+        <select class="form-control" id="area-select" name="area-select" ng-model="vm.team.area_id"
+          ng-options="area._id as area.name for area in vm.areas" ng-disabled="!vm.isSmokeTestUser" required>
+          <option value="" disabled selected>--Select Requirement Area--</option>
+        </select>
+        <span class="glyphicon form-control-feedback"
+          ng-class="{ 'glyphicon-remove': form['area-select'].$invalid, 'glyphicon-ok': form['area-select'].$valid }"></span>
+        <span class="help-block" ng-messages="form['area-select'].$error">
+          <p ng-message="required">This field is required</p>
+        </span>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Team Admins</legend>
+      <div class="form-group has-feedback" ng-class="{ 'has-error': form['adminPrimary-select'].$invalid, 'has-success': form['adminPrimary-select'].$valid }">
+        <label for="adminPrimary-select">Primary Admin</label>
+        <select class="form-control" name="adminPrimary-select" id="adminPrimary-select" ng-model="vm.team.admin_IDs[0]"
+          ng-options="user._id as (user.displayName + ' (' + user.username + ')') for user in vm.admins" required>
+          <option value="" disabled selected>--Select Primary Admin--</option>
+        </select>
+        <span class="glyphicon form-control-feedback"
+          ng-class="{ 'glyphicon-remove': form['adminPrimary-select'].$invalid, 'glyphicon-ok': form['adminPrimary-select'].$valid }"></span>
+        <span class="help-block" ng-messages="form['adminPrimary-select'].$error">
+          <p ng-message="required">This field is required</p>
+        </span>
+      </div>
+      <div class="form-group" ng-if="vm.team.admin_IDs.length > 0">
+        <label for="adminSecondary-select">Secondary Admin</label>
+        <select class="form-control" name="adminSecondary-select" id="adminSecondary-select" ng-model="vm.team.admin_IDs[1]"
+          ng-options="user._id as (user.displayName + ' (' + user.username + ')') for user in vm.admins | filter: {_id: '!' + vm.team.admin_IDs[0] }">
+          <option value="" disabled selected>--Select Secondary Admin--</option>
+        </select>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Users (Members)</legend>
+      <div class="input-group">
+        <input class="form-control" type="text" id="signum" name="signum" placeholder="Enter Username" ng-model="vm.signum">
+          <span class="input-group-btn">
+            <button ng-click="vm.addUser()" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+          </span>
+      </div>
+      <p ng-if="vm.team.users.length == 0">There are currently no users assigned to this team.</p>
+      <table ng-if="vm.team.users.length > 0" class="table table-striped table-condendeployment table-hover">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in vm.currentUserNames">
+            <td>{{ user }}</td>
+            <td>
+              <a ng-click="vm.removeUser(user)" type="button" class="btn btn-default btn-sm" title="Remove User"><i class="glyphicon glyphicon-remove"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </fieldset>
+    <div class="btn-group pull-left" title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+  </form>
+</section>

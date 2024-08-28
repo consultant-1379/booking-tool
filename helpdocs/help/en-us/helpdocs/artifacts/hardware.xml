@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="hardware">
+  <title>Hardware</title>
+  <taskbody>
+    <context>
+      <p>
+        Hardware represents both independent blades and standalone rack servers.
+      </p>
+      <p><b>Objective</b></p>
+      <p>
+        Create a new Hardware within the PDU OSS Deployment Tracking Tool.
+      </p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openHardware">Open the Hardware List-View</xref></li>
+          <li><xref href="#createHardware">Create New Hardware</xref></li>
+          <li><xref href="#enterDetails">Enter the Hardware Details</xref></li>
+          <li><xref href="#saveHardware">Save Hardware</xref></li>
+        </ol>
+      </p>
+    </context>
+    <prereq>
+      <p>To create a new Hardware the user must have the following:</p>
+      <ul>
+        <li>A pre-existing Program.</li>
+      </ul>
+    </prereq>
+    <steps>
+      <step id="openHardware">
+        <cmd>Open the Hardware List-View</cmd>
+        <info>
+          <p>Click the Hardware link in the navigation bar.</p>
+        </info>
+      </step>
+      <step id="createHardware">
+        <cmd>Create New Hardware</cmd>
+        <info>
+          <p>Click the <b>Create new Hardware</b> button.</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the Hardware Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Any restrictions on the fields are outlined.</p>
+          <ul>
+            <li><b>Name:</b> Name of the Hardware.</li>
+            <li><b>Hardware Deployment ID:</b> ID of Hardware Deployment.</li>
+            <li><b>URL:</b> URL of the Hardware.</li>
+            <li><b>Program:</b> Program of the Hardware.</li>
+            <li>
+              <lines>
+                <b>Time Free Information:</b> This field defines how long the Hardware has been free.
+                <b>NOTE:</b> This field is automatically set by the tool and cannot be manually adjusted.
+                When the Hardware is created or dissociated from a Deployment, the field is given a timestamp representing the moment the Hardware became free.
+                The timestamp is used to get an accurate measurement (days) on how long the Hardware has been free.
+                When the Hardware is associated with a Deployment, the field becomes undefined which represents that the Hardware is now in use.
+              </lines>
+            </li>
+          </ul>
+        </info>
+      </step>
+      <step id="saveHardware">
+        <cmd>Save Hardware</cmd>
+        <info>
+          <p>
+            Click the <b>Save</b> button, the Hardware will be created, and the user will be
+            redirected back to the view page for the newly created Hardware.
+          </p>
+          <p>
+            <b>NOTE:</b> Hardware will not save if any fields are invalid (invalid fields
+            are highlighted in red).
+          </p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A New Hardware is created in the PDU OSS Deployment Tracking Tool.</p>
+    </result>
+  </taskbody>
+</task>

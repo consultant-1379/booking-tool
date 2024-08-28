@@ -1,0 +1,70 @@
+<div class="container" ng-controller="HeaderController as vm">
+  <div class="navbar-header">
+    <button id="navbar-toggle" class="navbar-toggle" type="button" ng-click="vm.navbarToggle()">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a ui-sref="home" class="navbar-brand">
+      <strong ng-if="vm.isDev">DEV: </strong>DTT
+    </a>
+  </div>
+  <nav class="navbar-collapse" uib-collapse="!vm.isCollapsed" role="navigation">
+    <ul class="nav navbar-nav" ng-if="vm.menu.shouldRender();">
+      <li ng-repeat="item in vm.menu.items | orderBy: 'position'" ng-if="item.shouldRender() && item.title !== 'Roles'" ng-switch="item.type" ng-class="{ dropdown: item.type === 'dropdown' }" ui-sref-active="active" class="{{item.class}}" uib-dropdown="item.type === 'dropdown'">
+        <a href="#" ng-switch-when="dropdown" class="dropdown-toggle" uib-dropdown-toggle role="button">{{item.title}}&nbsp;<span class="caret"></span></a>
+        <ul ng-switch-when="dropdown" class="dropdown-menu">
+          <li ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender();">
+            <a ui-sref="{{subitem.state}}({{subitem.params}})" ng-click="vm.navbarToggle()" ng-bind="subitem.title"></a>
+          </li>
+        </ul>
+        <a ng-switch-default ui-sref="{{item.state}}" ng-click="vm.navbarToggle()" ng-bind="item.title"></a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a data-toggle="tooltip" title="Version" ng-href="{{vm.changeLogURL}}" target="_blank">
+          <span ng-bind="vm.version"></span>
+        </a>
+      </li>
+      <li>
+       <div class="ebSystemBarComponent-body">
+       </div>
+      </li>
+      <li data-toggle="tooltip" title="Login" ng-hide="vm.authentication.user" class="ebIcon ebIcon_login" ui-sref="authentication.signin" style="cursor: pointer">
+      </li>
+      <li uib-dropdown ng-show="vm.authentication.user" style="cursor: pointer">
+        <a id="user-username" class="dropdown-toggle" uib-dropdown-toggle>
+          <span ng-bind="vm.authentication.user.displayName"></span>
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-hide="!vm.authentication.isAllowed('/users', 'view-page', true)">
+            <a ui-sref="users.list">Users</a>
+          </li>
+          <li ng-hide="!vm.authentication.isAllowed('/roles', 'view-page', true)">
+            <a ui-sref="roles.list">Roles</a>
+          </li>
+          <li>
+            <a href="/api/auth/signout" target="_self">Signout</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+       <div class="ebSystemBarComponent-body">
+       </div>
+      </li>
+      <li uib-dropdown style="cursor: pointer">
+        <a class="dropdown-toggle" uib-dropdown-toggle>
+          <span class="ebIcon ebIcon_help"></span> Help
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="/helpdocs" target="_blank">Help Documentation</a></li>
+          <li><a href="/apidocs" target="_blank">API Documentation</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>

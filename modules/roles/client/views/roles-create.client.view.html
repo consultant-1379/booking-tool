@@ -1,0 +1,93 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} Role '{{ vm.role.name }}'</h1>
+  </div>
+  <form name="form" ng-submit="vm.submitForm()">
+    <fieldset>
+      <div class="row row-relative">
+        <!-- Role DETAILS -->
+        <div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+            <role for="name">Name</role>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.role.name"
+              ng-minlength="2" ng-maxlength="50" ng-pattern="/^[a-zA-Z0-9\-_.]*$/" required autofocus>
+            <span class="glyphicon form-control-feedback"
+              ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"
+              style="top: 20px"></span>
+            <span class="help-block" ng-if="vm.role.name.startsWith('A_Health_')">
+              <p><b>Warning:</b> Roles with names beginning in 'A_Health_' are reserved for Health-Check Testing: They
+                have no logs stored and are automatically removed during CM Portal upgrades.</p>
+            </span>
+            <span class="help-block" ng-messages="form.name.$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="minlength">This must be at least of length 2</p>
+              <p ng-message="maxlength">This must be at most of length 50</p>
+              <p ng-message="pattern">This must only contain letters, numbers, dots, dashes and underscores</p>
+            </span>
+          </div>
+        </div>
+        <div>
+          <legend>Permissions</legend>
+          <div ng-repeat="permission in vm.role.pathsPermissions track by $index" class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <h6 class="panel-title pull-left" style="padding-top: 7.5px;">Permission {{ $index + 1 }}:
+              </h6>
+              <div class="btn-group pull-right">
+                <button id="remove-permission[{{$index}}]" ng-click="vm.removePermission($index)" type="button"
+                  class="btn btn-sm form-button"><i class="glyphicon glyphicon-remove"></i> Remove Permission</button>
+              </div>
+            </div>
+            <div class="panel-body">
+              <!-- Special Permissions -->
+              <div class="form-group has-feedback"
+                ng-class="{ 'has-error': form['permissions{{$index}}-resources'].$invalid, 'has-success': form['permissions{{$index}}-resources'].$valid }">
+                <label>Path : <strong> " {{ permission.resources }} " </strong></label>
+                <input class="form-control" name="permissions{{$index}}-resources" type="text" placeholder="e.g: /users"
+                  ng-model="vm.role.pathsPermissions[$index].resources" ng-maxlength="60" ng-minlength="2" ng-model-options="{updateOn: 'blur'}" required>
+                <span class="glyphicon form-control-feedback"
+                  ng-class="{ 'glyphicon-remove': form['permissions{{$index}}-resources'].$invalid, 'glyphicon-ok': form['permissions{{$index}}-resources'].$valid }"></span>
+                <span class="help-block" ng-messages="form['permissions'+$index+'-resources'].$error">
+                  <p ng-message="required">This field is required</p>
+                  <p ng-message="maxlength">This must be at most of length 60</p>
+                  <p ng-message="minlength">This must be at least of length 2</p>
+                </span>
+              </div>
+              <div class="form-group has-feedback">
+                <label name="all-resource-methods-label">Actions (for all resources) :</label>
+                <div class="form-group">
+                  <label ng-repeat="methodName in allResourceMethods" class="checkbox-inline">
+                    <input type="checkbox" name="all-resource-selected-methods" id="permissions{{$parent.$index}}-all-resource-{{methodName}}"
+                      value="{{methodName}}"
+                      ng-checked="vm.role.pathsPermissions[$parent.$index].allResourceMethods.indexOf(methodName) > -1"
+                      ng-click="optionSelected(methodName, 'allResourceMethods', $parent.$index)">
+                    {{methodName.replace('-', ' ')}}
+                  </label>
+                </div>
+              </div>
+              <div class="form-group has-feedback">
+                <label name="user-created-resource-methods-label">Actions (for resources created by user) :</label>
+                <div class="form-group">
+                  <label ng-repeat="methodName in userCreatedResourceMethods" class="checkbox-inline">
+                    <input type="checkbox" name="user-created-resource-selected-methods"
+                      id="permissions{{$parent.$index}}-user-created-resource-{{methodName}}" value="{{methodName}}"
+                      ng-checked="vm.role.pathsPermissions[$parent.$index].userCreatedResourceMethods.indexOf(methodName) > -1"
+                      ng-click="optionSelected(methodName, 'userCreatedResourceMethods', $parent.$index)">
+                    {{methodName}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button id="add-permission" ng-click="vm.addPermission()" type="button" class="btn btn-default pull-right"><i
+              class="glyphicon glyphicon-plus"></i> Add Permission</button>
+        </div>
+      </div>
+    </fieldset>
+    <div class="btn-group pull-left"
+      title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+  </form>
+</section>

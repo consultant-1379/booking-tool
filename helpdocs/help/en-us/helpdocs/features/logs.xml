@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="logs">
+  <title>Historical Logs</title>
+  <taskbody>
+    <context>
+      <p>
+        A Historical Log within the PDU OSS Deployment Tracking Tool (DTT) is a representation of
+        all actions performed on a specific object. Selecting the "Logs" option in the navigation
+        bar provides users with the option to view any objects logs list view for the following
+        object types: Deployments, Bookings, Hardware, Product-Types, Teams°, Programs°, Requirement Areas (RA)°,
+        Product-Flavours° or Labels.
+      </p>
+      <p>
+        ° Product-Flavour, Program, Requirement Areas (RA) and Team logs can only be viewed by a user with
+        granted privileges.
+      </p>
+      <p><b>Logs List View</b></p>
+      <p>
+        This page provides a list-view of logs for a specific object-type, providing some basic
+        log information on each object of a given type. The tabulated objects log information is
+        separated between two tables: "Live" and "Deleted". "Live" objects logs are for objects
+        that still exist within the Database whilst "Deleted" objects logs are for objects that
+        have been removed from the Database. A search field is provided on the view for filtering
+        the tables by specific object parameter values. The tables can be sorted by any of these
+        values.
+      </p>
+      <p>
+        The tables detail the following information on each object:
+        <ul>
+          <li>
+            Each table provides basic log information about each object: Who it was created by,
+            when it was created, the object's name and the object's ID.
+          </li>
+          <li>
+            The 'Live' table provides additional information of by who and when the object was last
+            modified.
+          </li>
+          <li>
+            The 'Deleted' table provides additional information of by who and when the object was
+            deleted.
+          </li>
+        </ul>
+      </p>
+
+      <p>
+        A 'view log' action button exists for each object that provides the user access to an
+        object's log-view page. Here, a detailed view is provided that displays more information
+        on each CRUD action performed on the object.
+      </p>
+
+      <p><b>Object Log View</b></p>
+      <p>
+        The log-view page provides detailed information records about individual actions performed
+        on a specific object. The first record provides object creation information. This includes
+        information details such as by who and when the object was created, as well as providing a
+        "Download" button so that the user can download a JSON file of the object as it existed
+        when it was created.
+      </p>
+
+      <p>
+        If one or more updates have been performed on an object, a record is provided for each
+        update that includes the following details:
+        <ol>
+          <li>
+            Information on the person that performed the update. Selecting the Updater's name opens
+            a 'create email' panel in Outlook so that the user can contact the updater if needs be.
+          </li>
+          <li>
+            Information on the date and time that the update occurred on.
+          </li>
+          <li>
+            A table that details each specific change made to the object during that update. The
+            table is represented in a hierarchy format, where if the object is multi-layered then
+            parent object fields can be toggled to either show or hide its children's key-values.
+          </li>
+          <li>
+            A "Download" button that will download a JSON file of the object as it existed when the
+            update occurred.
+          </li>
+          <li>
+            As of March, 2021, all Requirement Areas updates require a reason for the change to be specified.
+            The reason for each update is detailed alongside the other associated log information.
+          </li>
+        </ol>
+      </p>
+
+      <p>
+        If the object has been deleted from the database, a final log will state by whom and when
+        the deletion occurred. A "Download" button is also provided here so that the user can
+        download a JSON file of the object as it existed before it was deleted.
+      </p>
+      <p>
+        If the object associated with a specific log is still live in the database then there is a
+        link provided at the top of that logs view to take the user directly to the live objects
+        standard view page within DTT. There also exists a button on each objects normal view page
+        to take the user to their log page (if a log exists for this object).
+      </p>
+
+      <p><b>Restore Object Functionality</b></p>
+      <p>
+        "Restore Object" functionality exists for every non-legacy object within DTT. This
+        functionality allows the user to revert non-legacy objects back to any of their previous
+        states. To use this functionality, the user must access the log-view for a specified
+        object. Here, a "restore" button is provided for each individual log record. Clicking a
+        "restore" button will then revert the objects state to how it existed at the time of the
+        specified record.
+        <ol>
+          <li>
+            Restoring a "live" object in the database will revert the said objects state to the
+            specified version.
+          </li>
+          <li>
+            Restoring a "deleted" object will recreate the specified version of the said object
+            with a new ID.
+          </li>
+          <li>
+            Restoring an object will fail if the unique attributes of the artifact now exist in
+            another artifact.
+          </li>
+          <li>
+            Restoring an object will fail if the dependant or associated artifacts of the object
+            does not exist anymore.
+          </li>
+        </ol>
+      </p>
+
+      <p><b>Information on Legacy Object Logs</b></p>
+      <p>
+        As logging has only been implemented since January 2019, there exists legacy objects within
+        DTT that have no log view page. Legacy objects are objects that were created/updated/deleted
+        before the implementation of logging and have not been updated or deleted since
+        implementation. As such, no log object has being generated for them yet.
+      </p>
+      <p>
+        When an update/deletion is performed on a legacy object, the log object created is populated
+        not only with the update/deletion data, but also with default creation information values.
+        These default values include the 'CreatedBy' field being set to 'UNKNOWN USER' and the
+        'CreatedAt' field being set to the start of the UNIX Epoch Date - 1/1/1970.
+      </p>
+      <p>
+        These default values are provided as, previous to logging being implemented, there is no
+        record kept by DTT to know by who and when an object was actually created. This also means
+        that all modifications performed on legacy objects before logging was implemented are also
+        unknown to DTT. Therefore, the current version of a legacy object (before any further
+        modifications are made) is seen as the original version of that object. It is this version
+        of the object which is then used as the base comparator for any further modifications
+        performed on the object.
+      </p>
+      <p>
+        <b>NOTE:</b> Any objects that were deleted before the implementation of logging will not have a
+        log object generated for them.
+      </p>
+
+      <p><b>Deleted Artifacts Logs Retention Policy</b></p>
+      <lines>
+        The deleted Artifacts logs are only kept up to six months, anything older than six months will be permanently deleted from the database.
+        This deletion process is scheduled at start of each month.
+      </lines>
+
+      <p><b>Information on Booking Emails</b></p>
+      <lines>
+        An Email log is stored whenever an email is sent with regards to a Booking action; e.g. Create, Update, Expiring, Jenkins Trigger.
+        All Email logs are stored regardless of whether the email sending was successful.
+        A user can access the list of Email log for each Booking from within the Booking Log view page.
+        <b>NOTE:</b> Email logs are only kept for 30 days and are then deleted from the system.
+      </lines>
+
+      <p><b>Search Filter in Logs</b></p>
+      <p>
+        As every single artifact's history is arranged and sorted by time, it is difficult to find a specific key or value
+        in an entire artifact's history. This functionality provides the ability to search any keys or values within each
+        updated log in the entire artifact's history. Once the user inputs the search-query and clicks the corresponding
+        button to search by either key or value, the records are filtered down to only those with any key/values that match
+        the provided search-query. Click the clear button to delete the search pattern and get the entire history back to the page.
+      </p>
+      <p>
+        <b> Note: The search pattern is case insensitive and requires full key/value name. </b>
+      </p>
+
+    </context>
+  </taskbody>
+</task>

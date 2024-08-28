@@ -1,0 +1,113 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} Product-Type '{{ vm.productType.name }}'</h1>
+  </div>
+  <form name="form" ng-submit="vm.submitForm()">
+    <fieldset>
+      <!-- Name -->
+      <div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+        <label for="name">Name</label>
+        <input class="form-control" type="text" ng-disabled="vm.hasDependentDeployments" title="{{ vm.hasDependentDeployments ? 'Can\'t edit Product-Type\'s name, it has dependent Deployments.' : '' }}" id="name" name="name" placeholder="Name" ng-model="vm.productType.name" ng-minlength="2" ng-maxlength="50" ng-pattern="/^[a-zA-Z0-9\-_.]*$/" required autofocus>
+        <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+        <span class="help-block" ng-if="vm.productType.name.startsWith('A_Health_')">
+          <p><b>Warning:</b> Product-Types with names beginning in 'A_Health_' are reserved for Health-Check Testing: They have no logs stored and are automatically removed during DTT upgrades.</p>
+        </span>
+        <span class="help-block" ng-messages="form.name.$error">
+          <p ng-message="required">This field is required</p>
+          <p ng-message="minlength">This must be at least of length 2</p>
+          <p ng-message="maxlength">This must be at most of length 50</p>
+          <p ng-message="pattern">This must only contain letters, numbers, dots, dashes and underscores</p>
+        </span>
+      </div>
+
+      <!-- Product-Flavours -->
+      <div class="form-group">
+        <label>Flavours <i class="ebIcon ebIcon_info" title="Use flavours to classify a product-type."></i></label>
+        <a ng-repeat="flavour in vm.productType.flavours" class="label label-primary" style="margin-left: 5px" >{{ flavour }}</a>
+        <multiselect show-search="true" placeholder="Choose Product-Flavours" search-limit="vm.allFlavours.length" ng-model="vm.productType.flavours" options="vm.allFlavours"></multiselect>
+      </div>
+
+      <!-- Strict Configuration -->
+      <div class="form-group has-feeback">
+        <label>Strict Configuration <i class="ebIcon ebIcon_info" title="Strict configuration wont allow user to add extra configuration fields when creating a deployments"></i></label>
+        <br>
+        <toggle width="130px" id="strict-toggle" ng-model="vm.productType.configKeysAreStrict"
+          on="<i class='fa fa-check'></i> True" off="<i class='fa fa-times'></i> False">
+        </toggle>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <!-- Configuration Fields -->
+      <legend>
+        Configuration Fields <i class="ebIcon ebIcon_info" title="Provide any mandatory configuration fields"></i>
+      </legend>
+      <div ng-repeat="productTypeConfiguration in vm.productType.mandatoryConfigKeys track by $index" class="panel panel-default">
+        <div class="btn-group pull-right">
+          <button id="remove-productType-key[{{$index}}]" ng-click="vm.removeConfigurationField(productTypeConfiguration)"
+            type="button" class="btn btn-sm"><i class="glyphicon glyphicon-remove"></i> Remove Field
+            </button>
+        </div>
+        <div class="panel-body">
+          <table>
+            <tr>
+              <th style="width:33%;">Key Name #{{$index + 1}}</th>
+              <th>Applicable for</th>
+            </tr>
+            <tr>
+              <td style="padding-right:10px;">
+                <!-- Field Name -->
+                <div class="form-group has-feedback"
+                  ng-class="{ 'has-error': form['productType.mandatoryConfigKeys[{{$index}}].name'].$invalid, 'has-success': form['productType.mandatoryConfigKeys[{{$index}}].name'].$valid }">
+                  <input class="form-control" name="productType.mandatoryConfigKeys[{{$index}}].name"
+                    type="text" placeholder="Product Configuration Name"
+                    ng-model="vm.productType.mandatoryConfigKeys[$index].name" ng-minlength="2" ng-maxlength="50"
+                    ng-pattern="/^(?!\b(\bTEMP\b)\b)+[a-z0-9\-_.]*$/i" required>
+                  <span class="glyphicon form-control-feedback"
+                    ng-class="{ 'glyphicon-remove': form['productType.mandatoryConfigKeys[{{$index}}].name'].$invalid, 'glyphicon-ok': form['productType.mandatoryConfigKeys[{{$index}}].name'].$valid }">
+                  </span>
+                </div>
+              </td>
+              <td>
+                <!-- Product Configuration Value -->
+                <div class="form-group has-feedback"
+                  ng-class="{ 'has-error': form['productType.mandatoryConfigKeys[{{$index}}].infrastructure'].$invalid, 'has-success': form['productType.mandatoryConfigKeys[{{$index}}].infrastructure'].$valid }">
+                <select class="form-control" name="productType.mandatoryConfigKeys[{{$index}}].infrastructure" ng-model="vm.productType.mandatoryConfigKeys[$index].infrastructure"
+                  ng-options="type for type in vm.fieldApplicableFor" required>
+                  <option value="" disabled selected>--Choose Infrastructure--</option>
+                </select>
+                  <span class="glyphicon form-control-feedback"
+                    ng-class="form['productType.mandatoryConfigKeys[{{$index}}].key_value'].$invalid ? 'glyphicon-remove' : 'glyphicon-ok'">
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="help-block"
+                  ng-messages="form['productType.mandatoryConfigKeys[' + $index + '].name'].$error">
+                  <p ng-message="required">Product Configuration Name is required</p>
+                  <p ng-message="minlength">Product Configuration Name must be at least of length 2</p>
+                  <p ng-message="maxlength">Product Configuration Name must be at most of length 50</p>
+                  <p ng-message="pattern">Product Configuration Name must only contain letters, numbers, dots, dashes,
+                    underscores, and not named TEMP</p>
+                </span>
+              </td>
+              <td>
+                <span class="help-block"
+                  ng-messages="form['productType.mandatoryConfigKeys[' + $index + '].name'].$error">
+                  <p ng-message="required">Product Configuration Value is required</p>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <button id="add-product-configuration" ng-click="vm.addConfigurationField()" type="button"
+        class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i> Add Configuration Field</button>
+    </fieldset>
+    <div class="btn-group pull-left" title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+  </form>
+</section>

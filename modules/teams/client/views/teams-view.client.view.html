@@ -1,0 +1,75 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <a class="btn btn-sm btn-book" ui-sref="bookings.calendar({teamFilter: vm.team._id})">Bookings</a>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-sm btn-info" ui-sref="statistics.bookings({ teamFilter: vm.team._id })">Statistics</button>
+      </div>
+      <div ng-if="vm.hasEditPermissions" class="btn-group">
+        <a class="btn btn-sm btn-primary" ui-sref="teams.edit({teamId: vm.team._id})">Edit</a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log"
+          ui-sref="logs.view({ objType: 'teams', objId: vm.team._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing Team '{{ vm.team.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <!-- TEAM DETAILS -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.team.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <p class="form-control-static">{{ vm.team.state }}</p>
+          </div>
+          <div class="form-group">
+            <label>Team Email</label>
+            <p ng-if="vm.team.email" class="form-control-static">{{vm.team.email}}</p>
+            <p ng-if="!vm.team.email" class="form-control-static">None</p>
+          </div>
+          <div class="form-group">
+            <label>Requirement Area</label>
+            <p ng-if="!vm.area._id">None</p>
+            <p class="form-control-static" ng-if="vm.area._id"><a ui-sref="areas.view({ areaId: '{{ vm.area._id }}' })">{{vm.area.name}}</a></p>
+          </div>
+          <div class="form-group">
+            <label>Admins</label>
+            <p class="form-control-static"><strong>Primary Admin: </strong>{{ vm.team.adminPrimary.displayName }}
+              ({{ vm.team.adminPrimary.username }})</p>
+            <p class="form-control-static" ng-if="vm.team.adminSecondary"><strong>Secondary Admin:
+              </strong>{{ vm.team.adminSecondary.displayName }} ({{ vm.team.adminSecondary.username }})</p>
+          </div>
+          <div class="form-group">
+            <label>Users (Members)</label>
+            <p ng-if="!vm.team.users.length">None</p>
+            <p ng-repeat="user in vm.team.users">{{ user.displayName }} ({{ user.username }})</p>
+          </div>
+        </div>
+
+        <!-- ASSOCIATION DETAILS -->
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Dependent Deployments</label>
+              <div class="dependent-items">
+                <p ng-if="!vm.dependentDeployments.length">None</p>
+                <p ng-repeat="dependentDeployment in vm.dependentDeployments">
+                  <a
+                    ui-sref="deployments.view({deploymentId: dependentDeployment._id})">{{ dependentDeployment.name }}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

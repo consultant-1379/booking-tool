@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Features">
+  <title>Features</title>
+  <conbody>
+    <section>
+      <p>These pages provide information on all of the features in the PDU OSS Deployment Tracking Tool.</p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/bookingFeatures.xml" type="task">Booking Features</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/customFilters.xml" type="task">Custom Filters</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/statistics.xml" type="task">Statistics</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/admins.xml" type="task">Admins and User-Roles</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/jiraTemplates.xml" type="task">JIRA Templates</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/globalSearch.xml" type="task">Global Search</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/apiSearchAndFilter.xml" type="task">API Search and Filter</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/exportData.xml" type="task">Export Data</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/logs.xml" type="task">Historical Logs</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="features/notificationBar.xml" type="task">Notification Bar</xref>
+      </p>
+    </section>
+  </conbody>
+</concept>

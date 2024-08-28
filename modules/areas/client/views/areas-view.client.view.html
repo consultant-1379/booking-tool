@@ -1,0 +1,88 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <a class="btn btn-sm btn-book" ui-sref="bookings.calendar({areaFilter: vm.area._id})">Bookings</a>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-sm btn-info" ui-sref="statistics.bookings({ areaFilter: vm.area._id })">Statistics</button>
+      </div>
+      <div ng-if="vm.hasEditPermissions" class="btn-group">
+        <a class="btn btn-sm btn-primary" ui-sref="areas.edit({areaId: vm.area._id})">Edit</a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log"
+          ui-sref="logs.view({ objType: 'areas', objId: vm.area._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing Requirement Area '{{ vm.area.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <!-- AREA DETAILS -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.area.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>Program</label>
+            <p ng-if="!vm.program._id">None</p>
+            <p ng-if="vm.program._id" class="form-control-static">
+              <a ui-sref="programs.view({programId: vm.program._id})">{{ vm.program.name }}</a>
+            </p>
+          </div>
+          <div class='form-group'>
+            <label>Booking-Assignee User</label>
+            <p ng-if="vm.bookingAssigneeUser" class="form-control-static">
+              {{ vm.bookingAssigneeUser.displayName }} ({{ vm.bookingAssigneeUser.username }})
+            </p>
+            <p ng-if="!vm.bookingAssigneeUser" class="form-control-static">No User Specified</p>
+          </div>
+          <div class="form-group">
+            <label>
+              Maximum Booking Duration (Days)
+              <i class="ebIcon ebIcon_info" title="The maximum number of days a Deployment can be individually booked for."></i>
+            </label>
+            <p class="form-control-static">
+              {{ vm.area.maxBookingDurationDays ? vm.area.maxBookingDurationDays : 'Unlimited' }}
+            </p>
+          </div>
+          <div class="form-group">
+            <label>
+              Maximum Booking Advance (Weeks)
+              <i class="ebIcon ebIcon_info" title="How far in advance can a Deployment booking finish, specified in weeks."></i>
+            </label>
+            <p class="form-control-static">
+              {{ vm.area.maxBookingAdvanceWeeks ? vm.area.maxBookingAdvanceWeeks : 'Unlimited' }}
+            </p>
+          </div>
+        </div>
+        <!-- ASSOCIATION DETAILS -->
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Dependent Teams</label>
+              <div class="dependent-items">
+                <p ng-if="!vm.dependentTeams.length">None</p>
+                <p ng-repeat="dependentTeam in vm.dependentTeams">
+                  <a ui-sref="teams.view({ teamId: dependentTeam._id})">{{ dependentTeam.name }}</a>
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Dependent Deployments</label>
+              <div class="dependent-items">
+                <p ng-if="!vm.dependentDeployments.length">None</p>
+                <p ng-repeat="dependentDeployment in vm.dependentDeployments">
+                  <a ui-sref="deployments.view({deploymentId: dependentDeployment._id})">{{ dependentDeployment.name }}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

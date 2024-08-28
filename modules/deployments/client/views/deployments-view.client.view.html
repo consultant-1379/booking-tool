@@ -1,0 +1,175 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <a class="btn btn-sm btn-book" ui-sref="bookings.calendar({programFilter: vm.program._id, areaFilter: vm.area._id, deploymentFilter: vm.deployment._id})">Bookings</a>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-sm btn-info" ui-sref="statistics.bookings({deploymentFilter: vm.deployment._id})">Statistics</button>
+      </div>
+      <div ng-if="vm.hasCreatePermissions" class="btn-group">
+        <button id="clone-deployment" class="btn btn-sm btn-success" ng-click="vm.cloneObject()">Clone</button>
+      </div>
+      <div ng-if="vm.hasEditPermissions" class="btn-group">
+        <a class="btn btn-sm btn-primary" ui-sref="deployments.edit({deploymentId: vm.deployment._id})">Edit</a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log"
+          ui-sref="logs.view({ objType: 'deployments', objId: vm.deployment._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing Deployment '{{ vm.deployment.name }}'
+      <span ng-if="vm.program.name === 'Unassigned'"> - UNBOOKABLE <i class="ebIcon ebIcon_info" title="When the Program/RA attribute is 'Unassigned' it is not possible to book the Deployment for use.&#010;The 'Unassigned' value should selected when Deployment is no longer assigned to an Program/RA attribute and or is awaiting assignment/reassignment to Program/RA."></i></span>
+    </h1>
+  </div>
+
+  <!-- Deployment Info -->
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <div class="col-md-3">
+          <!-- DEPLOYMENT DETAILS -->
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.deployment.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <p class="form-control-static">{{ vm.deployment.status }}</p>
+          </div>
+          <!-- ASSOCIATION DETAILS -->
+          <div class="form-group">
+            <label>Program</label>
+            <p class="form-control-static">
+              <span ng-if="!vm.program">No Program Specified</span>
+              <a ui-sref="programs.view({programId: vm.program._id})">{{ vm.program.name }}</a>
+            </p>
+          </div>
+          <div class="form-group">
+            <label>Requirement Area</label>
+            <p class="form-control-static">
+              <span ng-if="!vm.program">No Requirement Area Specified</span>
+              <a ui-sref="areas.view({areaId: vm.area._id})">{{ vm.area.name }}</a>
+            </p>
+          </div>
+          <div class="form-group">
+            <label>Team</label>
+            <p class="form-control-static">
+              <span ng-if="!vm.team">No Team Specified</span>
+              <a ui-sref="teams.view({teamId: vm.team._id})">{{ vm.team.name }}</a>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-border">
+          <div class="col-border-padding">
+            <!-- DEPLOYMENT PURPOSE DETAILS -->
+            <div class="form-group">
+              <label>Timebox <i class="ebIcon ebIcon_info" title="Timebox information is updated when the Deployment is edited and the JIRA issue with lowest Timebox date in the Deployment's JIRA issues list, is used to provide this information"></i></label>
+              <table ng-if="vm.deployment.timebox_data.timebox" id="timebox"
+                class="table table-striped table-condensed table-hover full-document-view">
+                <thead>
+                  <tr>
+                    <th>Time Remaining</th>
+                    <th>End Date</th>
+                    <th>Provided By</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ vm.deployment.timebox_data.time_remaining }} Day(s)</td>
+                    <td>{{ vm.deployment.timebox_data.timebox }}</td>
+                    <td>{{ vm.deployment.timebox_data.issue }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p ng-if="!vm.deployment.timebox_data.timebox" class="form-control-static">None</p>
+            </div>
+            <div class="form-group">
+            <label>SPOC(s)</label>
+              <span class="form-control-static">
+                <br>
+                <span ng-if="!vm.deployment.spocUser_ids.length">No SPOC(s) Specified</span>
+                <span ng-if="vm.deployment.spocUser_ids.length > 1" id="all-spoc-user-emails"></span>
+                <div class="dependent-items-other" ng-if="vm.deployment.spocUser_ids.length">
+                  <p ng-repeat="spoc in vm.spocUsers track by $index">
+                      <span id="spoc-user-email-{{$index}}"></span>
+                  </p>
+                </div>
+              </span>
+            </div>
+            <div class="form-group">
+              <label>Cross RA Sharing</label>
+                <p class="form-control-static">{{ vm.deployment.crossRASharing ? 'Enabled' : 'Disabled' }}</p>
+            </div>
+            <div class="form-group">
+              <label>Purpose</label>
+              <p class="form-control-static purpose-field">
+                <span class="multi-line-field">{{ vm.deployment.purpose ? vm.deployment.purpose : 'No Purpose Specified' }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- DEPLOYMENT JIRA ISSUES -->
+        <div class="col-md-5 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>JIRA Issues</label>
+              <div ng-switch="vm.deployment.jira_issues.length">
+                <p ng-switch-when="0">None</p>
+                <div ng-switch-default>
+                  <table id="jira-issues"
+                    class="table table-striped table-condensed table-hover full-document-view jira-issues-table">
+                    <thead>
+                      <tr>
+                        <th>Issue</th>
+                        <th>Summary</th>
+                        <th>Team</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="jira in vm.jiraIssuesData">
+                        <td><a href="{{jira.viewUrl}}">{{jira.issue}}</a></td>
+                        <td>{{jira.summary}}</td>
+                        <td>{{jira.team}}</td>
+                        <td>{{jira.status}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Labels</label>
+              <div class="dependent-items-other" name="dependent-labels">
+                <p ng-if="!vm.deployment.label_ids.length">No Labels Specified</p>
+                <p ng-repeat="label in vm.allDeploymentLabels">
+                  <a ui-sref="labels.view({ labelId: label._id })">
+                    {{ label.name }}
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Dependent Bookings</label>
+              <div class="dependent-items-other" name="dependent-bookings">
+                <p ng-if="!vm.dependentBookings.length">None</p>
+                <p ng-repeat="dependentBooking in vm.dependentBookings | orderBy: 'startTime': true">
+                  <a ui-sref="bookings.calendar({bookingFocus: dependentBooking._id, programFilter: vm.program._id, areaFilter: vm.area._id, deploymentFilter: vm.deployment._id})">
+                    {{ dependentBooking.startTime | date: 'dd/MM/yyyy' }} - {{ dependentBooking.endTime | date: 'dd/MM/yyyy' }} ({{ dependentBooking.status }})
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <!-- Products Tables -->
+  <h4><strong>Products</strong></h4>
+  <table class="table table-striped table-condensed non-clickable-row product-data-table">
+    <tbody>
+    </tbody>
+  </table>
+</section>

@@ -1,0 +1,10 @@
+{
+  "name": "superAdmin",
+  "pathsPermissions": [
+    {
+      "resources": "/*",
+      "allResourceMethods": "delete view-page put post",
+      "userCreatedResourceMethods": ""
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "definitions": {
+    "HistoricalLog": {
+      "required": [ "associated_id", "createdAt", "createdBy", "originalData" ],
+      "properties": {
+        "associated_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{24}$",
+          "example": "5c45d0c16c727c0017730255"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date",
+          "example": "2018-12-31T12:30:00.000Z"
+        },
+        "createdBy": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string", "example": "testuser@ericsson.com" },
+            "username": { "type": "string", "example": "etester" },
+            "displayName": { "type": "string", "example": "Test User" }
+          }
+        },
+        "originalData": {
+          "type": "object",
+          "properties": {},
+          "example": {
+            "name": "testObject",
+            "someBooleanValue": false,
+            "someIntegerValue": 5
+          }
+        },
+        "updates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "updatedAt": {
+                "type": "string",
+                "format": "date",
+                "example": "2018-12-31T12:35:00.000Z"
+              },
+              "updatedBy": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "testuser@ericsson.com" },
+                  "username": { "type": "string", "example": "etester" },
+                  "displayName": { "type": "string", "example": "Test User" }
+                }
+              },
+              "updateData": {
+                "type": "object",
+                "properties": {},
+                "example": {
+                  "someBooleanValue": true,
+                  "someIntegerValue": 10
+                }
+              }
+            }
+          }
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date",
+          "example": "2018-12-31T12:45:00.000Z"
+        },
+        "deletedBy": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string", "example": "testuser@ericsson.com" },
+            "username": { "type": "string", "example": "etester" },
+            "displayName": { "type": "string", "example": "Test User" }
+          }
+        }
+      }
+    }
+  }
+}

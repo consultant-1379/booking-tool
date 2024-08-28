@@ -1,0 +1,52 @@
+<section>
+  <div class="page-header">
+    <div ng-if="vm.hasEditPermissions" class="btn-toolbar pull-right">
+      <a class="btn btn-sm btn-primary" ui-sref="roles.edit({roleId: vm.role._id})">Edit</a>
+    </div>
+    <div class="btn-group">
+      <a class="btn btn-sm btn-warning" id="view-log" ui-sref="logs.view({ objType: 'roles', objId: vm.role._id })">View
+        Log</a>
+    </div>
+    <h1>Viewing Role '{{ vm.role.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <!-- Role DETAILS -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.role.name }}</p>
+          </div>
+        </div>
+        <!-- Permission DETAILS -->
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <label>Permissions</label>
+            <div ng-switch="vm.role.pathsPermissions.length">
+              <p ng-switch-when="0">None</p>
+              <div class="form-group" ng-repeat="permission in vm.role.pathsPermissions">
+                <p class="form-control-static">
+                  <strong>path:</strong> "{{ permission.resources }}"
+                  <strong>all resources:</strong> "{{ permission.allResourceMethods }}"
+                  <strong>user created resources: </strong> "{{ permission.userCreatedResourceMethods }}" </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Dependent Users DETAILS -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Dependent Users</label>
+            <div ng-switch="vm.dependentUsers.length">
+              <p ng-switch-when="0">None</p>
+              <div class="form-group" ng-repeat="user in vm.dependentUsers">
+                <p class="form-control-static"> {{ user.displayName }} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

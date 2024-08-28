@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Artifacts">
+  <title>Artifacts</title>
+  <conbody>
+    <section>
+      <p>These pages provide information on all of the artifacts in the PDU OSS Deployment Tracking Tool.</p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/bookings.xml" type="task">Bookings</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/deployments.xml" type="task">Deployments</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/productTypes.xml" type="task">Product-Types</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/productFlavours.xml" type="task">Product-Flavours</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/programs.xml" type="task">Programs</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/areas.xml" type="task">Requirement Areas (RA)</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/hardware.xml" type="task">Hardware</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/teams.xml" type="task">Teams</xref>
+      </p>
+      <p>
+        <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+        <xref href="artifacts/labels.xml" type="task">Labels</xref>
+      </p>
+    </section>
+  </conbody>
+</concept>

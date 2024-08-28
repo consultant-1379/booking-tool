@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+  <topicref href="overview.xml" navtitle="Overview" type="concept" />
+  <topicref href="support.xml" navtitle="Support" type="concept" />
+  <topicref href="https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/content/sites/tor/booking-tool/latest/changelog.html" navtitle="Changelog" scope="external" type="concept" />
+  <topicref href="artifacts.xml" navtitle="Artifacts">
+    <topicref href="artifacts/bookings.xml" navtitle="Bookings" />
+    <topicref href="artifacts/deployments.xml" navtitle="Deployments" />
+    <topicref href="artifacts/productTypes.xml" navtitle="Product-Types" />
+    <topicref href="artifacts/productFlavours.xml" navtitle="Product-Flavours" />
+    <topicref href="artifacts/programs.xml" navtitle="Programs" />
+    <topicref href="artifacts/areas.xml" navtitle="Requirement Areas" />
+    <topicref href="artifacts/hardware.xml" navtitle="Hardware" />
+    <topicref href="artifacts/teams.xml" navtitle="Teams" />
+    <topicref href="artifacts/labels.xml" navtitle="Labels" />
+  </topicref>
+  <topicref href="features.xml" navtitle="Features">
+    <topicref href="features/bookingFeatures.xml" navtitle="Booking Features" />
+    <topicref href="features/customFilters.xml" navtitle="Custom Filters" />
+    <topicref href="features/statistics.xml" navtitle="Statistics" />
+    <topicref href="features/admins.xml" navtitle="Admins and User-Roles" type="concept" />
+    <topicref href="features/jiraTemplates.xml" navtitle="JIRA Templates" />
+    <topicref href="features/globalSearch.xml" navtitle="Global Search" type="concept" />
+    <topicref href="features/apiSearchAndFilter.xml" navtitle="API Search and Filter" type="concept" />
+    <topicref href="features/exportData.xml" navtitle="Export Data" type="concept" />
+    <topicref href="features/logs.xml" navtitle="Historical Logs" />
+    <topicref href="features/notificationBar.xml" navtitle="Notification Bar" />
+  </topicref>
+</map>

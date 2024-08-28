@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<site>
+  <title>PDU OSS Deployment Tracking Tool</title>
+  <homeTitle>Home</homeTitle>
+  <home>
+    <blocks>
+      <block color="green" icon="page" href="overview.xml">
+        <title>Overview</title>
+        <desc>Learn the purpose of the Deployment Tracking Tool.</desc>
+      </block>
+      <block color="blue" icon="page" href="artifacts.xml">
+        <title>Artifacts</title>
+        <desc>Learn the key artifacts of the Deployment Tracking Tool.</desc>
+      </block>
+      <block color="darkblue" icon="page" href="features.xml">
+        <title>Features</title>
+        <desc>Learn the key features of the Deployment Tracking Tool.</desc>
+      </block>
+      <block color="darkblue" icon="page" href="features/bookingFeatures.xml">
+        <title>Booking Features</title>
+        <desc>Learn the various booking-related features in the Deployment Tracking Tool.</desc>
+      </block>
+      <block color="flat_purple" icon="page"  href="/apidocs" scope="external">
+        <title>REST API Documentation</title>
+        <desc>Learn how to use the REST API of the Deployment Tracking Tool.</desc>
+      </block>
+      <block color="purple" icon="page" href="https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/content/sites/tor/booking-tool/latest/changelog.html" scope="external">
+        <title>Changelog</title>
+        <desc>Records of all changes made to the Deployment Tracking Tool.</desc>
+      </block>
+    </blocks>
+  </home>
+</site>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" ng-strict-di>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title>PDU OSS DTT</title>
+  <meta name="description" content="{{description}}">
+  <meta name="fragment" content="!">
+  <meta name="referrer" content="origin" />
+
+  <!-- Apple META -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <!-- Fav Icon -->
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+<body class="ng-cloak" ng-controller="HeaderController">
+  <div style="height:100%; width:100%">
+    <header header-view class="navbar navbar-fixed-top navbar-inverse" ng-show="navbarActive">
+    </header>
+    <section class="content" ng-show="!transitioning">
+      <div id="div-scroll" ng-show="hasNotification">
+          <p><span class="notification-title"><u><b>Notification</b></u>:</span> <span id="text-span"></span></p>
+      </div>
+
+      <section class="container">
+        {{{block "content"}}}
+      </section>
+    </section>
+
+    <div class="footer" ng-show="!transitioning && navbarActive && footerActive">
+      <h5>
+        <span id="footer-title"></span>
+        <span id="open-upgrade-modal" style="cursor: pointer;">(<i class="ebIcon ebIcon_info"></i>More Info)</span>
+      </h5>
+    </div>
+  </div>
+
+  <!-- UPGRADE INFORMATION MODAL -->
+  <div id="upgrade-modal" class="modal custom-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="pull-right" style="display:flex; align-items: center">
+          <button class="btn btn-sm" id="close-upgrade-modal">Close</button>
+        </div>
+        <h2 style="border-bottom: none" id="upgrade-modal-title"></h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div id="upgrade-email-message-outer" class="email-message-outer">
+            <div id="upgrade-email-message-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="transitioning" class="loading">
+    <div class="ebLoader">
+        <div class="ebLoader-Holder">
+            <span class="ebLoader-Dots ebLoader-Dots_color_darkPurple ebLoader-Dots_size_big"></span>
+        </div>
+    </div>
+  </div>
+
+  <div ng-if="!transitioning" http-loading class="loading">
+    <div class="ebLoader">
+        <div class="ebLoader-Holder">
+            <span class="ebLoader-Dots ebLoader-Dots_color_darkPurple ebLoader-Dots_size_big"></span>
+        </div>
+    </div>
+  </div>
+
+  <!--Embedding The User Object-->
+  <script type="text/javascript">
+    var user = {{{ user }}};
+    var env = "{{ env }}";
+  </script>
+
+  <script type="text/javascript" src="/bundle.js"></script>
+</body>
+
+</html>

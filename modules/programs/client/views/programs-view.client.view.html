@@ -1,0 +1,260 @@
+<section>
+  <div class="page-header">
+      <div class="btn-toolbar pull-right">
+          <div class="btn-group">
+              <button class="btn btn-sm btn-info"
+                  ui-sref="statistics.bookings({ programFilter: vm.program._id })">Statistics</button>
+          </div>
+          <div class="btn-group">
+              <a class="btn btn-sm btn-warning" id="view-log"
+                  ui-sref="logs.view({ objType: 'programs', objId: vm.program._id })">View Log</a>
+          </div>
+      </div>
+      <h1>Viewing Program '{{ vm.program.name }}'</h1>
+  </div>
+  <form>
+      <fieldset disabled>
+          <div class="row row-relative">
+              <!-- PROGRAM DETAILS -->
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Name</label>
+                      <p class="form-control-static">{{ vm.program.name }}</p>
+                  </div>
+              </div>
+              <!-- ASSOCIATION DETAILS -->
+              <div class="col-md-6 col-border">
+                  <div class="col-border-padding">
+                      <div class="form-group">
+                          <label>Dependent Requirement Areas</label>
+                          <p ng-if="!vm.dependentAreas.length">None</p>
+                          <div class="dependent-items">
+                              <p ng-repeat="dependentArea in vm.dependentAreas">
+                                  <a ui-sref="areas.view({areaId: dependentArea._id})">{{ dependentArea.name }}</a>
+                              </p>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label>Dependent Deployments</label>
+                          <p ng-if="!vm.dependentDeployments.length">None</p>
+                          <div class="dependent-items">
+                              <p ng-repeat="dependentDeployment in vm.dependentDeployments">
+                                  <a ui-sref="deployments.view({deploymentId: dependentDeployment._id})">{{
+                                      dependentDeployment.name
+                                      }}</a>
+                              </p>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label>Dependent Hardware</label>
+                          <p ng-if="!vm.dependentHardwares.length">None</p>
+                          <div class="dependent-items">
+                              <p ng-repeat="dependentHardware in vm.dependentHardwares">
+                                  <a ui-sref="hardware.view({hardwareId: dependentHardware._id})">{{
+                                      dependentHardware.name }}</a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </fieldset>
+  </form>
+  <div ng-if="vm.hasEditPermissions">
+      <button class="btn btn-sm btn-success" id="create-jira-button"
+          ng-click="vm.initializeJiraTemplateViewModal()">
+          Add JIRA Template
+      </button>
+  </div>
+
+  <!-- Modals for JIRA Template Creation -->
+  <div>
+      <div id="jira-template-modal" class="modal custom-modal">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <div class="pull-right" style="display:flex; align-items: center">
+                      <button class="btn btn-sm form-button" ng-click="vm.closeModals()">Close</button>
+                  </div>
+              </div>
+              <div class="modal-body">
+                  <form name="jiraTemplateForm" ng-submit="vm.submitJiraTemplateForm()">
+                      <fieldset>
+                          <!-- <div ng-repeat="jiraTemplate in vm.program.jira_templates track by $index" class="panel panel-default"> -->
+                          <div class="panel-heading clearfix">
+                              <h6 class="panel-title pull-left" style="padding-top: 7.5px;">JIRA Template:
+                                  <strong>{{ jiraTemplate }}</strong>
+                              </h6>
+                          </div>
+                          <div class="panel-body">
+                              <!-- Infrastructure Type -->
+                              <div class="form-group has-feedback"
+                                  ng-class="{ 'has-error': jiraTemplateForm['jiraTemplate.infrastructure'].$invalid, 'has-success': jiraTemplateForm['jiraTemplate.infrastructure'].$valid }">
+                                  <label>Infrastructure-Type</label>
+                                  <select class="form-control" name="jiraTemplate.infrastructure"
+                                      id="jiraTemplate.infrastructure" ng-model="vm.newJiraTemplate.infrastructure"
+                                      ng-options="infrastructure for infrastructure in vm.infrastructureTypes"
+                                      required>
+                                      <option value="" disabled selected>--Select Infrastructure-Type--</option>
+                                  </select>
+                                  <span class="glyphicon form-control-feedback"
+                                      ng-class="{ 'glyphicon-remove': jiraTemplateForm['jiraTemplate.infrastructure'].$invalid, 'glyphicon-ok': jiraTemplateForm['jiraTemplate.infrastructure'].$valid }"></span>
+                                  <span class="help-block" ng-messages="jiraTemplateForm['jiraTemplate.infrastructure'].$error">
+                                      <p ng-message="required">This field is required</p>
+                                  </span>
+                              </div>
+
+                              <!-- JIRA BOARD -->
+                              <div class="form-group has-feedback"
+                                  ng-class="{ 'has-error': jiraTemplateForm['jiraTemplate.board'].$invalid, 'has-success': jiraTemplateForm['jiraTemplate.boards'].$valid }">
+                                  <label>JIRA Board</label>
+                                  <select class="form-control" name="jiraTemplate.board" id="jiraTemplate.board"
+                                      ng-model="vm.newJiraTemplate.jiraBoard" ng-change="vm.updateComponentsAndProjects()"
+                                      ng-options="board for board in vm.boards" required>
+                                      <option value="" disabled selected>--Select JIRA Board--</option>
+                                  </select>
+                                  <span class="glyphicon form-control-feedback"
+                                      ng-class="{ 'glyphicon-remove': jiraTemplateForm['jiraTemplate.board'].$invalid, 'glyphicon-ok': jiraTemplateForm['jiraTemplate.board'].$valid }"></span>
+                                  <span class="help-block" ng-messages="jiraTemplateForm['jiraTemplate.board'].$error">
+                                      <p ng-message="required">This field is required</p>
+                                  </span>
+                              </div>
+                              <!-- Issue Type -->
+                              <div class="form-group has-feedback"
+                                ng-class="{ 'has-error': jiraTemplateForm['jiraTemplate.issueType'].$invalid, 'has-success': jiraTemplateForm['jiraTemplate.issueType'].$valid }">
+                                <label>JIRA Issue Type<i class="ebIcon ebIcon_info" title="Please Enter a valid jira issue type e.g. 'Task', 'Story'"></i></label>
+                                <input class="form-control" name="jiraTemplate.issueType"
+                                    id="jiraTemplate.issueType" type="text"
+                                    placeholder="Enter Issue Type"
+                                    ng-model="vm.newJiraTemplate.issueType" ng-minlength="2" ng-maxlength="50"required>
+                                <span class="glyphicon form-control-feedback"
+                                    ng-class="jiraTemplateForm['jiraTemplate.issueType'].$valid ? 'glyphicon-ok' : 'glyphicon-remove'">
+                                </span>
+                              </div>
+
+                              <!-- Project -->
+                              <div class="form-group has-feedback"
+                                  ng-class="{ 'has-error': jiraTemplateForm['jiraTemplate.project'].$invalid, 'has-success': jiraTemplateForm['jiraTemplate.project'].$valid }">
+                                  <label>Project</label>
+                                  <select class="form-control" name="jiraTemplate.project" id="jiraTemplate.project"
+                                      ng-model="vm.newJiraTemplate.project"
+                                      ng-options="project for project in vm.projects" required>
+                                      <option value="" disabled selected>--Select Project--</option>
+                                  </select>
+                                  <span class="glyphicon form-control-feedback"
+                                      ng-class="{ 'glyphicon-remove': jiraTemplateForm['jiraTemplate.project'].$invalid, 'glyphicon-ok': jiraTemplateForm['jiraTemplate.project'].$valid }"></span>
+                                  <span class="help-block" ng-messages="jiraTemplateForm['jiraTemplate.project'].$error">
+                                      <p ng-message="required">This field is required</p>
+                                  </span>
+                              </div>
+
+                              <!-- Components -->
+                              <div class="form-group">
+                                  <label>Components <i class="ebIcon ebIcon_info"
+                                          title="Select JIRA components"></i></label>
+                                  <p ng-repeat="component in vm.selectedComponents" class="label label-primary"
+                                      style="margin-left: 5px">{{
+                                      label }}</p>
+                                  <multiselect show-search="true" placeholder="Choose Components" id="components"
+                                      name="components" search-limit="vm.components.length"
+                                      ng-model="vm.newJiraTemplate.components" options="vm.components">
+                                  </multiselect>
+                              </div>
+
+                              <fieldset>
+                                  <legend>Custom Fields</legend>
+                                  <div ng-repeat="custom_field in vm.newJiraTemplate.custom_fields track by $index"
+                                      class="panel panel-default">
+                                      <div class="panel-heading clearfix">
+                                          <h6 class="panel-title pull-left" style="padding-top: 7.5px;">Custom Field
+                                              {{ $index + 1 }}:
+                                              <strong>{{ customField }}</strong>
+                                          </h6>
+                                          <div class="btn-group pull-right">
+                                              <button id="remove_custom_field[{{$index}}]"
+                                                  ng-click="vm.removeCustomField($index)" type="button"
+                                                  class="btn btn-sm form-button"><i class="glyphicon glyphicon-remove"></i> Remove Custom Field
+                                              </button>
+                                          </div>
+                                      </div>
+                                      <!-- Key Value Pairs -->
+                                      <div class="panel-body">
+                                          <table>
+                                              <tr>
+                                                  <th style="width:33%;">Key Name #{{$index + 1}}</th>
+                                                  <th>Value</th>
+                                              </tr>
+                                              <tr>
+                                                  <td style="padding-right:10px;">
+                                                    <!-- Program Custom Field Names  -->
+                                                      <div class="form-group has-feedback"
+                                                          ng-class="{ 'has-error': jiraTemplateForm['jiraTemplate.custom_fields[{{$index}}].key_name'].$invalid, 'has-success': jiraTemplateForm['jiraTemplate.custom_fields[{{$index}}].key_name'].$valid }">
+                                                          <input class="form-control"
+                                                              name="jiraTemplate.custom_fields[{{$index}}].key_name"
+                                                              id="jiraTemplate.custom_fields[{{$index}}].key_name"
+                                                              type="text" list="product-data-options"
+                                                              placeholder="Enter Key Name"
+                                                              ng-model="vm.newJiraTemplate.custom_fields[$index].key_name"
+                                                              ng-minlength="2" ng-maxlength="50" required>
+                                                          <span class="glyphicon form-control-feedback"
+                                                              ng-class="jiraTemplateForm['jiraTemplate.custom_fields[{{$index}}].key_name'].$valid ? 'glyphicon-ok' : 'glyphicon-remove'">
+                                                          </span>
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                      <!-- Program Custom Field Values -->
+                                                      <div class="form-group has-feedback"
+                                                          ng-class="{ 'has-error': jiraTemplateForm['jiraTemplate.custom_fields[{{$index}}].key_value'].$invalid, 'has-success': jiraTemplateForm['jiraTemplate.custom_fields[{{$index}}].key_value'].$valid }">
+                                                          <input class="form-control"
+                                                              name="jiraTemplate.custom_fields[{{$index}}].key_value"
+                                                              id="jiraTemplate.custom_fields[{{$index}}].key_value"
+                                                              type="text" placeholder="Enter Value"
+                                                              ng-model="vm.newJiraTemplate.custom_fields[$index].key_value"
+                                                              ng-minlength="2" ng-maxlength="100" required>
+                                                          <span class="glyphicon form-control-feedback"
+                                                              ng-class="jiraTemplateForm['jiraTemplate.custom_fields[{{$index}}].key_value'].$valid ? 'glyphicon-ok' : 'glyphicon-remove'">
+                                                          </span>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                <td>
+                                                  <span class="help-block" ng-messages="jiraTemplateForm['jiraTemplate.custom_fields[' + $index + '].key_name'].$error">
+                                                    <p ng-message="required">Custom Field Name is required</p>
+                                                    <p ng-message="minlength">Custom Field Name must be at least of length 2</p>
+                                                    <p ng-message="maxlength">Custom Field Name must be at most of length 50</p>
+                                                  </span>
+                                                </td>
+                                                <td>
+                                                  <span class="help-block" ng-messages="jiraTemplateForm['jiraTemplate.custom_fields[' + $index + '].key_value'].$error">
+                                                    <p ng-message="minlength">Custom Field Name must be at least of length 2</p>
+                                                  </span>
+                                                </td>
+                                              </tr>
+                                          </table>
+                                        </div>
+                                      </div>
+                              </fieldset>
+                              <button id="vm.addCustomField" ng-click="vm.addCustomField()" type="button"
+                                  class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i>Add
+                                  Custom
+                                  Field</button>
+                          </div>
+
+                          <!-- Save Button -->
+                          <div class="align-center"
+                              title="Ensure all values are valid and required fields are filled in.">
+                              <button class="btn btn-primary" type="submit">Save</button>
+                          </div>
+                      </fieldset>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- JIRA Template Tables -->
+  <h4><strong>JIRA Templates</strong></h4>
+  <table class="table table-striped table-condensed non-clickable-row jira-data-table" id="jiraTable">
+      <tbody>
+      </tbody>
+  </table>
+</section>

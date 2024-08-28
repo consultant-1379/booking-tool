@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="jiraTemplates">
+  <title>JIRA Templates</title>
+  <taskbody>
+    <context>
+      <p>
+        A JIRA Template represents a specific combination of JIRA data for a Program. JIRA Templates are used
+        when creating a booking to create a JIRA issue with relevant data.
+      </p>
+      <p><b>NOTE:</b> This feature is only available to users with granted privileges</p>
+      <p><b>Objective</b></p>
+      <p>Create a new JIRA Template for an existing Program within the PDU OSS Deployment Tracking Tool.</p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openProgramList">Open the Programs List-View</xref></li>
+          <li><xref href="#openProgram">Open an existing Programs</xref></li>
+          <li><xref href="#createJiraTemplate">Create New JIRA Template</xref></li>
+          <li><xref href="#enterDetails">Enter the JIRA Template Details</xref></li>
+          <li><xref href="#saveJiraTemplate">Save JIRA Template</xref></li>
+        </ol>
+      </p>
+    </context>
+    <steps>
+      <step id="openProgramList">
+        <cmd>Open the Programs List-View</cmd>
+        <info>
+          <p>Click the Programs link in the navigation bar.</p>
+        </info>
+      </step>
+      <step id="openProgram">
+        <cmd>Open an existing Programs</cmd>
+        <info>
+          <p>Click the <b>View</b> button on an existing Program in the table.</p>
+        </info>
+      </step>
+      <step id="createJiraTemplate">
+        <cmd>Create New JIRA Template</cmd>
+        <info>
+          <p>Click the <b>Add JIRA Template</b> button.</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the JIRA Template Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Any restrictions on the fields are outlined.</p>
+          <ul>
+            <li><b>Infrastructure:</b> Booking Infrastructure Type.</li>
+            <li><b>JIRA Board:</b> JIRA Board which data will be sent to.</li>
+            <li><b>JIRA Issue Type:</b> Type of JIRA Issue e.g. 'Task', 'Story'.</li>
+            <li><b>Project:</b> Name of Project which the Booking belongs to.</li>
+            <li><b>Components:</b> Components associated with the Booking.</li>
+            <li><b>Custom Fields:</b> Custom Fields which can be defined by the user e.g. Team Name.</li>
+          </ul>
+        </info>
+      </step>
+      <step id="saveJiraTemplate">
+        <cmd>Save JIRA Template</cmd>
+        <info>
+          <p>
+            Click the <b>Save</b> button, the JIRA Template will be added to the Program, and the user will be
+            redirected back to the view page for the Program with the new JIRA Template added.
+          </p>
+          <p>
+            <b>NOTE:</b> JIRA Templates will not save if any fields are invalid (invalid fields
+            are highlighted in red).
+          </p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A New JIRA Template is created in the PDU OSS Deployment Tracking Tool.</p>
+    </result>
+  </taskbody>
+</task>

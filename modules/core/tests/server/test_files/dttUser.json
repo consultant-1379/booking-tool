@@ -1,0 +1,10 @@
+{
+  "username": "dttadm100",
+  "password": "validPassword",
+  "displayName": "DTT Admin",
+  "filters": [],
+  "roles": [ "superAdmin" ],
+  "email": "dtt@ericsson.com",
+  "lastName": "DTT",
+  "firstName": "unknownFN"
+}

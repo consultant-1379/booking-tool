@@ -1,0 +1,213 @@
+{
+  "paths": {
+    "/deployments": {
+      "get": {
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Returns a list of Deployments that match the provided query parameters.",
+        "description": "Returns a list of all Deployments and their key-values when no filter parameters are provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchAndFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name":"q",
+            "in":"query",
+            "description":"Specifies what Deployments should be retrieved based on provided key-values. \nMultiple key-values can be specified with the ampersand-delimited format. \nEg. To list all Deployments with the name 'myDeployment': 'q=name=myDeployment'. \nEg. To list all Deployments with the name 'myDeployment' and the status 'Free': 'q=name=myDeployment&status=Free'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name=myDeployment"
+          },
+          {
+            "name":"fields",
+            "in":"query",
+            "description":"Specifies what key-values associated with the retrieved Deployments that you want to receive. \nMultiple key-values can be retrieved through filtering keys with the comma-delimited format. \nEg. For the name value alone: 'fields=name'. \nEg. For the name and status values: 'fields=name,status'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Deployment"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post":{
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Creates a new Deployment.",
+        "description": "Creates and returns a new Deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Deployment object that represents your Deployment",
+            "required": true,
+            "schema":{
+              "$ref": "#/definitions/Deployment"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Deployment successfully."
+          },
+          "400": {
+            "description": "Possible messages:\n* Path 'name' is required\n* Path 'area_id' is required\n* Path 'status' is required\n* Error, provided name is not unique.\n* name is not valid; {PATH} can only contain letters, numbers, dots, dashes and underscores.\n* Path 'name' {PATH} is shorter than the minimum allowed length (2).\n* Path 'name' {PATH} is longer than the maximum allowed length (50).\n* Field `rogueKey` is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again.\n* Cannot create the Deployment, the area_id 'invalid_area_id' is invalid."
+          },
+          "422": {
+            "description": "Possible messages:\n* An Area with the given id {PATH} could not be found.\n* A Team with the given id {PATH} could not be found.\n* Error, Product-Type {PATH} does not exist.\n* Error, Product-Flavour {PATH_1} is not valid for Product-Type {PATH_2}. \n* JIRA Issue: 'Jira issue' is invalid, please enter a valid Issue and try again.\n* You cannot add the same JIRA Issue multiple times. Please remove the duplicates: 'jira issues' and try again."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/deployments/{deploymentId}":{
+      "get":{
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Returns a Deployment.",
+        "description": "Returns a Deployment. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchAndFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"deploymentId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Deployment to retrieve",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Deployment",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "404":{
+            "description":"A Deployment with that id does not exist"
+          },
+          "422": {
+            "description": "Error while attempting to retrieve Deployment with specified id."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Updates a Deployment.",
+        "description": "Updates a Deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"deploymentId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Deployment to update",
+              "type":"string"
+           },
+           {
+             "in": "body",
+             "name": "body",
+             "description": "Deployment object that represents your OpenStack Deployment<br>Partial update possible, not all fields in body required",
+             "required": true,
+             "schema":{
+               "$ref": "#/definitions/Deployment"
+              }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated Deployment",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "400": {
+             "description": "Possible messages:\n* Path 'name' is required\n* Path 'area_id' is required\n* Path 'status' is required\n* Error, provided name is not unique.\n* name is not valid; {PATH} can only contain letters, numbers, dots, dashes and underscores.\n* Path 'name' {PATH} is shorter than the minimum allowed length (2).\n* Path 'name' {PATH} is longer than the maximum allowed length (50).\n* Field `rogueKey` is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again.\n* Cannot update the Deployment, the area_id 'invalid_area_id' is invalid."
+          },
+          "404":{
+            "description":"A Deployment with that id does not exist"
+          },
+          "422": {
+            "description": "Possible messages:\n* An Area with the given id {PATH} could not be found.\n* A Team with the given id {PATH} could not be found.\n* Error, Product-Type {PATH} does not exist.\n* Error, Product-Flavour {PATH_1} is not valid for Product-Type {PATH_2}.\n* JIRA Issue: 'Jira issue' is invalid, please enter a valid Issue and try again.\n* You cannot add the same JIRA Issue multiple times. Please remove the duplicates: 'jira issues' and try again."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete":{
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Deletes a Deployment.",
+        "description": "Deletes a Deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"deploymentId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Deployment to delete",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted Deployment"
+          },
+          "404":{
+            "description": "A Deployment with that id does not exist"
+          },
+          "422":{
+            "description": "Can't delete Deployment, it has N dependent Product(s)"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

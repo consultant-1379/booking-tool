@@ -1,0 +1,32 @@
+{
+  "deployment_id": "000000000000000000000000",
+  "product_id": "000000000000000000000000",
+  "team_id": "000000000000000000000000",
+  "startTime": "2019-12-06T00:00:00.000Z",
+  "endTime": "2019-12-10T00:00:00.000Z",
+  "description": "Booking for Server-Side Testing",
+  "backgroundColor": "#505050",
+  "enmProductSetDrop": "ENM:20.06",
+  "enmProductSetVersion": "20.06.87",
+  "automaticJenkinsIITrigger": true,
+  "jenkinsJobType": "II",
+  "jenkinsIIWasTriggered": false,
+  "jiraTemplate": {
+    "custom_fields": [],
+    "components": []
+  },
+  "isStarted": false,
+  "isExpired": false,
+  "jiraMRBugReferenceIssue": "CIP-32753",
+  "configurationType": "Inherited",
+  "configuration": [
+    {
+      "key_name": "NUM_SVT",
+      "key_value": "1"
+    }
+  ],
+  "infrastructure": "Cloud",
+  "testingType": "Functional",
+  "additionalJenkinsUsers": "eednuts,ecasjim",
+  "nssVersion": "NSS 18.11"
+}

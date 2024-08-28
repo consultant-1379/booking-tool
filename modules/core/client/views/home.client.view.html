@@ -1,0 +1,37 @@
+<section>
+  <div class="home-page-welcome">
+    <h1>Welcome to the PDU OSS Deployment Tracking Tool</h1>
+  </div>
+  <br>
+  <div class="home-search-bar-group" class="btn-toolbar input-group">
+    <select class="form-control side-by-side min-width-170" id="artifact-filter-select" ng-model="vm.selectArtifactType"
+      ng-options="artifact.type as artifact.name for artifact in vm.allArtifacts" required>
+    </select>
+
+    <select class="form-control side-by-side min-width-170" id="value-match-select" ng-model="vm.selectValueMatchType" ng-change="vm.valueSelectHandler()"
+      ng-options="valueType.type as valueType.name for valueType in vm.allValueMatchTypes" required>
+    </select>
+
+    <input class="form-control min-width-170" id="search-value-input-field" type="text" ng-model="vm.searchValue"
+      ng-keyup="$event.keyCode == 13 ? vm.searchArtifacts() : null" placeholder="{{vm.placeholderText}}" ng-pattern="vm.regex">
+
+    <span class="input-group-addon side-by-side" title="Is Search Case-Sensitive?">
+      <input type="checkbox" class="cursor-pointer" ng-model="vm.isSearchCaseSensitive">
+      {{ vm.isSearchCaseSensitive ? 'AA' : 'Aa' }}
+    </span>
+
+    <span class="input-group-addon side-by-side cursor-pointer form-button" id="search-artifacts-button" ng-click="vm.searchArtifacts()">
+      <span class="glyphicon glyphicon-search"></span> Search
+    </span>
+  </div>
+
+  <div id="search-results-panel" class="search-results-panel" ng-if="vm.searchResults">
+    <h2>
+      Search Results (<span id="search-results-count">{{ vm.searchResults.length ? vm.searchResults.length : '0' }}</span> found):
+    </h2>
+    <table class="table table-striped table-condensed non-clickable-row">
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</section>
